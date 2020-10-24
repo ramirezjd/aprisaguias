@@ -18,7 +18,8 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/guias/create', 'GuiaController@create');
+Route::resource('/guias', 'GuiaController')->middleware('auth');;
+//Route::get('/guias/create', 'GuiaController@create');
 
 Auth::routes();
 
