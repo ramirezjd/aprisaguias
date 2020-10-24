@@ -36,4 +36,29 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    /**
+     * Get the charge associated with the user.
+     */
+    public function cargo()
+    {
+        return $this->belongsTo('App\cargo');
+    }
+
+    public function privilegios()
+    {
+        return $this->hasMany('App\privilegios_x_usuario');
+    }
+
+    public function usuarios_x_instalacion()
+    {
+        return $this->hasMany('App\usuarios_x_instalacion');
+    }
+
+    public function guias()
+    {
+        return $this->hasMany('App\guia');
+    }
+
+
 }

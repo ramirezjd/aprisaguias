@@ -6,5 +6,23 @@ use Illuminate\Database\Eloquent\Model;
 
 class cliente extends Model
 {
-    //
+    public function direccion()
+    {
+        return $this->hasOne('App\direccion');
+    }
+
+    public function remitente()
+    {
+        return $this->belongsT('App\cliente');
+    }
+
+    public function destinatario()
+    {
+        return $this->belongsTo('App\cliente');
+    }
+
+    public function instalacion()
+    {
+        return $this->belongsTo('App\instalacion');
+    }
 }

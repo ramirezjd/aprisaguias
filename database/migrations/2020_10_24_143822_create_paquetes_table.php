@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateInstalacionesTable extends Migration
+class CreatePaquetesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,19 @@ class CreateInstalacionesTable extends Migration
      */
     public function up()
     {
-        Schema::create('instalaciones', function (Blueprint $table) {
+        Schema::create('paquetes', function (Blueprint $table) {
             $table->id();
-            $table->string('codigo', 50);
+            $table->float('peso', 8, 2);
+            $table->float('dim_ancho', 8, 2);
+            $table->float('dim_alto', 8, 2);
+            $table->float('dim_fondo', 8, 2);
             $table->string('descripcion', 256);
+
+            $table->unsignedBigInteger('tipo_paquete_id');
+
             $table->timestamps();
+
+            $table->foreign('tipo_paquete_id')->references('id')->on('tipo_paquetes');
         });
     }
 
@@ -28,6 +36,6 @@ class CreateInstalacionesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('instalaciones');
+        Schema::dropIfExists('paquetes');
     }
 }

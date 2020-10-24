@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateInstalacionesTable extends Migration
+class CreatePaquetesXGuiasTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,16 @@ class CreateInstalacionesTable extends Migration
      */
     public function up()
     {
-        Schema::create('instalaciones', function (Blueprint $table) {
+        Schema::create('paquetes_x_guias', function (Blueprint $table) {
             $table->id();
-            $table->string('codigo', 50);
-            $table->string('descripcion', 256);
+
+            $table->unsignedBigInteger('guia_id');
+            $table->unsignedBigInteger('paquete_id');
+
             $table->timestamps();
+
+            $table->foreign('guia_id')->references('id')->on('guias');
+            $table->foreign('paquete_id')->references('id')->on('paquetes');
         });
     }
 
@@ -28,6 +33,6 @@ class CreateInstalacionesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('instalaciones');
+        Schema::dropIfExists('paquetes_x_guias');
     }
 }
