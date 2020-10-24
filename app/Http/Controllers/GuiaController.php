@@ -14,7 +14,11 @@ class GuiaController extends Controller
      */
     public function index()
     {
-        //
+        
+        $guias = Guia::latest()->paginate(5);
+  
+        return view('guias.index',compact('guias'))
+            ->with('i', (request()->input('page', 1) - 1) * 5);
     }
 
     /**
@@ -24,7 +28,7 @@ class GuiaController extends Controller
      */
     public function create()
     {
-        //
+        return view('guias.create');
     }
 
     /**
@@ -35,7 +39,20 @@ class GuiaController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'codigo' => 'required',
+            'peso' => 'required',
+            'dimensiones' => 'required',
+            'precio' => 'required',
+            'fecha_entrega' => 'required',
+            'direccion_destino' => 'required',
+            'punto_referencia_destino' => 'required'
+        ]);
+  
+        Guia::create($request->all());
+   
+        return redirect()->route('guias.index')
+                        ->with('success','Guía Creadas Exitosamente.');
     }
 
     /**
@@ -45,8 +62,8 @@ class GuiaController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show(guia $guia)
-    {
-        //
+    {        
+        return view('guias.show',compact('guia'));
     }
 
     /**
@@ -57,7 +74,7 @@ class GuiaController extends Controller
      */
     public function edit(guia $guia)
     {
-        //
+        return view('guias.edit',compact('guia'));
     }
 
     /**
@@ -69,7 +86,21 @@ class GuiaController extends Controller
      */
     public function update(Request $request, guia $guia)
     {
-        //
+        
+        $request->validate([
+            'codigo' => 'required',
+            'peso' => 'required',
+            'dimensiones' => 'required',
+            'precio' => 'required',
+            'fecha_entrega' => 'required',
+            'direccion_destino' => 'required',
+            'punto_referencia_destino' => 'required'
+        ]);
+  
+        $guia->update($request->all());
+  
+        return redirect()->route('guias.index')
+                        ->with('success','Guía Actualizada Exitosamente.');
     }
 
     /**
@@ -80,6 +111,9 @@ class GuiaController extends Controller
      */
     public function destroy(guia $guia)
     {
-        //
+        $guia->delete();
+  
+        return redirect()->route('guias.index')
+                        ->with('success','Guía Eliminada Exitosamente.');
     }
 }
