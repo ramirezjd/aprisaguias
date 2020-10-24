@@ -17,6 +17,7 @@ class AdminUserSeeder extends Seeder
             'nombres' => 'Admin',
             'apellidos' => 'Aprisa',
             'email' => 'admin@aprisa.com',
+            'cargo_id' => 1,
             'password' => bcrypt('thisisagoodpsw'),
         ]);
     }
