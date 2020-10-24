@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateGuiasTable extends Migration
+class CreateRemesasTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,18 +13,19 @@ class CreateGuiasTable extends Migration
      */
     public function up()
     {
-        Schema::create('guias', function (Blueprint $table) {
+        Schema::create('remesas', function (Blueprint $table) {
             $table->id();
             $table->string('codigo', 120);
-            $table->string('peso', 256);
-            $table->string('dimensiones', 256);
-            $table->float('precio', 8, 2);
-            $table->float('asegurado', 8, 2);
-            $table->timestamp('fecha_creacion',0);
+            $table->string('descripcion', 256);
+            $table->string('peso_total', 256);
+            $table->string('volumen_total', 256);
             $table->timestamp('fecha_entrega',0)->nullable();
-            $table->string('direccion_destino', 256)->nullable();
-            $table->string('punto_referencia_destino', 256)->nullable();
+
+            $table->unsignedBigInteger('vehiculo_id');
+
             $table->timestamps();
+
+            $table->foreign('vehiculo_id')->references('id')->on('vehiculos');
         });
     }
 
@@ -35,6 +36,6 @@ class CreateGuiasTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('guias');
+        Schema::dropIfExists('remesas');
     }
 }

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateInstalacionesTable extends Migration
+class CreateEstadosTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,13 @@ class CreateInstalacionesTable extends Migration
      */
     public function up()
     {
-        Schema::create('instalaciones', function (Blueprint $table) {
+        Schema::create('estados', function (Blueprint $table) {
             $table->id();
-            $table->string('codigo', 50);
-            $table->string('descripcion', 256);
+            $table->unsignedBigInteger('region_id');
+            $table->string('estado', 50);
             $table->timestamps();
+
+            $table->foreign('region_id')->references('id')->on('regions');
         });
     }
 
@@ -28,6 +30,6 @@ class CreateInstalacionesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('instalaciones');
+        Schema::dropIfExists('estados');
     }
 }
