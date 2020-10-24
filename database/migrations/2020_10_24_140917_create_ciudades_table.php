@@ -23,8 +23,11 @@ class CreateCiudadesTable extends Migration
 
             $table->foreign('estado_id')->references('id')->on('estados');
             $table->foreign('municipio_id')->references('id')->on('municipios');
+
         });
     }
+
+
 
     /**
      * Reverse the migrations.
