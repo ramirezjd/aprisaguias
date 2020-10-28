@@ -1,5 +1,5 @@
 @extends('guias.layout')
-  
+
 @section('content')
 <div class="row">
     <div class="col-lg-12 margin-tb">
@@ -11,7 +11,42 @@
         </div>
     </div>
 </div>
-   
+<form action="">
+    @csrf
+<div class="row">
+    <div class="col-lg-12 margin-tb">
+        <div class="pull-left">
+            <select name="estados" id="dropdownEstados">
+                <option value="Seleccione un estado">Seleccione un estado</option>
+                @foreach ($estados as $estados)
+                <option value="{{ $estados->id }}">{{ $estados->estado }}</option>
+                @endforeach
+            </select>
+            <select name="municipios" id="dropdownMunicipios">
+
+            </select>
+            <select name="ciudades" id="dropdownCiudades">
+                <option value="Seleccione un ciudad">Seleccione un ciudad</option>
+                @foreach ($ciudades as $ciudades)
+                <option value="{{ $ciudades->ciudad }}">{{ $ciudades->ciudad }}</option>
+                @endforeach
+            </select>
+            <select name="parroquias" id="dropdownParroquias">
+                <option value="Seleccione un parroquia">Seleccione un parroquia</option>
+                @foreach ($parroquias as $parroquias)
+                <option value="{{ $parroquias->parroquia }}">{{ $parroquias->parroquia }}</option>
+                @endforeach
+            </select>
+            <select name="zip_codes" id="dropdownZip_codes">
+                <option value="Seleccione un zip_code">Seleccione un zip_code</option>
+                @foreach ($zip_codes as $zip_codes)
+                <option value="{{ $zip_codes->zip_code }}">{{ $zip_codes->zip_code }}</option>
+                @endforeach
+            </select>
+        </div>
+    </div>
+</div>
+</form>
 @if ($errors->any())
     <div class="alert alert-danger">
         <strong>Whoops!</strong> There were some problems with your input.<br><br>
@@ -22,7 +57,7 @@
         </ul>
     </div>
 @endif
-   
+
 <form action="{{ route('guias.store') }}" method="POST">
     @csrf
      <div class="row">
@@ -67,6 +102,52 @@
                 <button type="submit" class="btn btn-primary">Submit</button>
         </div>
     </div>
-   
+
 </form>
+
+<script type="text/javascript">
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    })
+
+    $(document).ready(function () {
+
+        $('#dropdownEstados').on('change',function(e) {
+
+            var estado_id = e.target.value;
+            /*
+            $.ajax({
+                type:"POST",
+                url:"{{ route('mun') }}",
+                data: {
+                    estado_id: estado_id
+                },
+                success:function (data) {
+
+                $('#dropdownMunicipios').empty();
+
+                $.each(data.municipios[0].municipios,function(index,municipio){
+                $('#dropdownMunicipios').append('<option value="'+municipio.id+'">'+municipio.name+'</option>');
+                })
+                },
+                error: function (jqXHR, status, err) {
+                    alert("Local error callback.");
+                },
+            })*/
+            $('#dropdownMunicipios').empty();
+
+            @foreach ($ciudades as $ciudades)
+                <option value="{{ $ciudades->ciudad }}">{{ $ciudades->ciudad }}</option>
+            @endforeach
+
+            @{{$ciudades}}.forEach(element => {
+                alert("hi")
+            });
+
+        });
+    });
+</script>
+
 @endsection

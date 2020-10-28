@@ -17,5 +17,7 @@ class DatabaseSeeder extends Seeder
         $this->call(EstadosSeeder::class);
         $this->call(MunicipiosSeeder::class);
         $this->call(CiudadesSeeder::class);
+        $this->call(ParroquiasSeeder::class);
+        $this->call(Zip_CodesSeeder::class);
     }
 }
