@@ -16,8 +16,6 @@ class CreateZipCodesTable extends Migration
         Schema::create('zip_codes', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('parroquia_id');
-
-            $table->string('zona', 50);
             $table->string('zip_code', 50);
             $table->timestamps();
 
