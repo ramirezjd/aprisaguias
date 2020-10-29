@@ -13,4 +13,10 @@ class ciudad extends Model
         return $this->hasOne('App\direccion');
     }
 
+    public function municipio(){
+        return $this->belongsTo('App\municipio');
+    }
+
+
+
 }

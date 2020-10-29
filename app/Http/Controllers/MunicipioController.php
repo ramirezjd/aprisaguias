@@ -50,6 +50,37 @@ class MunicipioController extends Controller
     }
 
     /**
+     * Display the specified resource.
+     *
+     * @param  \App\estado  $estado
+     * @return \Illuminate\Http\Response
+     */
+    public function getChild(Request $request)
+    {
+        $id = $request->municipio_id;
+        $municipio = municipio::findOrFail($id);
+        return $municipio->ciudades;
+        //return response()->json(['success'=>'Got Simple Ajax Request.']);
+
+    }
+
+
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  \App\estado  $estado
+     * @return \Illuminate\Http\Response
+     */
+    public function getChild2(Request $request)
+    {
+        $id = $request->municipio_id;
+        $municipio = municipio::findOrFail($id);
+        return $municipio->parroquias;
+        //return response()->json(['success'=>'Got Simple Ajax Request.']);
+
+    }
+    /**
      * Show the form for editing the specified resource.
      *
      * @param  \App\municipio  $municipio

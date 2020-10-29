@@ -44,10 +44,25 @@ class EstadoController extends Controller
      * @param  \App\estado  $estado
      * @return \Illuminate\Http\Response
      */
-    public function show(estado $estado)
-    {
-        //
-    }
+     public function show(estado $estado)
+     {
+         //
+     }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  \App\estado  $estado
+     * @return \Illuminate\Http\Response
+     */
+     public function getChild(Request $request)
+     {  
+         $id = $request->estado_id;
+         $estado = estado::findOrFail($id);
+         return $estado->municipios;
+         //return response()->json(['success'=>'Got Simple Ajax Request.']);
+         
+     }
 
     /**
      * Show the form for editing the specified resource.

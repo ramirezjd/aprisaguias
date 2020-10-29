@@ -10,4 +10,8 @@ class zip_code extends Model
     {
         return $this->hasOne('App\direccion');
     }
+
+    public function parroquia(){
+        return $this->belongsTo('App\parroquia');
+    }
 }

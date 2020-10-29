@@ -10,4 +10,8 @@ class estado extends Model
     {
         return $this->hasOne('App\direccion');
     }
+
+    public function municipios(){
+        return $this->hasMany('App\municipio');
+    }
 }

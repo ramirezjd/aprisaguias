@@ -3,6 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\guia;
+use App\estado;
+use App\municipio;
+use App\ciudad;
+use App\parroquia;
+use App\zip_code;
+
 use Illuminate\Http\Request;
 
 class GuiaController extends Controller
@@ -14,9 +20,9 @@ class GuiaController extends Controller
      */
     public function index()
     {
-        
+
         $guias = Guia::latest()->paginate(5);
-  
+
         return view('guias.index',compact('guias'))
             ->with('i', (request()->input('page', 1) - 1) * 5);
     }
@@ -28,7 +34,13 @@ class GuiaController extends Controller
      */
     public function create()
     {
-        return view('guias.create');
+        return view('guias.create', [
+            'estados' => estado::orderBy('estado')->get(),
+            'municipios' => municipio::orderBy('municipio')->get(),
+            'ciudades' => ciudad::orderBy('ciudad')->get(),
+            'parroquias' => parroquia::orderBy('parroquia')->get(),
+            'zip_codes' => zip_code::orderBy('zip_code')->get()
+        ]);
     }
 
     /**
@@ -38,19 +50,18 @@ class GuiaController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {
+    {   
+        
+
         $request->validate([
             'codigo' => 'required',
-            'peso' => 'required',
-            'dimensiones' => 'required',
             'precio' => 'required',
-            'fecha_entrega' => 'required',
-            'direccion_destino' => 'required',
-            'punto_referencia_destino' => 'required'
+            'fecha_creacion' => 'required',
+            'fecha_entrega' => 'required'
         ]);
-  
+
         Guia::create($request->all());
-   
+
         return redirect()->route('guias.index')
                         ->with('success','Guía Creadas Exitosamente.');
     }
@@ -62,7 +73,7 @@ class GuiaController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show(guia $guia)
-    {        
+    {
         return view('guias.show',compact('guia'));
     }
 
@@ -86,19 +97,16 @@ class GuiaController extends Controller
      */
     public function update(Request $request, guia $guia)
     {
-        
+
         $request->validate([
             'codigo' => 'required',
-            'peso' => 'required',
-            'dimensiones' => 'required',
             'precio' => 'required',
-            'fecha_entrega' => 'required',
-            'direccion_destino' => 'required',
-            'punto_referencia_destino' => 'required'
+            'fecha_creacion' => 'required',
+            'fecha_entrega' => 'required'
         ]);
-  
+
         $guia->update($request->all());
-  
+
         return redirect()->route('guias.index')
                         ->with('success','Guía Actualizada Exitosamente.');
     }
@@ -112,7 +120,7 @@ class GuiaController extends Controller
     public function destroy(guia $guia)
     {
         $guia->delete();
-  
+
         return redirect()->route('guias.index')
                         ->with('success','Guía Eliminada Exitosamente.');
     }
