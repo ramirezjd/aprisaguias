@@ -23,8 +23,12 @@
                 @endforeach
             </select>
             <select name="municipios" id="dropdownMunicipios">
-
+                <option value="Seleccione un municipio">Seleccione un municipio</option>
+                @foreach ($municipios as $municipios)
+                <option value="{{ $municipios->id }}">{{ $municipios->municipio }}</option>
+                @endforeach
             </select>
+
             <select name="ciudades" id="dropdownCiudades">
                 <option value="Seleccione un ciudad">Seleccione un ciudad</option>
                 @foreach ($ciudades as $ciudades)
@@ -117,6 +121,7 @@
         $('#dropdownEstados').on('change',function(e) {
 
             var estado_id = e.target.value;
+            alert("hi");
             /*
             $.ajax({
                 type:"POST",
@@ -138,11 +143,9 @@
             })*/
             $('#dropdownMunicipios').empty();
 
-            @foreach ($ciudades as $ciudades)
-                <option value="{{ $ciudades->ciudad }}">{{ $ciudades->ciudad }}</option>
-            @endforeach
 
-            @{{$ciudades}}.forEach(element => {
+
+            @$ciudades.forEach(element => {
                 alert("hi")
             });
 

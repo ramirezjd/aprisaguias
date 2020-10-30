@@ -1,7 +1,11 @@
 <?php
 
 use App\Http\Controllers\GuiaController;
+use App\estado;
 use App\municipio;
+use App\ciudad;
+use App\parroquia;
+use App\zip_code;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,12 +19,28 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+
+Route::get('/estados', 'EstadoController@getChild')->name('ajaxRequest');
+
+Route::get('/testing', function () {
+    return view('testing-form', [
+        'estados' => estado::orderBy('estado')->get(),
+        'municipios' => municipio::orderBy('municipio')->get(),
+        'ciudades' => ciudad::orderBy('ciudad')->get(),
+        'parroquias' => parroquia::orderBy('parroquia')->get(),
+        'zip_codes' => zip_code::orderBy('zip_code')->get()
+    ]);
+});
+
+
 Route::get('/', function () {
     return view('welcome');
 });
 
-Route::resource('/guias', 'GuiaController')->middleware('auth');;
+Route::resource('/guias', 'GuiaController')->middleware('auth');
 //Route::get('/guias/create', 'GuiaController@create');
+
+
 
 Route::post('/mun', function (Request $request) {
 

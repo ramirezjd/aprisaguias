@@ -10,4 +10,8 @@ class municipio extends Model
     {
         return $this->hasOne('App\direccion');
     }
+
+    public function estado(){
+        return $this->belongsTo('App\estado');
+    }
 }
