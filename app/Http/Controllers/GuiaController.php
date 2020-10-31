@@ -8,6 +8,7 @@ use App\municipio;
 use App\ciudad;
 use App\parroquia;
 use App\zip_code;
+use App\direccion;
 
 use Illuminate\Http\Request;
 
@@ -51,16 +52,78 @@ class GuiaController extends Controller
      */
     public function store(Request $request)
     {   
-        
-
         $request->validate([
+            //Guide Code
             'codigo' => 'required',
-            'precio' => 'required',
-            'fecha_creacion' => 'required',
-            'fecha_entrega' => 'required'
+            //Guide Location - Direccion
+            // 'estados' => 'required',
+            // 'municipios' => 'required',
+            // 'ciudades' => 'required',
+            // 'parroquias' => 'required',
+            // 'zip_codes' => 'required',
+            //Guide Sender - Cliente 1
+            'id_sender' => 'required',
+            'mail_sender' => 'required',
+            'name_sender' => 'required',
+            'phone_sender' => 'required',
+            'address_sender' => 'required',
+            'state_sender_id' => 'required',
+            'province_sender_id' => 'required',
+            'city_sender_id' => 'required',
+            'urban_sender' => 'required',
+            'parroq_sender_id' => 'required',
+            'house_sender' => 'required',
+            'zip_sender_id' => 'required',
+            'reference_sender' => 'required',
+            //Guide Receiver - Cliente 2
+            'id_receiver' => 'required',
+            'mail_receiver' => 'required',
+            'name_sender' => 'required',
+            'phone_receiver' => 'required',
+            'address_receiver' => 'required',
+            'state_receiver' => 'required',
+            'province_receiver' => 'required',
+            'city_receiver' => 'required',
+            'parroq_receiver' => 'required',
+            'urban_receiver' => 'required',
+            'house_receiver' => 'required',
+            'zip_receiver' => 'required',
+            'reference_receiver' => 'required',
+            //Guide Package - Paquete
+        ]);
+        
+        $direccion_sender = Direccion::create([
+            'urbanizacion' => request('urban_sender'),
+            'via-principal' => request('address_sender'),
+            'edificio-casa' => request('house_sender'),
+            'punto-referencia' => request('reference_sender'),
+            'estado_id' => request('state_sender_id'),
+            'ciudad_id' => request('city_sender_id'),
+            'municipio_id' => request('province_sender_id'),
+            'parroquia_id' => request('parroq_sender_id'),
+            'zip_code_id' => request('zip_sender_id'),
         ]);
 
-        Guia::create($request->all());
+        
+        echo "<pre>";
+        var_dump($direccion_sender->id);
+        echo "</pre>";
+        die;
+        $direccion_receiver = Direccion::create([
+            'urbanizacion' => request('urban_receiver'),
+            'via-principal' => request('address_receiver'),
+            'edificio-casa' => request('house_receiver'),
+            'punto-referencia' => request('reference_receiver'),
+            'estado_id' => request('state_receiver_id'),
+            'ciudad_id' => request('city_receiver_id'),
+            'municipio_id' => request('province_receiver_id'),
+            'parroquia_id' => request('parroq_receiver_id'),
+            'zip_code_id' => request('zip_receiver_id'),
+        ]);
+
+
+
+        $guias = Guia::create($request->all());
 
         return redirect()->route('guias.index')
                         ->with('success','Guía Creadas Exitosamente.');

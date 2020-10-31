@@ -35,12 +35,12 @@
             <div class="pull-left">
                 <select name="estados" id="dropdownEstados">
                     <option value="Seleccione un estado">Seleccione un estado</option>
-                    @foreach ($estados as $estados)
-                    <option value="{{ $estados->id }}">{{ $estados->estado }}</option>
+                    @foreach ($estados as $edo)
+                    <option value="{{ $edo->id }}" data-name="{{ $edo->estado }}">{{ $edo->estado }}</option>
                     @endforeach
                 </select>
 
-                <select name="municipios" id="dropdownMunicipios" data-name="Seleccione">
+                <select name="municipios" id="dropdownMunicipios">
                     <option value="0">Seleccione un municipio</option>
                 </select>
 
@@ -64,7 +64,7 @@
         <div class="col-xs-4 col-sm-12 col-md-4">
             <div class="form-group">
                 <strong>CI/RIF:</strong>
-                <input type="num" name="id_sender" class="form-control">
+                <input type="text" name="id_sender" class="form-control">
             </div>
         </div>
         <div class="col-xs-4 col-sm-12 col-md-4">
@@ -76,13 +76,13 @@
         <div class="col-xs-4 col-sm-12 col-md-4">
             <div class="form-group">
                 <strong>Nombre/Razón Social:</strong>
-                <input type="num" name="name_sender" class="form-control">
+                <input type="text" name="name_sender" class="form-control">
             </div>
         </div>
         <div class="col-xs-4 col-sm-12 col-md-4">
             <div class="form-group">
                 <strong>Teléfono:</strong>
-                <input type="num" name="phone_sender" class="form-control">
+                <input type="text" name="phone_sender" class="form-control">
             </div>
         </div>
         <div class="col-xs-4 col-sm-12 col-md-4">
@@ -95,23 +95,26 @@
             <div class="form-group">
                 <strong>Estado:</strong>
                 <input type="text" class="form-control" name="state_sender">
+                <input type="hidden" name="state_sender_id">
             </div>
         </div>
         <div class="col-xs-4 col-sm-12 col-md-4">
             <div class="form-group">
                 <strong>Municipio:</strong>
                 <input type="text" class="form-control" name="province_sender">
+                <input type="hidden" name="province_sender_id">
             </div>
         </div>
         <div class="col-xs-4 col-sm-12 col-md-4">
             <div class="form-group">
                 <strong>Ciudad:</strong>
                 <input type="text" class="form-control" name="city_sender">
+                <input type="hidden" name="city_sender_id">
             </div>
         </div>
         <div class="col-xs-4 col-sm-12 col-md-4">
             <div class="form-group">
-                <strong>Ubanización:</strong>
+                <strong>Urbanización:</strong>
                 <input type="text" class="form-control" name="urban_sender">
             </div>
         </div>
@@ -119,6 +122,7 @@
             <div class="form-group">
                 <strong>Parroquia:</strong>
                 <input type="text" class="form-control" name="parroq_sender">
+                <input type="hidden" name="parroq_sender_id">
             </div>
         </div>
         <div class="col-xs-4 col-sm-12 col-md-4">
@@ -131,6 +135,7 @@
             <div class="form-group">
                 <strong>Zona Postal:</strong>
                 <input type="text" class="form-control" name="zip_sender">
+                <input type="hidden" name="zip_sender_id">
             </div>
         </div>
         <div class="col-xs-4 col-sm-12 col-md-4">
@@ -146,7 +151,7 @@
         <div class="col-xs-4 col-sm-12 col-md-4">
             <div class="form-group">
                 <strong>CI/RIF:</strong>
-                <input type="num" name="id_receiver" class="form-control">
+                <input type="text" name="id_receiver" class="form-control">
             </div>
         </div>
         <div class="col-xs-4 col-sm-12 col-md-4">
@@ -158,13 +163,13 @@
         <div class="col-xs-4 col-sm-12 col-md-4">
             <div class="form-group">
                 <strong>Nombre/Razón Social:</strong>
-                <input type="num" name="name_receiver" class="form-control">
+                <input type="text" name="name_receiver" class="form-control">
             </div>
         </div>
         <div class="col-xs-4 col-sm-12 col-md-4">
             <div class="form-group">
                 <strong>Teléfono:</strong>
-                <input type="num" name="phone_receiver" class="form-control">
+                <input type="text" name="phone_receiver" class="form-control">
             </div>
         </div>
         <div class="col-xs-4 col-sm-12 col-md-4">
@@ -176,30 +181,41 @@
         <div class="col-xs-4 col-sm-12 col-md-4">
             <div class="form-group">
                 <strong>Estado:</strong>
-                <input type="text" class="form-control" name="state_receiver">
+                <select name="state_receiver" id="dropdownEstados">
+                    <option value="Seleccione un estado">Seleccione un estado</option>
+                    @foreach ($estados as $estado)
+                    <option value="{{ $estado->id }}" data-name="{{ $estado->estado }}">{{ $estado->estado }}</option>
+                    @endforeach
+                </select>
             </div>
         </div>
         <div class="col-xs-4 col-sm-12 col-md-4">
             <div class="form-group">
                 <strong>Municipio:</strong>
-                <input type="text" class="form-control" name="province_receiver">
+                <select name="province_receiver" id="dropdownMunicipios">
+                    <option value="0">Seleccione un municipio</option>
+                </select>
             </div>
         </div>
         <div class="col-xs-4 col-sm-12 col-md-4">
             <div class="form-group">
                 <strong>Ciudad:</strong>
-                <input type="text" class="form-control" name="city_receiver">
+                <select name="city_receiver" id="dropdownCiudades">
+                    <option value="0">Seleccione una ciudad</option>
+                </select>
             </div>
         </div>
         <div class="col-xs-4 col-sm-12 col-md-4">
             <div class="form-group">
                 <strong>Parroquia:</strong>
-                <input type="text" class="form-control" name="parroq_receiver">
+                <select name="parroq_receiver" id="dropdownParroquias">
+                    <option value="0">Seleccione una parroquia</option>
+                </select>
             </div>
         </div>
         <div class="col-xs-4 col-sm-12 col-md-4">
             <div class="form-group">
-                <strong>Ubanización:</strong>
+                <strong>Urbanización:</strong>
                 <input type="text" class="form-control" name="urban_receiver">
             </div>
         </div>
@@ -212,7 +228,9 @@
         <div class="col-xs-4 col-sm-12 col-md-4">
             <div class="form-group">
                 <strong>Zona Postal:</strong>
-                <input type="text" class="form-control" name="zip_receiver">
+                <select name="zip_receiver" id="dropdownZip_codes">
+                    <option value="0">Seleccione un codigo postal</option>
+                </select>
             </div>
         </div>
         <div class="col-xs-4 col-sm-12 col-md-4">
@@ -220,9 +238,6 @@
                 <strong>Punto de Referencia:</strong>
                 <textarea class="form-control" rows="5" name="reference_receiver" placeholder="Punto de Referencia"></textarea>
             </div>
-        </div>
-        <div class="col-md-12 text-center">
-                <button type="submit" class="btn btn-primary">Submit</button>
         </div>
     </div>
 
@@ -241,25 +256,41 @@
     })
 
     $( document ).ready(function() {
-        
+        $('select#dropdownEstados').on('change', function(e) {
+            var valueEstados = $('#dropdownEstados').find(":selected").data('name');
+            var idEstados = $('#dropdownEstados').val();
+            $('[name="state_sender"]').val(valueEstados)
+            $('[name="state_sender_id"]').val(idEstados)
+            console.log("Name of municipios:", valueEstados);
+            console.log("Id de los estados", idEstados);
+        });
         $('select#dropdownMunicipios').on('change', function(e) {
             var valueMunicipios = $('#dropdownMunicipios').find(":selected").data('name');
+            var idMunicipios = $('#dropdownMunicipios').val();
             $('[name="province_sender"]').val(valueMunicipios)
+            $('[name="province_sender_id"]').val(idMunicipios)
             console.log("Name of municipios:", valueMunicipios);
         });
         $('select#dropdownCiudades').on('change', function(e) {
             var valueCiudades = $('#dropdownCiudades').find(":selected").data('name');
+            var idCiudades = $('#dropdownCiudades').val();
             $('[name="city_sender"]').val(valueCiudades)
+            $('[name="city_sender_id"]').val(idCiudades)
             console.log("Name of municipios:", valueCiudades);
         });
         $('select#dropdownParroquias').on('change', function(e) {
             var valueParroquias = $('#dropdownParroquias').find(":selected").data('name');
+            var idParroquias = $('#dropdownParroquias').val();
             $('[name="parroq_sender"]').val(valueParroquias)
+            $('[name="parroq_sender_id"]').val(idParroquias)
             console.log("Name of municipios:", valueParroquias);
         });
         $('select#dropdownZip_codes').on('change', function(e) {
             var ValueZip = $('#dropdownZip_codes').find(":selected").data('name');
+            var idZip = $('#dropdownZip_codes').val();
             $('[name="zip_sender"]').val(ValueZip)
+            $('[name="zip_sender_id"]').val(idZip)
+            
             console.log("Name of municipios:", ValueZip);
         });
 
@@ -309,8 +340,6 @@
                 $.each(data, function(i, id, ciudad) {
                     $('#dropdownCiudades').append('<option value="'+data[i].id+'" data-name="'+data[i].ciudad+'">'+data[i].ciudad+'</option>');
                 });
-
-                console.log(valueMunicipios);
             },
             error: function (data) {
                 console.log('fail', data);
