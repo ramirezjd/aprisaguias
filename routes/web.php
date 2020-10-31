@@ -20,7 +20,17 @@ use Illuminate\Support\Facades\Route;
 */
 
 
-Route::get('/estados', 'EstadoController@getChild')->name('ajaxRequest');
+Route::get('/parroquias', 'ParroquiaController@getChild')->name('request_parroquia');
+
+Route::get('/ciudades', 'MunicipioController@getChild2')->name('request_ciudad');
+
+Route::get('/municipios', 'MunicipioController@getChild')->name('request_municipio');
+
+Route::get('/estados', 'EstadoController@getChild')->name('request_estado');
+
+
+
+
 
 Route::get('/testing', function () {
     return view('testing-form', [

@@ -7,11 +7,7 @@
     <title>Laravel 7 CRUD Application - ItSolutionStuff.com</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha/css/bootstrap.css" rel="stylesheet">
 
-<<<<<<< HEAD
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
-=======
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
->>>>>>> 3e7c7011b1f546c21001c83d6c99e775b761a257
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 
@@ -42,34 +38,21 @@
                 <option value="{{ $estados->id }}">{{ $estados->estado }}</option>
                 @endforeach
             </select>
+
             <select name="municipios" id="dropdownMunicipios">
-                <option value="Seleccione un municipio">Seleccione un municipio</option>
-                @foreach ($municipios as $municipios)
-                <option value="{{ $municipios->municipio }}">{{ $municipios->municipio }}</option>
-                @endforeach
+                <option value="0">Seleccione un municipio</option>
             </select>
-<<<<<<< HEAD
-            <p id="Contenido"></p>
-=======
->>>>>>> 3e7c7011b1f546c21001c83d6c99e775b761a257
 
             <select name="ciudades" id="dropdownCiudades">
-                <option value="Seleccione un ciudad">Seleccione un ciudad</option>
-                @foreach ($ciudades as $ciudades)
-                <option value="{{ $ciudades->ciudad }}">{{ $ciudades->ciudad }}</option>
-                @endforeach
+                <option value="0">Seleccione una ciudad</option>
             </select>
+
             <select name="parroquias" id="dropdownParroquias">
-                <option value="Seleccione un parroquia">Seleccione un parroquia</option>
-                @foreach ($parroquias as $parroquias)
-                <option value="{{ $parroquias->parroquia }}">{{ $parroquias->parroquia }}</option>
-                @endforeach
+                <option value="0">Seleccione una parroquia</option>
             </select>
+
             <select name="zip_codes" id="dropdownZip_codes">
-                <option value="Seleccione un zip_code">Seleccione un zip_code</option>
-                @foreach ($zip_codes as $zip_codes)
-                <option value="{{ $zip_codes->zip_code }}">{{ $zip_codes->zip_code }}</option>
-                @endforeach
+                <option value="0">Seleccione un codigo postal</option>
             </select>
         </div>
     </div>
@@ -87,62 +70,108 @@
 
     $( document ).ready(function() {
 
-<<<<<<< HEAD
+        $( '#dropdownParroquias' ).change(function(e) {
+
+        var parroquia_id = e.target.value;
+
+        $.ajax({
+            url:"{{ route('request_parroquia') }}",
+            method:"GET",
+            data:{"parroquia_id":parroquia_id},
+            dataType:"json",
+            success:function(data){
+
+                $('#dropdownZip_codes').empty();
+
+                $('#dropdownZip_codes').append('<option value="'+0+'">Seleccione una zona postal</option>');
+                $('#dropdownZip_codes').append('<option value="'+data.id+'">'+data.zip_code+'</option>');
+
+
+            },
+            error: function (data) {
+                alert('fail');
+            }
+            });
+
+        });
+
+
+        $( '#dropdownMunicipios' ).change(function(e) {
+
+        var municipio_id = e.target.value;
+        alert(municipio_id);
+
+        $.ajax({
+            url:"{{ route('request_municipio') }}",
+            method:"GET",
+            data:{"municipio_id":municipio_id},
+            dataType:"json",
+            success:function(data){
+
+                $('#dropdownCiudades').empty();
+
+                $('#dropdownCiudades').append('<option value="'+0+'">Seleccione una ciudad</option>');
+
+
+                $.each(data, function(i, id, ciudad) {
+                    $('#dropdownCiudades').append('<option value="'+data[i].id+'">'+data[i].ciudad+'</option>');
+                });
+            },
+            error: function (data) {
+                alert('fail');
+            }
+            });
+
+            $.ajax({
+            url:"{{ route('request_ciudad') }}",
+            method:"GET",
+            data:{"municipio_id":municipio_id},
+            dataType:"json",
+            success:function(data){
+
+                $('#dropdownParroquias').empty();
+
+                $('#dropdownParroquias').append('<option value="'+0+'">Seleccione una parroquia</option>');
+
+                $.each(data, function(i, id, parroquia) {
+                    $('#dropdownParroquias').append('<option value="'+data[i].id+'">'+data[i].parroquia+'</option>');
+                });
+            },
+            error: function (data) {
+                alert('fail');
+            }
+            });
+
+        });
 
         $( '#dropdownEstados' ).change(function(e) {
 
-=======
-
-        $( '#dropdownEstados' ).change(function(e) {
-
->>>>>>> 3e7c7011b1f546c21001c83d6c99e775b761a257
             var estado_id = e.target.value;
 
             $.ajax({
-            url:"{{ route('ajaxRequest') }}",
+            url:"{{ route('request_estado') }}",
             method:"GET",
             data:{"estado_id":estado_id},
             dataType:"json",
             success:function(data){
-                alert(data.success);
+
                 $('#dropdownMunicipios').empty();
 
                 $('#dropdownMunicipios').append('<option value="'+0+'">Seleccione un municipio</option>');
-<<<<<<< HEAD
 
-                //alert("id: "+data[0].id+" Nombre: "+data[0].municipio);
 
-                $.each(data, function(id, municipio) {
-                    //alert(data[id].municipio);
-                    $('#dropdownMunicipios').append('<option value="'+id+'">'+data[id].municipio+'</option>');
+                $.each(data, function(i, id, municipio) {
+                    $('#dropdownMunicipios').append('<option value="'+data[i].id+'">'+data[i].municipio+'</option>');
                 });
-
-                /*
-                $.each(data,function(index,subcategory){
-                    alert(data.)
-                    $('#dropdownMunicipios').append('<option value="'+subcategory.id+'">'+subcategory.name+'</option>');
-                })*/
-=======
-                $.each(data.subcategories[0].subcategories,function(index,subcategory){
-
-                    $('#dropdownMunicipios').append('<option value="'+subcategory.id+'">'+subcategory.name+'</option>');
-                })
->>>>>>> 3e7c7011b1f546c21001c83d6c99e775b761a257
             },
             error: function (data) {
                 alert('fail');
             }
             });
         });
-<<<<<<< HEAD
 
 
 
-=======
-
-
-
->>>>>>> 3e7c7011b1f546c21001c83d6c99e775b761a257
     });
 </script>
 </body>

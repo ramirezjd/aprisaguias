@@ -50,6 +50,24 @@ class ParroquiaController extends Controller
     }
 
     /**
+     * Display the specified resource.
+     *
+     * @param  \App\estado  $estado
+     * @return \Illuminate\Http\Response
+     */
+    public function getChild(Request $request)
+    {
+        $id = $request->parroquia_id;
+        $parroquia = parroquia::findOrFail($id);
+        return $parroquia->zip_code;
+        //return response()->json(['success'=>'Got Simple Ajax Request.']);
+
+    }
+
+
+
+
+    /**
      * Show the form for editing the specified resource.
      *
      * @param  \App\parroquia  $parroquia
