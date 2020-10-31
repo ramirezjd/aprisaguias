@@ -7,7 +7,11 @@
     <title>Laravel 7 CRUD Application - ItSolutionStuff.com</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha/css/bootstrap.css" rel="stylesheet">
 
+<<<<<<< HEAD
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
+=======
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
+>>>>>>> 3e7c7011b1f546c21001c83d6c99e775b761a257
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 
@@ -44,7 +48,10 @@
                 <option value="{{ $municipios->municipio }}">{{ $municipios->municipio }}</option>
                 @endforeach
             </select>
+<<<<<<< HEAD
             <p id="Contenido"></p>
+=======
+>>>>>>> 3e7c7011b1f546c21001c83d6c99e775b761a257
 
             <select name="ciudades" id="dropdownCiudades">
                 <option value="Seleccione un ciudad">Seleccione un ciudad</option>
@@ -80,9 +87,15 @@
 
     $( document ).ready(function() {
 
+<<<<<<< HEAD
 
         $( '#dropdownEstados' ).change(function(e) {
 
+=======
+
+        $( '#dropdownEstados' ).change(function(e) {
+
+>>>>>>> 3e7c7011b1f546c21001c83d6c99e775b761a257
             var estado_id = e.target.value;
 
             $.ajax({
@@ -95,6 +108,7 @@
                 $('#dropdownMunicipios').empty();
 
                 $('#dropdownMunicipios').append('<option value="'+0+'">Seleccione un municipio</option>');
+<<<<<<< HEAD
 
                 //alert("id: "+data[0].id+" Nombre: "+data[0].municipio);
 
@@ -108,15 +122,27 @@
                     alert(data.)
                     $('#dropdownMunicipios').append('<option value="'+subcategory.id+'">'+subcategory.name+'</option>');
                 })*/
+=======
+                $.each(data.subcategories[0].subcategories,function(index,subcategory){
+
+                    $('#dropdownMunicipios').append('<option value="'+subcategory.id+'">'+subcategory.name+'</option>');
+                })
+>>>>>>> 3e7c7011b1f546c21001c83d6c99e775b761a257
             },
             error: function (data) {
                 alert('fail');
             }
             });
         });
+<<<<<<< HEAD
 
 
 
+=======
+
+
+
+>>>>>>> 3e7c7011b1f546c21001c83d6c99e775b761a257
     });
 </script>
 </body>
