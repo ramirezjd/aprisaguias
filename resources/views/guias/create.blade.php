@@ -181,10 +181,10 @@
         <div class="col-xs-4 col-sm-12 col-md-4">
             <div class="form-group">
                 <strong>Estado:</strong>
-                <select name="state_receiver" id="dropdownEstados">
+                <select name="estados" id="dropdownEstados">
                     <option value="Seleccione un estado">Seleccione un estado</option>
-                    @foreach ($estados as $estado)
-                    <option value="{{ $estado->id }}" data-name="{{ $estado->estado }}">{{ $estado->estado }}</option>
+                    @foreach ($estados as $edo)
+                    <option value="{{ $edo->id }}" data-name="{{ $edo->estado }}">{{ $edo->estado }}</option>
                     @endforeach
                 </select>
             </div>
@@ -192,7 +192,7 @@
         <div class="col-xs-4 col-sm-12 col-md-4">
             <div class="form-group">
                 <strong>Municipio:</strong>
-                <select name="province_receiver" id="dropdownMunicipios">
+                <select name="municipios" id="dropdownMunicipios">
                     <option value="0">Seleccione un municipio</option>
                 </select>
             </div>
@@ -200,7 +200,7 @@
         <div class="col-xs-4 col-sm-12 col-md-4">
             <div class="form-group">
                 <strong>Ciudad:</strong>
-                <select name="city_receiver" id="dropdownCiudades">
+                <select name="ciudades" id="dropdownCiudades">
                     <option value="0">Seleccione una ciudad</option>
                 </select>
             </div>
@@ -208,7 +208,7 @@
         <div class="col-xs-4 col-sm-12 col-md-4">
             <div class="form-group">
                 <strong>Parroquia:</strong>
-                <select name="parroq_receiver" id="dropdownParroquias">
+                <select name="parroquias" id="dropdownParroquias">
                     <option value="0">Seleccione una parroquia</option>
                 </select>
             </div>
@@ -228,7 +228,7 @@
         <div class="col-xs-4 col-sm-12 col-md-4">
             <div class="form-group">
                 <strong>Zona Postal:</strong>
-                <select name="zip_receiver" id="dropdownZip_codes">
+                <select name="zip_codes" id="dropdownZip_codes">
                     <option value="0">Seleccione un codigo postal</option>
                 </select>
             </div>
@@ -261,37 +261,30 @@
             var idEstados = $('#dropdownEstados').val();
             $('[name="state_sender"]').val(valueEstados)
             $('[name="state_sender_id"]').val(idEstados)
-            console.log("Name of municipios:", valueEstados);
-            console.log("Id de los estados", idEstados);
         });
         $('select#dropdownMunicipios').on('change', function(e) {
             var valueMunicipios = $('#dropdownMunicipios').find(":selected").data('name');
             var idMunicipios = $('#dropdownMunicipios').val();
             $('[name="province_sender"]').val(valueMunicipios)
             $('[name="province_sender_id"]').val(idMunicipios)
-            console.log("Name of municipios:", valueMunicipios);
         });
         $('select#dropdownCiudades').on('change', function(e) {
             var valueCiudades = $('#dropdownCiudades').find(":selected").data('name');
             var idCiudades = $('#dropdownCiudades').val();
             $('[name="city_sender"]').val(valueCiudades)
             $('[name="city_sender_id"]').val(idCiudades)
-            console.log("Name of municipios:", valueCiudades);
         });
         $('select#dropdownParroquias').on('change', function(e) {
             var valueParroquias = $('#dropdownParroquias').find(":selected").data('name');
             var idParroquias = $('#dropdownParroquias').val();
             $('[name="parroq_sender"]').val(valueParroquias)
             $('[name="parroq_sender_id"]').val(idParroquias)
-            console.log("Name of municipios:", valueParroquias);
         });
         $('select#dropdownZip_codes').on('change', function(e) {
             var ValueZip = $('#dropdownZip_codes').find(":selected").data('name');
             var idZip = $('#dropdownZip_codes').val();
             $('[name="zip_sender"]').val(ValueZip)
             $('[name="zip_sender_id"]').val(idZip)
-            
-            console.log("Name of municipios:", ValueZip);
         });
 
         $( '#dropdownParroquias' ).change(function(e) {
@@ -306,7 +299,6 @@
             success:function(data){
 
                 $('#dropdownZip_codes').empty();
-
                 $('#dropdownZip_codes').append('<option value="'+0+'">Seleccione una zona postal</option>');
                 $('#dropdownZip_codes').append('<option value="'+data.id+'" data-name="'+data.zip_code+'">'+data.zip_code+'</option>');
 
@@ -333,9 +325,7 @@
             success:function(data){
 
                 $('#dropdownCiudades').empty();
-
                 $('#dropdownCiudades').append('<option value="'+0+'">Seleccione una ciudad</option>');
-
 
                 $.each(data, function(i, id, ciudad) {
                     $('#dropdownCiudades').append('<option value="'+data[i].id+'" data-name="'+data[i].ciudad+'">'+data[i].ciudad+'</option>');
@@ -354,7 +344,6 @@
             success:function(data){
 
                 $('#dropdownParroquias').empty();
-
                 $('#dropdownParroquias').append('<option value="'+0+'">Seleccione una parroquia</option>');
 
                 $.each(data, function(i, id, parroquia) {
@@ -380,9 +369,7 @@
             success:function(data){
 
                 $('#dropdownMunicipios').empty();
-
                 $('#dropdownMunicipios').append('<option value="'+0+'">Seleccione un municipio</option>');
-
 
                 $.each(data, function(i, id, municipio) {
                     $('#dropdownMunicipios').append('<option value="'+data[i].id+'" data-name="'+data[i].municipio+'">'+data[i].municipio+'</option>');
