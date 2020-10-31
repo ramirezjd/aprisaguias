@@ -16,10 +16,9 @@ class CreateDireccionesTable extends Migration
         Schema::create('direcciones', function (Blueprint $table) {
             $table->id();
             $table->string('urbanizacion', 256);
-            $table->boolean('via-principal');
-            $table->string('edificio-casa', 256);
-            $table->string('punto-referencia', 256);
-
+            $table->boolean('via_principal');
+            $table->string('edificio_casa', 256);
+            $table->string('punto_referencia', 256);
 
             $table->unsignedBigInteger('estado_id');
             $table->unsignedBigInteger('ciudad_id');
