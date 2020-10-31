@@ -18,8 +18,8 @@
         <div class="pull-left">
             <select name="estados" id="dropdownEstados">
                 <option value="Seleccione un estado">Seleccione un estado</option>
-                @foreach ($estados as $estados)
-                <option value="{{ $estados->id }}">{{ $estados->estado }}</option>
+                @foreach ($estados as $estado)
+                <option value="{{ $estado->id }}">{{ $estado->estado }}</option>
                 @endforeach
             </select>
             <select name="municipios" id="dropdownMunicipios">
@@ -31,20 +31,20 @@
 
             <select name="ciudades" id="dropdownCiudades">
                 <option value="Seleccione un ciudad">Seleccione un ciudad</option>
-                @foreach ($ciudades as $ciudades)
-                <option value="{{ $ciudades->ciudad }}">{{ $ciudades->ciudad }}</option>
+                @foreach ($ciudades as $ciudade)
+                <option value="{{ $ciudade->ciudad }}">{{ $ciudade->ciudad }}</option>
                 @endforeach
             </select>
             <select name="parroquias" id="dropdownParroquias">
                 <option value="Seleccione un parroquia">Seleccione un parroquia</option>
-                @foreach ($parroquias as $parroquias)
-                <option value="{{ $parroquias->parroquia }}">{{ $parroquias->parroquia }}</option>
+                @foreach ($parroquias as $parroquia)
+                <option value="{{ $parroquia->parroquia }}">{{ $parroquia->parroquia }}</option>
                 @endforeach
             </select>
             <select name="zip_codes" id="dropdownZip_codes">
                 <option value="Seleccione un zip_code">Seleccione un zip_code</option>
-                @foreach ($zip_codes as $zip_codes)
-                <option value="{{ $zip_codes->zip_code }}">{{ $zip_codes->zip_code }}</option>
+                @foreach ($zip_codes as $zip_code)
+                <option value="{{ $zip_code->zip_code }}">{{ $zip_code->zip_code }}</option>
                 @endforeach
             </select>
         </div>
@@ -109,18 +109,22 @@
 
 </form>
 
-<script type="text/javascript">
+<script>
     $.ajaxSetup({
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         }
     })
 
+    console.log('asdasdas2')
     $(document).ready(function () {
 
+        console.log('asdasdas1')
         $('#dropdownEstados').on('change',function(e) {
 
             var estado_id = e.target.value;
+<<<<<<< HEAD
+<<<<<<< HEAD
             alert("hi");
             /*
             $.ajax({
@@ -131,14 +135,15 @@
                 },
                 success:function (data) {
 
-                $('#dropdownMunicipios').empty();
+                    $('#dropdownMunicipios').empty();
 
-                $.each(data.municipios[0].municipios,function(index,municipio){
-                $('#dropdownMunicipios').append('<option value="'+municipio.id+'">'+municipio.name+'</option>');
-                })
+                    $.each(data.municipios[0].municipios,function(index,municipio){
+                        $('#dropdownMunicipios').append('<option value="'+municipio.id+'">'+municipio.name+'</option>');
+                    })
                 },
                 error: function (jqXHR, status, err) {
                     alert("Local error callback.");
+                    console.log(err)
                 },
             })*/
             $('#dropdownMunicipios').empty();
@@ -148,6 +153,17 @@
             @$ciudades.forEach(element => {
                 alert("hi")
             });
+            })
+            //$('#dropdownMunicipios').empty();
+            @foreach ($ciudades as $ciudad)
+               //<option value="{{ $ciudad->ciudad }}">{{ $ciudad->ciudad }}</option>
+            @endforeach
+
+            })
+            //$('#dropdownMunicipios').empty();
+            @foreach ($ciudades as $ciudad)
+               //<option value="{{ $ciudad->ciudad }}">{{ $ciudad->ciudad }}</option>
+            @endforeach
 
         });
     });

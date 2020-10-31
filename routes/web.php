@@ -55,9 +55,8 @@ Route::resource('/guias', 'GuiaController')->middleware('auth');
 Route::post('/mun', function (Request $request) {
 
     $estado_id = $request->estado_id;
-
-    $municipios = municipio::where('estado_id',$estado_id)
-                          ->get();
+    var_dump($estado_id);
+    $municipios = municipio::where('estado_id',$estado_id)->get();
 
     return response()->json([
         'municipios' => $municipios
