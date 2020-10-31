@@ -50,15 +50,14 @@ class GuiaController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {
+    {   
+        
+
         $request->validate([
             'codigo' => 'required',
-            'peso' => 'required',
-            'dimensiones' => 'required',
             'precio' => 'required',
-            'fecha_entrega' => 'required',
-            'direccion_destino' => 'required',
-            'punto_referencia_destino' => 'required'
+            'fecha_creacion' => 'required',
+            'fecha_entrega' => 'required'
         ]);
 
         Guia::create($request->all());
@@ -101,12 +100,9 @@ class GuiaController extends Controller
 
         $request->validate([
             'codigo' => 'required',
-            'peso' => 'required',
-            'dimensiones' => 'required',
             'precio' => 'required',
-            'fecha_entrega' => 'required',
-            'direccion_destino' => 'required',
-            'punto_referencia_destino' => 'required'
+            'fecha_creacion' => 'required',
+            'fecha_entrega' => 'required'
         ]);
 
         $guia->update($request->all());

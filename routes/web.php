@@ -47,7 +47,9 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::resource('/guias', 'GuiaController')->middleware('auth');
+Route::middleware('auth')->group(function(){
+    Route::resource('/guias', 'GuiaController');
+});
 //Route::get('/guias/create', 'GuiaController@create');
 
 
