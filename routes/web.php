@@ -43,23 +43,10 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::resource('/guias', 'GuiaController')->middleware('auth');
+Route::middleware('auth')->group(function(){
+    Route::resource('/guias', 'GuiaController');
+});
 //Route::get('/guias/create', 'GuiaController@create');
-
-
-
-Route::post('/mun', function (Request $request) {
-
-    $estado_id = $request->estado_id;
-
-    $municipios = municipio::where('estado_id',$estado_id)
-                          ->get();
-
-    return response()->json([
-        'municipios' => $municipios
-    ]);
-
-})->name('mun');
 
 Auth::routes();
 

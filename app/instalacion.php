@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class instalacion extends Model
 {
+    protected $table = "instalaciones";
     public function usuarios_x_instalacion()
     {
         return $this->hasMany('App\usuarios_x_instalacion');

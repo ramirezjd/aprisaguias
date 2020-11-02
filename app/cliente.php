@@ -6,6 +6,15 @@ use Illuminate\Database\Eloquent\Model;
 
 class cliente extends Model
 {
+    protected $fillable = [
+        'tipo_documento',
+        'documento',
+        'nombre-razonsocial',
+        'email',
+        'telefono',
+        'direccion_id'
+    ];
+
     public function direccion()
     {
         return $this->hasOne('App\direccion');

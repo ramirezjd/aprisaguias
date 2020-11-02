@@ -8,7 +8,17 @@ class direccion extends Model
 {
     protected $table = "direcciones";
 
-    protected $fillable = ['urbanizacion', 'via_principal', 'edificio_casa', 'punto_referencia', 'estado_id', 'ciudad_id', 'municipio_id', 'parroquia_id', 'zip_code_id'];
+  protected $fillable = [
+        'urbanizacion',
+        'via-principal',
+        'edificio-casa',
+        'punto-referencia',
+        'estado_id',
+        'ciudad_id',
+        'municipio_id',
+        'parroquia_id',
+        'zip_code_id'
+    ];
 
     public function cliente()
     {
