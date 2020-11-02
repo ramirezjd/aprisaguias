@@ -6,6 +6,20 @@ use Illuminate\Database\Eloquent\Model;
 
 class direccion extends Model
 {
+    protected $table = "direcciones";
+
+  protected $fillable = [
+        'urbanizacion',
+        'via-principal',
+        'edificio-casa',
+        'punto-referencia',
+        'estado_id',
+        'ciudad_id',
+        'municipio_id',
+        'parroquia_id',
+        'zip_code_id'
+    ];
+
     public function cliente()
     {
         return $this->belongsTo('App\cliente');

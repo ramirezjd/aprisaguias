@@ -20,15 +20,21 @@ use Illuminate\Support\Facades\Route;
 */
 
 
-Route::get('/estados', 'EstadoController@getChild')->name('ajaxRequest');
+Route::get('/parroquias', 'ParroquiaController@getChild')->name('request_parroquia');
+
+Route::get('/ciudades', 'MunicipioController@getChild2')->name('request_ciudad');
+
+Route::get('/municipios', 'MunicipioController@getChild')->name('request_municipio');
+
+Route::get('/estados', 'EstadoController@getChild')->name('request_estado');
+
+Route::post('/direccion/create', 'DireccionController@store')->name('registrar_direccion');
+
+
 
 Route::get('/testing', function () {
     return view('testing-form', [
         'estados' => estado::orderBy('estado')->get(),
-        'municipios' => municipio::orderBy('municipio')->get(),
-        'ciudades' => ciudad::orderBy('ciudad')->get(),
-        'parroquias' => parroquia::orderBy('parroquia')->get(),
-        'zip_codes' => zip_code::orderBy('zip_code')->get()
     ]);
 });
 
@@ -37,7 +43,9 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::resource('/guias', 'GuiaController')->middleware('auth');
+Route::middleware('auth')->group(function(){
+    Route::resource('/guias', 'GuiaController');
+});
 //Route::get('/guias/create', 'GuiaController@create');
 
 
