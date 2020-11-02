@@ -28,17 +28,13 @@ Route::get('/municipios', 'MunicipioController@getChild')->name('request_municip
 
 Route::get('/estados', 'EstadoController@getChild')->name('request_estado');
 
-
+Route::post('/direccion/create', 'DireccionController@store')->name('registrar_direccion');
 
 
 
 Route::get('/testing', function () {
     return view('testing-form', [
         'estados' => estado::orderBy('estado')->get(),
-        'municipios' => municipio::orderBy('municipio')->get(),
-        'ciudades' => ciudad::orderBy('ciudad')->get(),
-        'parroquias' => parroquia::orderBy('parroquia')->get(),
-        'zip_codes' => zip_code::orderBy('zip_code')->get()
     ]);
 });
 

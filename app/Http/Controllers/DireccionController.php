@@ -35,7 +35,11 @@ class DireccionController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
+        $direccion = direccion::create($request->all());
+
+        return response()->json(['success'=>'Direccion saved successfully.']);
+
     }
 
     /**
