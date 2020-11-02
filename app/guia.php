@@ -8,9 +8,17 @@ class guia extends Model
 {
     protected $fillable = [
         'codigo',
+        'asegurado',
         'precio',
         'fecha_creacion',
-        'fecha_entrega'
+        'fecha_entrega',
+        'user_id',
+        'cliente_remitente_id',
+        'cliente_destinatario_id',
+        'instalacion_origen_id',
+        'instalacion_destino_id',
+        'tipo_destino_id',
+        'tipo_pago_id',
     ];
 
     public function usuario()

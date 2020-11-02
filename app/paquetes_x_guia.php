@@ -6,6 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class paquetes_x_guia extends Model
 {
+    protected $fillable = [
+        'guia_id',
+        'paquete_id',
+    ];
     public function guia()
     {
         return $this->belongsTo('App\guia');

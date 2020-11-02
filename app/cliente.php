@@ -6,13 +6,13 @@ use Illuminate\Database\Eloquent\Model;
 
 class cliente extends Model
 {
-    
     protected $fillable = [
-        'tip_documento',
-        'document',
+        'tipo_documento',
+        'documento',
         'nombre-razonsocial',
         'email',
-        'telefono'
+        'telefono',
+        'direccion_id'
     ];
 
     public function direccion()

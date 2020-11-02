@@ -9,6 +9,10 @@ use App\ciudad;
 use App\parroquia;
 use App\zip_code;
 use App\direccion;
+use App\cliente;
+use App\paquete;
+use App\paquetes_x_guia;
+use Auth;
 
 use Illuminate\Http\Request;
 
@@ -55,6 +59,17 @@ class GuiaController extends Controller
         $request->validate([
             //Guide Code
             'codigo' => 'required',
+            //Guide Requirements
+            'price_package' => 'required',
+            'date_deliver' => 'required',
+            'type_destiny' => 'required',
+            'type_payment' => 'required',
+            //Package
+            'weight_pack' => 'required',
+            'width_pack' => 'required',
+            'height_pack' => 'required',
+            'deep_pack' => 'required',
+            'description_pack' => 'required',
             //Guide Location - Direccion
             // 'estados' => 'required',
             // 'municipios' => 'required',
@@ -105,26 +120,72 @@ class GuiaController extends Controller
         ]);
 
         
-        echo "<pre>";
-        var_dump($direccion_sender->id);
-        echo "</pre>";
-        die;
         $direccion_receiver = Direccion::create([
             'urbanizacion' => request('urban_receiver'),
             'via-principal' => request('address_receiver'),
             'edificio-casa' => request('house_receiver'),
             'punto-referencia' => request('reference_receiver'),
-            'estado_id' => request('state_receiver_id'),
-            'ciudad_id' => request('city_receiver_id'),
-            'municipio_id' => request('province_receiver_id'),
-            'parroquia_id' => request('parroq_receiver_id'),
-            'zip_code_id' => request('zip_receiver_id'),
+            'estado_id' => request('state_receiver'),
+            'ciudad_id' => request('city_receiver'),
+            'municipio_id' => request('province_receiver'),
+            'parroquia_id' => request('parroq_receiver'),
+            'zip_code_id' => request('zip_receiver'),
         ]);
 
 
+        $client_sender = Cliente::create([
+            'tipo_documento' => 'V-',
+            'documento' => request('id_sender'),
+            'nombre-razonsocial' => request('name_sender'),
+            'email' => request('mail_sender'),
+            'telefono' => request('phone_sender'),
+            'direccion_id' => $direccion_sender->id,
 
-        $guias = Guia::create($request->all());
+        ]);
 
+        $client_receiver = Cliente::create([
+            'tipo_documento' => 'V-',
+            'documento' => request('id_receiver'),
+            'nombre-razonsocial' => request('name_receiver'),
+            'email' => request('mail_receiver'),
+            'telefono' => request('phone_receiver'),
+            'direccion_id' => $direccion_receiver->id,
+
+        ]);
+
+        $guides = Guia::create([
+            'codigo' => request('codigo'),
+            'precio' => request('price_package'),
+            'asegurado' => 0,
+            'fecha_creacion' => request('date_creation'),
+            'fecha_entrega' => request('date_deliver'),
+            'user_id' => Auth::id(),
+            'cliente_remitente_id' => $client_sender->id,
+            'cliente_destinatario_id' => $client_receiver->id,
+            'instalacion_origen_id' => 1,
+            'instalacion_destino_id' => 2,
+            'tipo_destino_id' => request('type_destiny'),
+            'tipo_pago_id' => request('type_payment'),
+        ]);
+
+        $package = Paquete::create([
+            'peso' => request('weight_pack'),
+            'dim_ancho' => request('width_pack'),
+            'dim_alto' => request('height_pack'),
+            'dim_fondo' => request('deep_pack'),
+            'descripcion' => request('description_pack'),
+            'tipo_paquete_id' => request('type_package'),
+        ]);
+
+        $guide_package = Paquetes_x_guia::create([
+            'guia_id' => $guides->id,
+            'paquete_id' => $package->id,
+        ]);
+
+        echo "<pre>";
+        var_dump($guide_package);
+        echo "</pre>";
+        die;
         return redirect()->route('guias.index')
                         ->with('success','Guía Creadas Exitosamente.');
     }
