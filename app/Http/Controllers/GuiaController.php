@@ -12,6 +12,7 @@ use App\direccion;
 use App\cliente;
 use App\paquete;
 use App\paquetes_x_guia;
+use App\User;
 use Auth;
 
 use Illuminate\Http\Request;
@@ -25,11 +26,8 @@ class GuiaController extends Controller
      */
     public function index()
     {
-
-        $guias = Guia::latest()->paginate(5);
-
-        return view('guias.index',compact('guias'))
-            ->with('i', (request()->input('page', 1) - 1) * 5);
+        $guias = Guia::with('user')->get();
+        return view('guias.index', compact('guias'));
     }
 
     /**
@@ -182,10 +180,10 @@ class GuiaController extends Controller
             'paquete_id' => $package->id,
         ]);
 
-        echo "<pre>";
-        var_dump($guide_package);
-        echo "</pre>";
-        die;
+        // echo "<pre>";
+        // var_dump($guide_package);
+        // echo "</pre>";
+        // die;
         return redirect()->route('guias.index')
                         ->with('success','Guía Creadas Exitosamente.');
     }
