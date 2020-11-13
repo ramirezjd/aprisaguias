@@ -354,59 +354,16 @@
     <div class="col-md-12 text-center">
         <button type="submit" class="btn btn-primary">Submit</button>
     </div>
-<<<<<<< HEAD
-
-</form>
-
-<script type="text/javascript">
-=======
 </form>
 
 <script type="text/javascript">
 
->>>>>>> dev
     $.ajaxSetup({
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         }
     })
 
-<<<<<<< HEAD
-    $(document).ready(function () {
-
-        $('#dropdownEstados').on('change',function(e) {
-
-            var estado_id = e.target.value;
-            alert("hi");
-            /*
-            $.ajax({
-                type:"POST",
-                url:"{{ route('mun') }}",
-                data: {
-                    estado_id: estado_id
-                },
-                success:function (data) {
-
-                $('#dropdownMunicipios').empty();
-
-                $.each(data.municipios[0].municipios,function(index,municipio){
-                $('#dropdownMunicipios').append('<option value="'+municipio.id+'">'+municipio.name+'</option>');
-                })
-                },
-                error: function (jqXHR, status, err) {
-                    alert("Local error callback.");
-                },
-            })*/
-            $('#dropdownMunicipios').empty();
-
-
-
-            @$ciudades.forEach(element => {
-                alert("hi")
-            });
-
-        });
-=======
     $( document ).ready(function() {
         $('select#dropdownEstados').on('change', function(e) {
             var valueEstados = $('#dropdownEstados').find(":selected").data('name');
@@ -602,7 +559,6 @@
             });
         });
 
->>>>>>> dev
     });
 </script>
 

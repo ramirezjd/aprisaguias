@@ -3,7 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\privilegio;
+use DB;
+Use Carbon\Carbon;
+use Spatie\Permission\Models\Role;
+use Spatie\Permission\Models\Permission;
 use Illuminate\Http\Request;
+
 
 class PrivilegioController extends Controller
 {
@@ -14,7 +19,10 @@ class PrivilegioController extends Controller
      */
     public function index()
     {
-        //
+        $permissions = Permission::all();
+        return view('permissions.index', [
+            'permissions' => $permissions
+        ]);
     }
 
     /**
@@ -25,6 +33,7 @@ class PrivilegioController extends Controller
     public function create()
     {
         //
+        return view('permissions.create');
     }
 
     /**
@@ -36,6 +45,11 @@ class PrivilegioController extends Controller
     public function store(Request $request)
     {
         //
+        $ca =  \Carbon\Carbon::now();
+        $ua = \Carbon\Carbon::now();
+        DB::insert('insert into permissions (name, guard_name, created_at, updated_at) values (? , ?, ?, ?)', [$request->name, 'web', $ca, $ua]);
+        return redirect('/permissions/')
+            ->with('Success','Yay.');
     }
 
     /**
@@ -44,9 +58,10 @@ class PrivilegioController extends Controller
      * @param  \App\privilegio  $privilegio
      * @return \Illuminate\Http\Response
      */
-    public function show(privilegio $privilegio)
+    public function show(permission $privilegio)
     {
-        //
+        return $privilegio;
+        return view('permissions.show', ['privilegio' => $privilegio]);
     }
 
     /**

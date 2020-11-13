@@ -14,7 +14,7 @@ class CreateGuiasXRemesasTable extends Migration
     public function up()
     {
         Schema::create('guias_x_remesas', function (Blueprint $table) {
-            $table->id();
+
             $table->unsignedBigInteger('guia_id');
             $table->unsignedBigInteger('remesa_id');
 
@@ -22,6 +22,9 @@ class CreateGuiasXRemesasTable extends Migration
 
             $table->foreign('guia_id')->references('id')->on('guias');
             $table->foreign('remesa_id')->references('id')->on('remesas');
+
+            //SETTING THE PRIMARY KEYS
+            $table->primary(['guia_id','remesa_id']);
         });
     }
 

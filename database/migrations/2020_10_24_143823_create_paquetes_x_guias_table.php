@@ -14,7 +14,6 @@ class CreatePaquetesXGuiasTable extends Migration
     public function up()
     {
         Schema::create('paquetes_x_guias', function (Blueprint $table) {
-            $table->id();
 
             $table->unsignedBigInteger('guia_id');
             $table->unsignedBigInteger('paquete_id');
@@ -23,6 +22,9 @@ class CreatePaquetesXGuiasTable extends Migration
 
             $table->foreign('guia_id')->references('id')->on('guias');
             $table->foreign('paquete_id')->references('id')->on('paquetes');
+
+            //SETTING THE PRIMARY KEYS
+            $table->primary(['guia_id','paquete_id']);
         });
     }
 

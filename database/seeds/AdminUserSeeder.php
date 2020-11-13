@@ -12,7 +12,7 @@ class AdminUserSeeder extends Seeder
      */
     public function run()
     {
-        User::create([
+        $user = User::create([
             'username' => 'Aprisadmin',
             'nombres' => 'Admin',
             'apellidos' => 'Aprisa',
@@ -20,6 +20,18 @@ class AdminUserSeeder extends Seeder
             'email' => 'admin@aprisa.com',
             'cargo_id' => 1,
             'password' => bcrypt('thisisagoodpsw'),
+        ]);
+
+        $user->assignRole('super-admin');
+
+        $user = User::create([
+            'username' => 'regular-user',
+            'nombres' => 'What',
+            'apellidos' => 'Ever',
+            'cargo_id' => 1,
+            'email' => 'regular@user.com',
+            'cargo_id' => 1,
+            'password' => bcrypt('nothardatall'),
         ]);
     }
 }

@@ -25,11 +25,6 @@ class direccion extends Model
         return $this->belongsTo('App\cliente');
     }
 
-    public function instalacion()
-    {
-        return $this->belongsTo('App\instalacion');
-    }
-
     public function estado()
     {
         return $this->belongsTo('App\estado');

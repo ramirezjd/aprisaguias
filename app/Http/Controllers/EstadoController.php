@@ -56,12 +56,11 @@ class EstadoController extends Controller
      * @return \Illuminate\Http\Response
      */
      public function getChild(Request $request)
-     {  
+     {
          $id = $request->estado_id;
          $estado = estado::findOrFail($id);
          return $estado->municipios;
          //return response()->json(['success'=>'Got Simple Ajax Request.']);
-         
      }
 
     /**

@@ -222,15 +222,10 @@
         e.preventDefault();
 
         ciudad_request = $( 'select#dropdownCiudades option:selected' ).val();
-
         zip_code_request = $( 'select#dropdownZip_codes option:selected' ).val();
-
         via_princ_request = $( 'select#via_principal option:selected' ).val();
-
         urbanizacion_request = $( '#urbanizacion' ).val();
-
         edificio_casa_request =  $( '#edificio-casa' ).val();
-
         punto_referencia_request = $( '#punto_referencia' ).val();
 
         $.ajax({
@@ -238,9 +233,9 @@
             method:"POST",
             data:{
                 "urbanizacion": urbanizacion_request,
-                "via_principal": via_princ_request ,
-                "edificio_casa": edificio_casa_request,
-                "punto_referencia": punto_referencia_request,
+                "via-principal": via_princ_request ,
+                "edificio-casa": edificio_casa_request,
+                "punto-referencia": punto_referencia_request,
                 "estado_id": estado_request,
                 "ciudad_id": ciudad_request,
                 "municipio_id": municipio_request,

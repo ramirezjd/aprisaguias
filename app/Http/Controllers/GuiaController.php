@@ -182,10 +182,13 @@ class GuiaController extends Controller
             'paquete_id' => $package->id,
         ]);
 
+        /*
         echo "<pre>";
         var_dump($guide_package);
         echo "</pre>";
         die;
+        */
+
         return redirect()->route('guias.index')
                         ->with('success','Guía Creadas Exitosamente.');
     }
@@ -241,6 +244,8 @@ class GuiaController extends Controller
      * @param  \App\guia  $guia
      * @return \Illuminate\Http\Response
      */
+
+
     public function destroy(guia $guia)
     {
         $guia->delete();
