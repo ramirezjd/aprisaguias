@@ -27,7 +27,7 @@
     <label for="base-data">Datos Basicos</label>
     <div class="row">
         <input name="codigo" type="hidden" value="{{ $rand = substr(md5(microtime()),rand(0,26),7) }}">
-        
+
         <div class="col-xs-4 col-sm-12 col-md-4">
             <div class="form-group">
                 <strong>Precio:</strong>
@@ -37,7 +37,7 @@
         <div class="col-xs-4 col-sm-12 col-md-4">
             <div class="form-group">
                 <strong>Fecha Creación:</strong>
-                <input type="date" name="date_creation" class="form-control" disabled 
+                <input type="date" name="date_creation" class="form-control" disabled
                 value="{{ $today = date('Y-m-d') }}">
             </div>
         </div>
@@ -76,21 +76,21 @@
                 <input type="num" name="weight_pack" class="form-control">
             </div>
         </div>
-       
+
         <div class="col-xs-3 col-sm-12 col-md-3">
             <div class="form-group">
                 <strong>Ancho:</strong>
                 <input type="num" name="width_pack" class="form-control">
             </div>
         </div>
-       
+
        <div class="col-xs-3 col-sm-12 col-md-3">
            <div class="form-group">
                <strong>Alto:</strong>
                <input type="num" name="height_pack" class="form-control">
            </div>
        </div>
-       
+
        <div class="col-xs-3 col-sm-12 col-md-3">
            <div class="form-group">
                <strong>Profundidad:</strong>
@@ -350,7 +350,7 @@
         </div>
     </div>
 
-    
+
     <div class="col-md-12 text-center">
         <button type="submit" class="btn btn-primary">Submit</button>
     </div>
@@ -488,7 +488,7 @@
             });
         });
 
-        
+
 
         $( '#selectEdo' ).change(function(e) {
 

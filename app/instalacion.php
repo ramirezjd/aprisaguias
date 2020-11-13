@@ -7,6 +7,22 @@ use Illuminate\Database\Eloquent\Model;
 class instalacion extends Model
 {
     protected $table = "instalaciones";
+
+    protected $fillable = [
+        'codigo',
+        'descripcion',
+        'tipo_instalaciones_id',
+        'urbanizacion',
+        'via_principal',
+        'edificio_casa',
+        'punto_referencia',
+        'estado_id',
+        'ciudad_id',
+        'municipio_id',
+        'parroquia_id',
+        'zip_code_id'
+    ];
+
     public function usuarios_x_instalacion()
     {
         return $this->hasMany('App\usuarios_x_instalacion');
@@ -20,11 +36,6 @@ class instalacion extends Model
     public function superior()
     {
         return $this->belongsTo('App\instalacion');
-    }
-
-    public function direccion()
-    {
-        return $this->hasOne('App\direccion');
     }
 
     public function tipo_instalacion()

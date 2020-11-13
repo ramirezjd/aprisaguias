@@ -14,7 +14,6 @@ class CreateTransportistaXVehiculosTable extends Migration
     public function up()
     {
         Schema::create('transportista_x_vehiculos', function (Blueprint $table) {
-            $table->id();
 
             $table->unsignedBigInteger('vehiculo_id');
             $table->unsignedBigInteger('transportista_id');
@@ -23,6 +22,9 @@ class CreateTransportistaXVehiculosTable extends Migration
 
             $table->foreign('vehiculo_id')->references('id')->on('vehiculos');
             $table->foreign('transportista_id')->references('id')->on('transportistas');
+
+            //SETTING THE PRIMARY KEYS
+            $table->primary(['vehiculo_id','transportista_id']);
         });
     }
 

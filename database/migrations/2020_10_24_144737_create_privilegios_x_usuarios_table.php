@@ -14,7 +14,7 @@ class CreatePrivilegiosXUsuariosTable extends Migration
     public function up()
     {
         Schema::create('privilegios_x_usuarios', function (Blueprint $table) {
-            $table->id();
+
             $table->unsignedBigInteger('privilegio_id');
             $table->unsignedBigInteger('user_id');
 
@@ -22,6 +22,9 @@ class CreatePrivilegiosXUsuariosTable extends Migration
 
             $table->foreign('privilegio_id')->references('id')->on('privilegios');
             $table->foreign('user_id')->references('id')->on('users');
+
+            //SETTING THE PRIMARY KEYS
+            $table->primary(['privilegio_id','user_id']);
         });
     }
 

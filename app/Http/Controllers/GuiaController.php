@@ -53,7 +53,7 @@ class GuiaController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {   
+    {
         $request->validate([
             //Guide Code
             'codigo' => 'required',
@@ -104,7 +104,7 @@ class GuiaController extends Controller
             'reference_receiver' => 'required',
             //Guide Package - Paquete
         ]);
-        
+
         $direccion_sender = Direccion::create([
             'urbanizacion' => request('urban_sender'),
             'via-principal' => request('address_sender'),
@@ -117,7 +117,7 @@ class GuiaController extends Controller
             'zip_code_id' => request('zip_sender_id'),
         ]);
 
-        
+
         $direccion_receiver = Direccion::create([
             'urbanizacion' => request('urban_receiver'),
             'via-principal' => request('address_receiver'),
@@ -180,10 +180,6 @@ class GuiaController extends Controller
             'paquete_id' => $package->id,
         ]);
 
-        // echo "<pre>";
-        // var_dump($guide_package);
-        // echo "</pre>";
-        // die;
         return redirect()->route('guias.index')
                         ->with('success','Guía Creadas Exitosamente.');
     }
@@ -239,6 +235,8 @@ class GuiaController extends Controller
      * @param  \App\guia  $guia
      * @return \Illuminate\Http\Response
      */
+
+
     public function destroy(guia $guia)
     {
         $guia->delete();
