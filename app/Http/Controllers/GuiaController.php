@@ -26,7 +26,7 @@ class GuiaController extends Controller
      */
     public function index()
     {
-        $guias = Guia::with('user')->get();
+        $guias = Guia::with('user', 'tipo_destino')->get();
         return view('guias.index', compact('guias'));
     }
 
@@ -165,7 +165,8 @@ class GuiaController extends Controller
             'tipo_destino_id' => request('type_destiny'),
             'tipo_pago_id' => request('type_payment'),
         ]);
-
+        
+        
         $package = Paquete::create([
             'peso' => request('weight_pack'),
             'dim_ancho' => request('width_pack'),
