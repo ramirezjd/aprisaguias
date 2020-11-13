@@ -21,7 +21,7 @@ class guia extends Model
         'tipo_pago_id',
     ];
 
-    public function usuario()
+    public function user()
     {
         return $this->belongsTo('App\User');
     }

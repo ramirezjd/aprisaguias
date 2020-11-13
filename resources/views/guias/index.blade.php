@@ -17,7 +17,7 @@
             <p>{{ $message }}</p>
         </div>
     @endif
-   
+
     <table class="table table-bordered">
         <tr>
             <th>Cod</th>
@@ -31,7 +31,7 @@
         @foreach ($guias as $guia)
         <tr>
             <td>{{ $guia->codigo }}</td>
-            <td>{{ $guia->peso }}</td>
+            <td>{{ $guia->user->username }}</td>
             <td>{{ $guia->dimensiones }}</td>
             <td>{{ $guia->precio }}</td>
             <td>{{ $guia->fecha_entrega }}</td>
@@ -54,6 +54,5 @@
         @endforeach
     </table>
   
-    {!! $guias->links() !!}
       
 @endsection
