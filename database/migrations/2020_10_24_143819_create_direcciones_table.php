@@ -29,7 +29,6 @@ class CreateDireccionesTable extends Migration
             $table->unsignedBigInteger('zip_code_id');
 
             $table->timestamps();
-
             $table->foreign('estado_id')->references('id')->on('estados');
             $table->foreign('ciudad_id')->references('id')->on('ciudades');
             $table->foreign('municipio_id')->references('id')->on('municipios');
