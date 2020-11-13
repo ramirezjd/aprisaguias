@@ -18,7 +18,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'username', 'nombres', 'apellidos', 'email', 'password',
+        'username', 'nombres', 'apellidos', 'email', 'password', 'instalacion_id',
     ];
 
     /**
@@ -42,15 +42,10 @@ class User extends Authenticatable
     /**
      * Get the charge associated with the user.
      */
-    public function cargo()
-    {
-        return $this->belongsTo('App\cargo');
-    }
 
-    public function privilegios()
-    {
-        return $this->hasMany('App\privilegios_x_usuario');
-    }
+     public function instalacion(){
+        return $this->belongsTo('App\instalacion');
+     }
 
     public function usuarios_x_instalacion()
     {

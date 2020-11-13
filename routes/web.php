@@ -2,11 +2,6 @@
 
 use App\Http\Controllers\GuiaController;
 use App\estado;
-use App\municipio;
-use App\ciudad;
-use App\Http\Controllers\PrivilegioController;
-use App\parroquia;
-use App\zip_code;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -19,6 +14,10 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
+Route::middleware('auth')->group(function(){
+    Route::resource('/users', 'UserController');
+});
 
 
 Route::get('/permissions/review', 'PermissionsController@review');

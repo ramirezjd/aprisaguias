@@ -86,5 +86,10 @@ class RolesAndPermissionsSeeder extends Seeder
         */
         $role = Role::create(['name' => 'super-admin']);
         $role->syncPermissions(Permission::all());
+        $role = Role::create(['name' => 'Jefe de sucursal']);
+        $role = Role::create(['name' => 'Operario de guias']);
+        $role = Role::create(['name' => 'Encargado de Deposito']);
+        $role = Role::create(['name' => 'Rol de ejemplo']);
     }
 }
+

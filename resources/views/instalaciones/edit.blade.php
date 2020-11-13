@@ -114,7 +114,8 @@
                 }
             })
 
-                //$("#via_principal option[value="+{{$instalacion->via_principal}}+"]").attr("selected", true);
+                $("#via_principal").val('{{$instalacion->via_principal}}');
+                $("#tipo_instalacion option[value="+{{ $instalacion->tipo_instalaciones_id }}+"]").attr("selected", true);
                 $("#dropdownEstados option[value="+{{$instalacion->estado_id}}+"]").attr("selected", true);
                 $("#dropdownMunicipios option[value="+{{$instalacion->municipio_id}}+"]").attr("selected", true);
                 $("#dropdownCiudades option[value="+{{$instalacion->ciudad_id}}+"]").attr("selected", true);

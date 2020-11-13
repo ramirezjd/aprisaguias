@@ -23,6 +23,10 @@ class instalacion extends Model
         'zip_code_id'
     ];
 
+    public function usuarios(){
+        return $this->hasMany('App\user');
+    }
+
     public function usuarios_x_instalacion()
     {
         return $this->hasMany('App\usuarios_x_instalacion');

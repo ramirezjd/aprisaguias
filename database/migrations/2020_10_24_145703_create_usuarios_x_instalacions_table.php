@@ -15,16 +15,16 @@ class CreateUsuariosXInstalacionsTable extends Migration
     {
         Schema::create('usuarios_x_instalacions', function (Blueprint $table) {
 
-            $table->unsignedBigInteger('instalaciones_id');
+            $table->unsignedBigInteger('instalacion_id');
             $table->unsignedBigInteger('user_id');
 
             $table->timestamps();
 
-            $table->foreign('instalaciones_id')->references('id')->on('instalaciones');
+            $table->foreign('instalacion_id')->references('id')->on('instalaciones');
             $table->foreign('user_id')->references('id')->on('users');
 
             //SETTING THE PRIMARY KEYS
-            $table->primary(['instalaciones_id','user_id']);
+            $table->primary(['instalacion_id','user_id']);
         });
     }
 
