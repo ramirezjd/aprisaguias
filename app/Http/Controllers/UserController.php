@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use DB;
 use App\User;
 use App\instalacion;
 use App\usuarios_x_instalacion;
@@ -122,15 +123,26 @@ class UserController extends Controller
         $permissions = Permission::all();
         $roles = Role::all()->except(1);
         $instalaciones = instalacion::all()->except(1);
-        $aspermissions = $user->getDirectPermissions();
+        $aspermissions = $user->getAllPermissions();
         $aroles = $user->getRoleNames();
+        $role_id = DB::table('roles')->where('name', $aroles)->first();
+
+
+        $arraypermisos = array();
+        $count = 0;
+        foreach ($aspermissions as $permiso){
+            $arraypermisos[$count] = $permiso->id;
+            $count++;
+        }
 
         return view('users.edit', [
             'user' => $user,
             'permissions' => $permissions,
             'roles' => $roles,
             'instalaciones' => $instalaciones,
-            'aspermissions' => $aspermissions,
+            'arraypermisos' => $arraypermisos,
+            'alength' => count($arraypermisos),
+            'role_id' => $role_id,
         ]);
     }
 

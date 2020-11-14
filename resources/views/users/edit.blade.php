@@ -96,6 +96,7 @@
                 </div>
 
 
+
             </form>
         </div>
 
@@ -103,7 +104,13 @@
         $( document ).ready(function() {
             alert("Testing");
 
-            $("#instalacion option[value="+{{$user->instalacion_id}}+"]").attr("selected", true);
+            $("#instalacion").val('{{$user->instalacion_id}}');
+            $("#roles").val('{{$role_id->id}}');
+
+            @foreach ($arraypermisos as $arraypermiso)
+                    $("#{{$arraypermiso}}").prop("checked", true);
+
+            @endforeach
 
             //$("#myCheck").prop("checked", true);
 
