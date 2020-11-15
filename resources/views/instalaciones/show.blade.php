@@ -1,7 +1,8 @@
-@extends('permissions.layout')
+@extends('instalaciones.layout')
 
 
-@can('ver permisos')
+@if(auth()->user()->can('ver instalacion') && $instalacion->id != 1)
+    @can('ver instalacion' )
     @section('content')
         <div class="container">
             <div class="col-6">
@@ -17,12 +18,13 @@
             </div>
         </div>
     @endsection
-@endcan
+    @endcan
+@endif
 
-@cannot('ver permisos')
-    @section('content')
+@if(auth()->user()->cannot('ver instalacion') || $instalacion->id == 1)
+@section('content')
         <div class="container">
             <h1>No tiene los permisos necesarios para acceder a esta funcionalidad.</h1>
         </div>
-    @endsection
-@endcannot
+@endsection
+@endif
