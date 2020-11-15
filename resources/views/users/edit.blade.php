@@ -113,7 +113,6 @@
 
             @foreach ($arraypermisos as $arraypermiso)
                     $("#{{$arraypermiso}}").prop("checked", true);
-
             @endforeach
 
         });
