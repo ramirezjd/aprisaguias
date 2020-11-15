@@ -23,8 +23,6 @@ class CreateUsuariosXInstalacionsTable extends Migration
             $table->foreign('instalacion_id')->references('id')->on('instalaciones');
             $table->foreign('user_id')->references('id')->on('users');
 
-            //SETTING THE PRIMARY KEYS
-            $table->primary(['instalacion_id','user_id']);
         });
     }
 

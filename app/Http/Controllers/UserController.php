@@ -155,7 +155,66 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $user = User::find($id);
+        $permissions = Permission::all();
+        $roles = Role::all()->except(1);
+
+        if($request->get('username')){
+            $user->username = $request->get('username');
+        }
+        if($request->get('nombres')){
+            $user->nombres = $request->get('nombres');
+        }
+        if($request->get('apellidos')){
+            $user->apellidos = $request->get('apellidos');
+        }
+        if($request->get('email')){
+            $user->email = $request->get('email');
+        }
+        if($request->get('password')){
+            $user->password = Hash::make($request->get('password'));
+        }
+
+        foreach($roles as $role){
+            if($user->hasRole($role->name)){
+                $user->removeRole($role->name);
+            }
+        }
+
+        $user->assignRole($request->get('roles'));
+
+        foreach ($permissions as $permission){
+            if($user->hasPermissionTo($permission->id)){
+                $user->revokePermissionTo($permission->name);
+            }
+        }
+
+        $permissions_array = $request->get('permissions');
+        $max = count($permissions_array);
+
+        for($i=0; $i < $max; $i++){
+            foreach($permissions as $permission){
+                if($permission->id == $permissions_array[$i]){
+                    $user->givePermissionTo($permission->name);
+                }
+            }
+        }
+
+        if($request->get('instalacion') != $user->instalacion_id ){
+            usuarios_x_instalacion::where([
+                ['instalacion_id', '=', $user->instalacion_id],
+                ['user_id', '=', $user->id],
+            ])->delete();
+
+            usuarios_x_instalacion::create([
+                'instalacion_id' => $request->get('instalacion'),
+                'user_id' => $user->id,
+            ]);
+            $user->instalacion_id = $request->get('instalacion');
+        }
+
+        $user->save();
+        return redirect()->route('users.index');
     }
 
     /**

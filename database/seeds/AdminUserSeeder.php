@@ -38,7 +38,7 @@ class AdminUserSeeder extends Seeder
             'instalacion_id' => 2,
         ]);
 
-        $user->assignRole('Rol de ejemplo');
+        $user2->assignRole('Rol de ejemplo');
 
         usuarios_x_instalacion::create([
             'instalacion_id' => 2,

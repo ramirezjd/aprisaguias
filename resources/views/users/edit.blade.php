@@ -3,7 +3,7 @@
 @can('editar usuario')
     @section('content')
         <div class="container">
-            <h1>Crear Usuario</h1>
+            <h1>Editar Usuario</h1>
             <form action="{{ route('users.update', $user->id) }}" method="POST">
                 @csrf
                 @method('PUT')
@@ -11,36 +11,43 @@
                 <!-- User Data Goes Here -->
 
                 <div class="row">
+
                     <div class="col-6">
                         <div class="form-group">
                             <label for="username">Username</label>
                             <input class="form-control " type="text" name="username" placeholder="username" value="{{$user->username}}" required>
                         </div>
                     </div>
+
                     <div class="col-6">
                         <div class="form-group">
                             <label for="nombres">Nombres</label>
                             <input class="form-control " type="text" name="nombres" placeholder="nombres" value="{{$user->nombres}}" required>
                         </div>
                     </div>
+
                 </div>
+
                 <div class="row">
+
                     <div class="col-6">
                         <div class="form-group">
                             <label for="apellidos">Apellidos</label>
                             <input class="form-control " type="text" name="apellidos" placeholder="apellidos" value="{{$user->apellidos}}" required>
                         </div>
                     </div>
+
                     <div class="col-6">
                         <div class="form-group">
                             <label for="username">Email</label>
                             <input type="email" class="form-control" id="email" name="email" placeholder="email" value="{{$user->email}}" required>
                         </div>
                     </div>
+
                     <div class="col-6">
                         <div class="form-group">
                             <label for="username">Password</label>
-                            <input type="password" class="form-control" id="password" placeholder="Password" name="password" required>
+                            <input type="password" class="form-control" id="password" placeholder="Password" name="password">
                         </div>
 
 
@@ -95,14 +102,11 @@
                     </div>
                 </div>
 
-
-
             </form>
         </div>
 
         <script type="text/javascript">
         $( document ).ready(function() {
-            alert("Testing");
 
             $("#instalacion").val('{{$user->instalacion_id}}');
             $("#roles").val('{{$role_id->id}}');
@@ -111,8 +115,6 @@
                     $("#{{$arraypermiso}}").prop("checked", true);
 
             @endforeach
-
-            //$("#myCheck").prop("checked", true);
 
         });
         </script>
