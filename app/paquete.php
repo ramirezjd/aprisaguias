@@ -13,6 +13,7 @@ class paquete extends Model
         'dim_fondo',
         'descripcion',
         'tipo_paquete_id',
+        'guia_id',
     ];
 
     public function paquetes_x_guia()

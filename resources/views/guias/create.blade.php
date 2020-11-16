@@ -360,11 +360,6 @@
 </div>
 <script type="text/javascript">
 
-    $('.package_data').multifield({
-        section: '.group',
-        btnAdd:'#btnAdd',
-        btnRemove:'.btnRemove'
-    });
 
     $.ajaxSetup({
         headers: {
@@ -565,6 +560,12 @@
                     $('#selectZip').append('<option value="'+data.id+'" data-name="'+data.zip_code+'">'+data.zip_code+'</option>');
                 }
             });
+        });
+        
+        $('.package_data').multifield({
+            section: '.group',
+            btnAdd:'#btnAdd',
+            btnRemove:'.btnRemove'
         });
 
     });
