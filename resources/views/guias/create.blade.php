@@ -71,7 +71,7 @@
         
         <div class="package_data">
             <div class="pull-right">
-                <button type="button" id="btnAdd" class="btn btn-primary" >Más Paquetes</button>
+                <button type="button" id="btnAdd" class="btn btn-primary" >Más Paquetes...</button>
             </div>
             <label for="base-data">Datos Paquete</label>
             <div class="row group">
