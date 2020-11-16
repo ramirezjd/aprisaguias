@@ -1,44 +1,50 @@
-@extends('remesas.layout')
+@extends('users.layout')
 
 
-@can('ver remesa')
+@can('ver usuario')
     @section('content')
         <div class="container">
             <div class="row mb-4">
-                <div class="col-2 text-center">
-                    <span>Instalacion ID</span>
+                <div class="col-1">
+                    <span>User ID</span>
                 </div>
                 <div class="col-2">
-                    <span>Instalacion descripcion</span>
+                    <span>User username</span>
                 </div>
                 <div class="col-2">
-                    <span>Instalacion Codigo</span>
+                    <span>User nombres</span>
                 </div>
                 <div class="col-2">
-                    <span>Instalacion tipo</span>
+                    <span>User apellidos</span>
+                </div>
+                <div class="col-2">
+                    <span>User email</span>
                 </div>
                 <div class="col-3">
                     <span>Acciones</span>
                 </div>
             </div>
-            @foreach ($instalaciones as $instalacion)
+            @foreach ($users as $user)
             <div class="row my-3">
-                <div class="col-2 text-center">
-                    <span>{{$instalacion->id}}</span>
+                <div class="col-1">
+                    <span>{{ $user->id }}</span>
                 </div>
                 <div class="col-2">
-                    <span>{{$instalacion->descripcion}}</span>
+                    <span>{{ $user->username }}</span>
                 </div>
                 <div class="col-2">
-                    <span>{{$instalacion->codigo}}</span>
+                    <span>{{ $user->nombres }}</span>
                 </div>
                 <div class="col-2">
-                    <span>{{$instalacion->tipo_instalacion->nombre}}</span>
+                    <span>{{ $user->apellidos }}</span>
+                </div>
+                <div class="col-2">
+                    <span>{{ $user->email }}</span>
                 </div>
                 <div class="col-3">
-                    <form action="{{ route('instalacion.destroy',$instalacion->id) }}" method="POST">
-                        <a class="btn btn-info" href="{{ route('instalacion.show',$instalacion->id) }}">Show</a>
-                        <a class="btn btn-primary" href="{{ route('instalacion.edit',$instalacion->id) }}">Edit</a>
+                    <form action="{{ route('users.destroy',$user->id) }}" method="POST">
+                        <a class="btn btn-info" href="{{ route('users.show',$user->id) }}">Show</a>
+                        <a class="btn btn-primary" href="{{ route('users.edit',$user->id) }}">Edit</a>
                         @csrf
                         @method('DELETE')
                         <button type="submit" class="btn btn-danger">Delete</button>
@@ -50,9 +56,7 @@
     @endsection
 @endcan
 
-
-
-@cannot('ver instalacion'){
+@cannot('ver usuario')
     @section('content')
         <div class="container">
             <h1>No tiene los permisos necesarios para acceder a esta funcionalidad.</h1>

@@ -15,7 +15,7 @@ class CreateInstalacionesTable extends Migration
     {
         Schema::create('instalaciones', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('tipo_instalaciones_id');
+            $table->unsignedBigInteger('tipo_instalacion_id');
             $table->string('codigo', 50);
             $table->string('descripcion', 256);
             $table->timestamps();
@@ -40,7 +40,7 @@ class CreateInstalacionesTable extends Migration
             $table->foreign('parroquia_id')->references('id')->on('parroquias');
             $table->foreign('zip_code_id')->references('id')->on('zip_codes');
 
-            $table->foreign('tipo_instalaciones_id')->references('id')->on('tipo_instalaciones');
+            $table->foreign('tipo_instalacion_id')->references('id')->on('tipo_instalaciones');
         });
     }
 

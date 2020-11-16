@@ -15,11 +15,14 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/permissions/review', 'PermissionsController@review');
-Route::get('/permissions/review/{id}', 'PermissionsController@reviewbyuser');
 Route::middleware('auth')->group(function(){
-    Route::resource('/permissions', 'PermissionsController');
-    Route::resource('/instalacion', 'InstalacionController');
+    Route::resource('/permissions', 'PermissionsController')->only([
+        'index', 'show', 'create'
+    ]);;
+    Route::resource('/remesas', 'RemesaController')->only([
+        'index', 'show', 'create'
+    ]);;
+    Route::resource('/instalaciones', 'InstalacionController');
     Route::resource('/users', 'UserController');
     Route::resource('/guias', 'GuiaController');
 });

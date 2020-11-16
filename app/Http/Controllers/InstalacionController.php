@@ -12,6 +12,7 @@ use App\zip_code;
 use App\direccion;
 use App\tipo_instalacion;
 use Illuminate\Http\Request;
+use InstalacionSeeder;
 use Symfony\Component\VarDumper\VarDumper;
 
 class InstalacionController extends Controller
@@ -23,8 +24,7 @@ class InstalacionController extends Controller
      */
     public function index()
     {
-        $instalaciones = instalacion::all();
-
+        $instalaciones = instalacion::with('tipo_instalacion')->get();
         return view('instalaciones.index', [
             'instalaciones' => $instalaciones,
         ]);
@@ -90,7 +90,7 @@ class InstalacionController extends Controller
         $instalacion = instalacion::create([
             'codigo' => $codigo,
             'descripcion' => request('descripcion'),
-            'tipo_instalaciones_id' => request('tipo_instalacion'),
+            'tipo_instalacion_id' => request('tipo_instalacion'),
             'urbanizacion' => request('urbanizacion'),
             'via_principal' => request('via_principal'),
             'edificio_casa' => request('edificio_casa'),
@@ -170,7 +170,7 @@ class InstalacionController extends Controller
 
         $instalacion->update([
             'descripcion' => request('descripcion'),
-            'tipo_instalaciones_id' => request('tipo_instalacion'),
+            'tipo_instalacion_id' => request('tipo_instalacion'),
             'urbanizacion' => request('urbanizacion'),
             'via_principal' => request('via_principal'),
             'edificio_casa' => request('edificio_casa'),
@@ -196,6 +196,7 @@ class InstalacionController extends Controller
 
     public function destroy(instalacion $instalacion)
     {
-        //
+        $instalacion->delete();
+        return redirect()->route('instalacion.index');
     }
 }
