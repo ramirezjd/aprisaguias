@@ -18,6 +18,7 @@ class CreateTipoDestinosTable extends Migration
             $table->string('nombre', 150);
             $table->string('descripcion', 256);
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

@@ -20,6 +20,7 @@ class CreateGuiasTable extends Migration
             $table->float('asegurado', 8, 2);
             $table->timestamp('fecha_creacion',0);
             $table->timestamp('fecha_entrega',0)->nullable();
+            $table->softDeletes();
 
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('cliente_remitente_id');

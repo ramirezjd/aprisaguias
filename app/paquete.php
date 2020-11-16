@@ -3,9 +3,11 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class paquete extends Model
 {
+    use SoftDeletes;
     protected $fillable = [
         'peso',
         'dim_ancho',
@@ -15,6 +17,11 @@ class paquete extends Model
         'tipo_paquete_id',
         'guia_id',
     ];
+
+    public function guia()
+    {
+        return $this->belongsTo('App\guia');
+    }
 
     public function paquetes_x_guia()
     {

@@ -12,6 +12,7 @@ use App\zip_code;
 use App\direccion;
 use App\tipo_instalacion;
 use Illuminate\Http\Request;
+use Symfony\Component\VarDumper\VarDumper;
 
 class InstalacionController extends Controller
 {
@@ -64,9 +65,30 @@ class InstalacionController extends Controller
             'via_principal' => 'required',
         ]);
 
+        if($request->get('estados')<10){
+            $aux = '0';
+        }
+        else{
+            $aux= '';
+        }
+
+        if(strlen($request->get('zip_codes')) == 1){
+            $aux2 = '000';
+        }
+        elseif (strlen($request->get('zip_codes')) == 2) {
+            $aux2 = '00';
+        }
+        elseif (strlen($request->get('zip_codes')) == 3) {
+            $aux2 = '0';
+        }
+        elseif (strlen($request->get('zip_codes')) == 4) {
+            $aux2 = '';
+        }
+
+        $codigo = '58-'.$aux.$request->get('estados').$aux2.$request->get('zip_codes');
 
         $instalacion = instalacion::create([
-            'codigo' => 'ASD123',
+            'codigo' => $codigo,
             'descripcion' => request('descripcion'),
             'tipo_instalaciones_id' => request('tipo_instalacion'),
             'urbanizacion' => request('urbanizacion'),
@@ -147,7 +169,6 @@ class InstalacionController extends Controller
 
 
         $instalacion->update([
-            'codigo' => 'ASD123',
             'descripcion' => request('descripcion'),
             'tipo_instalaciones_id' => request('tipo_instalacion'),
             'urbanizacion' => request('urbanizacion'),

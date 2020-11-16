@@ -22,6 +22,7 @@ class CreateUsersTable extends Migration
             $table->string('email', 156)->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->unsignedBigInteger('instalacion_id');
+            $table->softDeletes();
             $table->rememberToken();
 
 

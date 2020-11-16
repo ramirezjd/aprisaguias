@@ -3,9 +3,11 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class remesa extends Model
 {
+    use SoftDeletes;
     public function guias_x_remesa()
     {
         return $this->hasMany('App\guias_x_remesa');

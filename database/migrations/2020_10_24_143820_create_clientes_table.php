@@ -20,6 +20,7 @@ class CreateClientesTable extends Migration
             $table->string('nombre-razonsocial', 256);
             $table->string('email', 156);
             $table->string('telefono', 156);
+            $table->softDeletes();
 
             $table->unsignedBigInteger('direccion_id');
 

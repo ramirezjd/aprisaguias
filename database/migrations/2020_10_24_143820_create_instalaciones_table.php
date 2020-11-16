@@ -24,6 +24,7 @@ class CreateInstalacionesTable extends Migration
             $table->string('via_principal', 256);
             $table->string('edificio_casa', 256);
             $table->string('punto_referencia', 256);
+            $table->softDeletes();
 
 
             $table->unsignedBigInteger('estado_id');

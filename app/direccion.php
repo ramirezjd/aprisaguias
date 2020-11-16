@@ -8,7 +8,7 @@ class direccion extends Model
 {
     protected $table = "direcciones";
 
-  protected $fillable = [
+    protected $fillable = [
         'urbanizacion',
         'via-principal',
         'edificio-casa',
