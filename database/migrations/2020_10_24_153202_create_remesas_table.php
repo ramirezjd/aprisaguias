@@ -20,6 +20,7 @@ class CreateRemesasTable extends Migration
             $table->string('peso_total', 256);
             $table->string('volumen_total', 256);
             $table->timestamp('fecha_entrega',0)->nullable();
+            $table->softDeletes();
 
             $table->unsignedBigInteger('vehiculo_id');
 

@@ -20,12 +20,15 @@ class CreatePaquetesTable extends Migration
             $table->float('dim_alto', 8, 2);
             $table->float('dim_fondo', 8, 2);
             $table->string('descripcion', 256);
+            $table->softDeletes();
 
             $table->unsignedBigInteger('tipo_paquete_id');
+            $table->unsignedBigInteger('guia_id');
 
             $table->timestamps();
 
             $table->foreign('tipo_paquete_id')->references('id')->on('tipo_paquetes');
+            $table->foreign('guia_id')->references('id')->on('guias');
         });
     }
 

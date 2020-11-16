@@ -3,9 +3,11 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class guia extends Model
 {
+    use SoftDeletes;
     protected $fillable = [
         'codigo',
         'asegurado',
@@ -39,6 +41,11 @@ class guia extends Model
     public function paquetes_x_guia()
     {
         return $this->hasMany('App\paquetes_x_guia');
+    }
+
+    public function paquetes()
+    {
+        return $this->hasMany('App\paquete');
     }
 
     public function guias_x_remesa()

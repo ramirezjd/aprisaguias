@@ -85,11 +85,7 @@ class UserController extends Controller
 
 
         for($i=0; $i < $max; $i++){
-            foreach($permissions as $permission){
-                if($permission->id == $permissions_array[$i]){
-                    $user->givePermissionTo($permission->name);
-                }
-            }
+            $user->givePermissionTo($permissions_array[$i]);
         }
 
         return redirect()->route('users.index');
@@ -104,7 +100,7 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        $user = User::find($id);
+        $user = User::findOrFail($id);
 
         $permissions = $user->getDirectPermissions();
         $roles = $user->getRoleNames();
@@ -119,7 +115,7 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        $user = User::find($id);
+        $user = User::findOrFail($id);
         $permissions = Permission::all();
         $roles = Role::all()->except(1);
         $instalaciones = instalacion::all()->except(1);
@@ -155,7 +151,7 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $user = User::find($id);
+        $user = User::findOrFail($id);
         $permissions = Permission::all();
         $roles = Role::all()->except(1);
 
@@ -193,11 +189,7 @@ class UserController extends Controller
         $max = count($permissions_array);
 
         for($i=0; $i < $max; $i++){
-            foreach($permissions as $permission){
-                if($permission->id == $permissions_array[$i]){
-                    $user->givePermissionTo($permission->name);
-                }
-            }
+            $user->givePermissionTo($permissions_array[$i]);
         }
 
         if($request->get('instalacion') != $user->instalacion_id ){
@@ -225,6 +217,8 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $user = User::findOrFail($id);
+        $user->delete();
+        return redirect()->route('users.index');
     }
 }

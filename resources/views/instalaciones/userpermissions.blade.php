@@ -1,4 +1,4 @@
-@extends('permissions.layout')
+@extends('instalaciones.layout')
 
 @can('ver permisos')
     @section('content')
