@@ -1,6 +1,19 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\guia;
+use App\estado;
+use App\municipio;
+use App\ciudad;
+use App\parroquia;
+use App\zip_code;
+use App\direccion;
+use App\cliente;
+use App\paquete;
+use App\paquetes_x_guia;
+use App\User;
+use DB;
+use Auth;
 
 use App\remesa;
 use Illuminate\Http\Request;
@@ -14,7 +27,7 @@ class RemesaController extends Controller
      */
     public function index()
     {
-        //
+        return 'What r u looking 4?';
     }
 
     /**
@@ -24,7 +37,15 @@ class RemesaController extends Controller
      */
     public function create()
     {
-        //
+        $user = User::findOrFail(Auth::id());
+
+        $guias = guia::where('instalacion_origen_id', $user->instalacion->id)->get()->with('user');
+        return $guias;
+
+        return view('remesas.create', [
+            'user' => $user,
+            'guias' => $guias,
+        ]);
     }
 
     /**

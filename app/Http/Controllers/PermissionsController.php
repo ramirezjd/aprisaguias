@@ -17,8 +17,10 @@ class PermissionsController extends Controller
     public function index()
     {
         $permissions = DB::table('permissions')->get();
+
         return view('permissions.index', [
-            'permissions' => $permissions
+            'permissions' => $permissions,
+            'roles' => $roles,
         ]);
     }
 
@@ -58,75 +60,4 @@ class PermissionsController extends Controller
         return view('permissions.show', ['permissions' => $permissions]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        $permissions = DB::table('permissions')->find($id);
-        return view('permissions.edit', ['permissions' => $permissions]);
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        $affected = DB::table('permissions')
-              ->where('id', $id)
-              ->update(['name' => $request->name]);
-
-        return redirect()->route('permissions.index');
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
-
-    /**
-     * Review all permissions given a certain user.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function review()
-    {
-        $users = User::all();
-        $users = $users->except([1]);;
-        return view('permissions.userpermissions', [
-            'users' => $users
-        ]);
-    }
-
-    public function getUsers()
-    {
-        $user = User::all();
-
-        $permissions = $user->getPermissionsViaRoles();
-
-        return $permissions;
-    }
-
-    public function reviewbyuser($id)
-    {
-        $user = User::findOrFail($id);
-
-        $permissions = $user->getPermissionsViaRoles();
-
-        return $permissions;
-    }
 }

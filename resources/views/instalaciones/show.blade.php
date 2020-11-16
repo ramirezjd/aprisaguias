@@ -1,8 +1,7 @@
 @extends('instalaciones.layout')
 
 
-@if(auth()->user()->can('ver instalacion') && $instalacion->id != 1)
-    @can('ver instalacion' )
+@if(auth()->user()->hasPermissionTo(14) && $instalacion->id != 1)
     @section('content')
         <div class="container">
             <div class="col-6">
@@ -18,7 +17,6 @@
             </div>
         </div>
     @endsection
-    @endcan
 @endif
 
 @if(auth()->user()->cannot('ver instalacion') || $instalacion->id == 1)

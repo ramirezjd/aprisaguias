@@ -14,7 +14,7 @@ class InstalacionSeeder extends Seeder
     {
         Instalacion::create([
             'codigo' => 'MASTER',
-            'tipo_instalaciones_id' => 1,
+            'tipo_instalacion_id' => 1,
             'descripcion' => 'MASTER',
             'urbanizacion' => 'MASTER',
             'via_principal' => 'SI',
@@ -28,8 +28,8 @@ class InstalacionSeeder extends Seeder
         ]);
 
         Instalacion::create([
-            'codigo' => '58-SAC301',
-            'tipo_instalaciones_id' => 1,
+            'codigo' => '58-060323',
+            'tipo_instalacion_id' => 1,
             'descripcion' => 'Instalación San Cristobal',
             'urbanizacion' => 'Santa Teresa CC Casa Grande',
             'via_principal' => 'SI',
@@ -43,8 +43,8 @@ class InstalacionSeeder extends Seeder
         ]);
 
         Instalacion::create([
-            'codigo' => '58-BAR827',
-            'tipo_instalaciones_id' => 1,
+            'codigo' => '58-030090',
+            'tipo_instalacion_id' => 1,
             'descripcion' => 'Instalación Barinas',
             'urbanizacion' => 'Urbanizacion Barinas',
             'via_principal' => 'SI',
