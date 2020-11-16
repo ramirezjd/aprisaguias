@@ -13,6 +13,7 @@ use App\cliente;
 use App\paquete;
 use App\paquetes_x_guia;
 use App\User;
+use App\instalacion;
 use Auth;
 
 use Illuminate\Http\Request;
@@ -37,12 +38,16 @@ class GuiaController extends Controller
      */
     public function create()
     {
+        $user = User::findOrFail(Auth::id());
+        $instalaciones = Instalacion::all()->except([1, $user->instalacion_id]);
+
         return view('guias.create', [
             'estados' => estado::orderBy('estado')->get(),
             'municipios' => municipio::orderBy('municipio')->get(),
             'ciudades' => ciudad::orderBy('ciudad')->get(),
             'parroquias' => parroquia::orderBy('parroquia')->get(),
-            'zip_codes' => zip_code::orderBy('zip_code')->get()
+            'zip_codes' => zip_code::orderBy('zip_code')->get(),
+            'instalaciones' => $instalaciones,
         ]);
     }
 
@@ -177,8 +182,6 @@ class GuiaController extends Controller
                 'guia_id' => $guides->id,
             ]);
         }
-
-        
         // echo "<pre>";
         // var_dump($package);
         // die;

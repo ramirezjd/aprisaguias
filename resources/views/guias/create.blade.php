@@ -69,6 +69,17 @@
             </div>
         </div>
         
+        <div class="col -6">
+            <label class="form-check-label" for="instalacion">Instalacion asociada</label>
+            <select class="ml-4" name="instalacion" id="instalacion">
+                <option value="0">Seleccione una sucursal</option>
+                @foreach ($instalaciones as $instalacion)
+                <div class="col-3">
+                    <option value="{{$instalacion->id}}">{{$instalacion->id}} / {{$instalacion->codigo}} / {{$instalacion->descripcion}}</option>
+                </div>
+                @endforeach
+            </select>
+        </div>
         <div class="package_data">
             <div class="pull-right">
                 <button type="button" id="btnAdd" class="btn btn-primary" >Más Paquetes...</button>
