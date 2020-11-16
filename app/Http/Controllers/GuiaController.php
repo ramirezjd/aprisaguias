@@ -26,7 +26,7 @@ class GuiaController extends Controller
      */
     public function index()
     {
-        $guias = Guia::with('user')->get();
+        $guias = Guia::with('user', 'tipo_destino')->get();
         return view('guias.index', compact('guias'));
     }
 
@@ -165,20 +165,24 @@ class GuiaController extends Controller
             'tipo_destino_id' => request('type_destiny'),
             'tipo_pago_id' => request('type_payment'),
         ]);
+        
+        for ($i=0; $i < count(request('weight_pack')); $i++) { 
+            $package = Paquete::create([
+                'peso' => request('weight_pack')[$i],
+                'dim_ancho' => request('width_pack')[$i],
+                'dim_alto' => request('height_pack')[$i],
+                'dim_fondo' => request('deep_pack')[$i],
+                'descripcion' => request('description_pack')[$i],
+                'tipo_paquete_id' => request('type_package')[$i],
+                'guia_id' => $guides->id,
+            ]);
+        }
 
-        $package = Paquete::create([
-            'peso' => request('weight_pack'),
-            'dim_ancho' => request('width_pack'),
-            'dim_alto' => request('height_pack'),
-            'dim_fondo' => request('deep_pack'),
-            'descripcion' => request('description_pack'),
-            'tipo_paquete_id' => request('type_package'),
-        ]);
-
-        $guide_package = Paquetes_x_guia::create([
-            'guia_id' => $guides->id,
-            'paquete_id' => $package->id,
-        ]);
+        
+        // echo "<pre>";
+        // var_dump($package);
+        // die;
+        // echo "</pre>";
 
         return redirect()->route('guias.index')
                         ->with('success','Guía Creadas Exitosamente.');

@@ -15,20 +15,13 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth')->group(function(){
-    Route::resource('/users', 'UserController');
-});
-
-
 Route::get('/permissions/review', 'PermissionsController@review');
 Route::get('/permissions/review/{id}', 'PermissionsController@reviewbyuser');
 Route::middleware('auth')->group(function(){
     Route::resource('/permissions', 'PermissionsController');
-});
-
-
-Route::middleware('auth')->group(function(){
     Route::resource('/instalacion', 'InstalacionController');
+    Route::resource('/users', 'UserController');
+    Route::resource('/guias', 'GuiaController');
 });
 
 
@@ -51,10 +44,6 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::middleware('auth')->group(function(){
-    Route::resource('/guias', 'GuiaController');
-});
-//Route::get('/guias/create', 'GuiaController@create');
 
 
 Auth::routes();
