@@ -4,10 +4,15 @@
 @can('crear remesa')
     @section('content')
         <div class="container">
-            <h1>Crear Usuario</h1>
+            <div class="row">
+                <div class="col mb-3">
+                    <h1>Crear Remesa</h1>
+                </div>
+            </div>
+
+
             <form action="{{ route('remesas.store') }}" method="POST">
                 @csrf
-
                 <!-- User Data Goes Here -->
 
                 <div class="row">
@@ -32,42 +37,31 @@
                 </div>
 
                 @foreach ($guias as $guia)
-                <div class="row">
+                <div class="row my-2">
                     <div class="col-2">
-                        <input type="checkbox" class="form-check-input" id="{{$guia->id}}" name="guiasarray[]" value="{{$guia->id}}">
+                        <input type="checkbox" class="text-center" id="{{$guia->id}}" name="guiasarray[]" value="{{$guia->id}}">
+                        <span>{{$guia->id}}</span>
                     </div>
                     <div class="col-2">
                         <span>{{$guia->codigo}}</span>
                     </div>
                     <div class="col-2">
-                        <span>Creada por</span>
+                        <span>{{$guia->user->username}}</span>
                     </div>
                     <div class="col-2">
-                        <span>Origen</span>
+                        <span>{{$user->instalacion->codigo}}</span>
                     </div>
                     <div class="col-2">
-                        <span>Destino</span>
+                        <span>{{$user->instalacion->codigo}}</span>
                     </div>
                     <div class="col-2">
-                        <span>Fecha-Creacion</span>
+                        <span>{{$guia->created_at}}</span>
                     </div>
                 </div>
                 @endforeach
 
-
-                <div class="row">
-                    <!--Roles -->
-                    <div class="col -6">
-                        <label class="form-check-label" for="roles">Cargo</label>
-                        <select class="ml-4" name="roles" id="roles">
-                            <option value="0">Seleccione un cargo</option>
-                            @foreach ($roles as $role)
-                            <div class="col-3">
-                                <option value="{{$role->id}}">{{$role->name}}</option>
-                            </div>
-                            @endforeach
-                        </select>
-                    </div>
+                <input name="codigo" type="hidden" value="{{ $rand = substr(md5(microtime()),rand(0,26),7) }}">
+                <br>
 
                 <div class="row mt-3">
                     <div class="col text-center">

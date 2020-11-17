@@ -36,9 +36,9 @@
                     <span>{{$instalacion->tipo_instalacion->nombre}}</span>
                 </div>
                 <div class="col-3">
-                    <form action="{{ route('instalacion.destroy',$instalacion->id) }}" method="POST">
-                        <a class="btn btn-info" href="{{ route('instalacion.show',$instalacion->id) }}">Show</a>
-                        <a class="btn btn-primary" href="{{ route('instalacion.edit',$instalacion->id) }}">Edit</a>
+                    <form action="{{ route('instalaciones.destroy',$instalacion->id) }}" method="POST">
+                        <a class="btn btn-info" href="{{ route('instalaciones.show',$instalacion->id) }}">Show</a>
+                        <a class="btn btn-primary" href="{{ route('instalaciones.edit',$instalacion->id) }}">Edit</a>
                         @csrf
                         @method('DELETE')
                         <button type="submit" class="btn btn-danger">Delete</button>

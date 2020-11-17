@@ -14,7 +14,7 @@ class instalacion extends Model
     protected $fillable = [
         'codigo',
         'descripcion',
-        'tipo_instalaciones_id',
+        'tipo_instalacion_id',
         'urbanizacion',
         'via_principal',
         'edificio_casa',

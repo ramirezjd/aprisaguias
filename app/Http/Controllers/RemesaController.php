@@ -39,8 +39,7 @@ class RemesaController extends Controller
     {
         $user = User::findOrFail(Auth::id());
 
-        $guias = guia::where('instalacion_origen_id', $user->instalacion->id)->get()->with('user');
-        return $guias;
+        $guias = guia::where('instalacion_origen_id', $user->instalacion->id)->with('user')->get();
 
         return view('remesas.create', [
             'user' => $user,
@@ -56,7 +55,40 @@ class RemesaController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'codigo' => 'required',
+            'guiasarray' => 'required'
+        ]);
+
+        $peso_total = 0;
+        $dim_ancho_total = 0;
+        $dim_alto_total = 0;
+        $dim_fondo_total = 0;
+
+        if($request->get('guiasarray')){
+
+            $guias_array = $request->get('guiasarray');
+            $max = count($guias_array);
+
+            for($i=0; $i < $max; $i++){
+                $guia = guia::where('id', $guias_array[$i])->get()->first();
+                //dd($guia->paquetes);
+                foreach($guia->paquetes as $paquete){
+                    $peso_total+= $paquete->peso;
+                    $dim_ancho_total+= $paquete->dim_ancho;
+                    $dim_alto_total+= $paquete->dim_alto;
+                    $dim_fondo_total+= $paquete->dim_fondo;
+                }
+                dd($peso_total.' '.$dim_ancho_total.' '.$dim_alto_total.' '.$dim_fondo_total);
+            }
+
+        }
+
+
+
+
+
+        return redirect()->route('users.index');
     }
 
     /**

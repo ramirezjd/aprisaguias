@@ -17,10 +17,10 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth')->group(function(){
     Route::resource('/permissions', 'PermissionsController')->only([
-        'index', 'show', 'create'
+        'index', 'show', 'create', 'store'
     ]);;
     Route::resource('/remesas', 'RemesaController')->only([
-        'index', 'show', 'create'
+        'index', 'show', 'create', 'store'
     ]);;
     Route::resource('/instalaciones', 'InstalacionController');
     Route::resource('/users', 'UserController');

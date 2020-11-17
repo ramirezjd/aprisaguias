@@ -80,12 +80,13 @@ class UserController extends Controller
 
         $user->assignRole($request->get('roles'));
 
-        $permissions_array = $request->get('permissions');
-        $max = count($permissions_array);
+        if($request->get('permissions')){
+            $permissions_array = $request->get('permissions');
+            $max = count($permissions_array);
 
-
-        for($i=0; $i < $max; $i++){
-            $user->givePermissionTo($permissions_array[$i]);
+            for($i=0; $i < $max; $i++){
+                $user->givePermissionTo($permissions_array[$i]);
+            }
         }
 
         return redirect()->route('users.index');
@@ -185,11 +186,13 @@ class UserController extends Controller
             }
         }
 
-        $permissions_array = $request->get('permissions');
-        $max = count($permissions_array);
+        if($request->get('permissions')){
+            $permissions_array = $request->get('permissions');
+            $max = count($permissions_array);
 
-        for($i=0; $i < $max; $i++){
-            $user->givePermissionTo($permissions_array[$i]);
+            for($i=0; $i < $max; $i++){
+                $user->givePermissionTo($permissions_array[$i]);
+            }
         }
 
         if($request->get('instalacion') != $user->instalacion_id ){

@@ -17,6 +17,7 @@ class PermissionsController extends Controller
     public function index()
     {
         $permissions = DB::table('permissions')->get();
+        $roles = DB::table('roles')->get();
 
         return view('permissions.index', [
             'permissions' => $permissions,

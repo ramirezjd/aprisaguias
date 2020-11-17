@@ -14,7 +14,7 @@
                 </div>
             </div>
         </div>
-        <form action="{{ route('instalacion.store') }}" method="POST">
+        <form action="{{ route('instalaciones.store') }}" method="POST">
             @csrf
             <div class="col-lg-12 margin-tb">
                 <div class="pull-left">
