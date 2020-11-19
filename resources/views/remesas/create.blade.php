@@ -15,30 +15,39 @@
                 @csrf
                 <!-- User Data Goes Here -->
 
-                <div class="row">
-                    <div class="col-2">
-                        <span>#</span>
+                <div class="row mb-3">
+                    <div class="col-1">
+                        <span class="font-weight-bold">#</span>
                     </div>
                     <div class="col-2">
-                        <span>Codigo de Guia</span>
+                        <span class="font-weight-bold">Codigo de guia</span>
                     </div>
                     <div class="col-2">
-                        <span>Creada por</span>
+                        <span class="font-weight-bold">Creador</span>
+                    </div>
+                    <div class="col-1">
+                        <span class="font-weight-bold">Origen</span>
+                    </div>
+                    <div class="col-1">
+                        <span class="font-weight-bold">Destino</span>
+                    </div>
+                    <div class="col-1">
+                        <span class="font-weight-bold">Peso </span>
+                    </div>
+                    <div class="col-1">
+                        <span class="font-weight-bold">Peso Vol</span>
+                    </div>
+                    <div class="col-1">
+                        <span class="font-weight-bold">Paquetes</span>
                     </div>
                     <div class="col-2">
-                        <span>Origen</span>
-                    </div>
-                    <div class="col-2">
-                        <span>Destino</span>
-                    </div>
-                    <div class="col-2">
-                        <span>Fecha-Creacion</span>
+                        <span class="font-weight-bold">Fecha-Creacion</span>
                     </div>
                 </div>
 
                 @foreach ($guias as $guia)
                 <div class="row my-2">
-                    <div class="col-2">
+                    <div class="col-1">
                         <input type="checkbox" class="text-center" id="{{$guia->id}}" name="guiasarray[]" value="{{$guia->id}}">
                         <span>{{$guia->id}}</span>
                     </div>
@@ -48,17 +57,40 @@
                     <div class="col-2">
                         <span>{{$guia->user->username}}</span>
                     </div>
-                    <div class="col-2">
-                        <span>{{$user->instalacion->codigo}}</span>
+                    <div class="col-1">
+                        <span>{{$guia->cod_origen}}</span>
                     </div>
-                    <div class="col-2">
-                        <span>{{$user->instalacion->codigo}}</span>
+                    <div class="col-1">
+                        <span>{{$guia->cod_destino}}</span>
+                    </div>
+                    <div class="col-1">
+                        <span>{{$guia->peso_total}}</span>
+                    </div>
+                    <div class="col-1">
+                        <span>{{$guia->peso_volumetrico}}</span>
+                    </div>
+                    <div class="col-1">
+                        <span>{{$guia->n_paquetes}}</span>
                     </div>
                     <div class="col-2">
                         <span>{{$guia->created_at}}</span>
                     </div>
                 </div>
                 @endforeach
+
+                <div class="row mt-4 pt-4">
+                    <div class="col text-center">
+                        <label class="form-check-label" for="instalacion">Instalacion destino</label>
+                        <select class="ml-4" name="instalacion_destino" id="instalacion_destino" required>
+                            <option value="">Seleccione una sucursal</option>
+                            @foreach ($instalaciones as $instalacion)
+                            <div class="col-3">
+                                <option value="{{$instalacion->id}}">{{$instalacion->id}} / {{$instalacion->codigo}} / {{$instalacion->descripcion}}</option>
+                            </div>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
 
                 <input name="codigo" type="hidden" value="{{ $rand = substr(md5(microtime()),rand(0,26),7) }}">
                 <br>

@@ -2,14 +2,14 @@
 
 @section('content')
 <div class="container">
-    <div class="row">
-        <div class="col-lg-12 margin-tb">
+    <div class="row mb-3">
+        <div class="col-6 margin-tb">
             <div class="pull-left">
-                <h2>Crear Nueva Guía</h2>
+                <h1>Crear Nueva Guía</h2>
             </div>
-            <div class="pull-right">
+        </div>
+        <div class="col-6 text-right my-auto">
                 <a class="btn btn-primary" href="{{ route('guias.index') }}"> Back</a>
-            </div>
         </div>
     </div>
     @if ($errors->any())
@@ -25,111 +25,222 @@
 
     <form action="{{ route('guias.store') }}" method="POST">
         @csrf
-        <label for="base-data">Datos Basicos</label>
-        <div class="row">
-            <input name="codigo" type="hidden" value="{{ $rand = substr(md5(microtime()),rand(0,26),7) }}">
+        <hr>
 
-            <div class="col-xs-4 col-sm-12 col-md-4">
+        <div class="row">
+            <div class="col-4 my-3">
+                <h3 class="h3 my-3">Datos Basicos de la Guia</h3>
+                <input name="codigo" type="hidden" value="{{ $rand = substr(md5(microtime()),rand(0,26),7) }}">
+
                 <div class="form-group">
                     <strong>Precio:</strong>
-                    <input type="num" name="price_package" class="form-control">
+                    <input type="num" name="price_package" class="form-control" required>
                 </div>
-            </div>
-            <div class="col-xs-4 col-sm-12 col-md-4">
+
                 <div class="form-group">
                     <strong>Fecha Creación:</strong>
                     <input type="date" name="date_creation" class="form-control" disabled
                     value="{{ $today = date('Y-m-d') }}">
                 </div>
-            </div>
-            <div class="col-xs-4 col-sm-12 col-md-4">
+
                 <div class="form-group">
-                    <strong>Fecha Entrega:</strong>
-                    <input type="date" name="date_deliver" class="form-control">
-                </div>
-            </div>
-            <div class="col-xs-4 col-sm-12 col-md-4">
-                <div class="form-group">
-                    <select name="type_destiny" id="tipoDestinos">
-                        <option value="0">Seleccione...</option>
+                    <span><strong>Tipo de destino:</strong></span><br>
+                    <select name="type_destiny" id="tipoDestinos" required>
+                        <option value="">Seleccione...</option>
                         <option value="1">Aliado Comercial</option>
                         <option value="2">Oficina</option>
                         <option value="3">Domicilio</option>
                     </select>
                 </div>
-            </div>
-            <div class="col-xs-4 col-sm-12 col-md-4">
+
                 <div class="form-group">
-                    <select name="type_payment" id="tipoPago">
-                        <option value="0">Seleccione...</option>
+                    <span><strong>Tipo de pago:</strong></span><br>
+                    <select name="type_payment" id="tipoPago" required>
+                        <option value="">Seleccione...</option>
                         <option value="1">Efectivo</option>
                         <option value="2">Transferencia</option>
                     </select>
                 </div>
+
+            </div>
+
+            <div class="col-4 my-3">
+                <h3 class="h3 my-3">Sucursal origen</h3>
+
+                <div class="form-group">
+                    <strong class="mr-3">Instalacion:</strong>
+                    <input class="my-1" type="text" class="form-control" value="{{ $instalacion_origen->codigo }}" disabled>
+                    <input type="hidden" name="cod_origen" value="{{ $instalacion_origen->codigo }}">
+                    <input type="hidden" name="instalacion_origen" value="{{ $instalacion_origen->id }}">
+
+                </div>
+                <div class="form-group">
+                    <strong class="mr-3">Estado:</strong>
+                    <input class="my-1" type="text" class="form-control" value="{{ $instalacion_origen->estado->estado }}" disabled>
+                </div>
+                <div class="form-group ">
+                    <strong  class="mr-3">Municipio:</strong>
+                    <input class="my-1" type="text" class="form-control" value="{{ $instalacion_origen->municipio->municipio }}" disabled>
+                </div>
+                <div class="form-group ">
+                    <strong  class="mr-3">Ciudad:</strong>
+                    <input class="my-1" type="text" class="form-control" value="{{ $instalacion_origen->ciudad->ciudad }}" disabled>
+                </div>
+                <div class="form-group ">
+                    <strong  class="mr-3">Parroquia:</strong>
+                    <input class="my-1" type="text" class="form-control" value="{{ $instalacion_origen->parroquia->parroquia }}" disabled>
+                </div>
+                <div class="form-group ">
+                    <strong  class="mr-3">Zona Postal:</strong>
+                    <input class="my-1" type="text" class="form-control" value="{{ $instalacion_origen->zip_code->zip_code }}" disabled>
+                </div>
+            </div>
+            <div class="col-4 my-3">
+                <h3 class="h3 my-3">Sucursal destino</h3>
+
+                <div class="form-group">
+                <strong class="mr-3">Instalacion:</strong>
+                <select name="instalacion_destino" id="instalacion_destino" required>
+                <option value="">Seleccione una instalacion</option>
+                    @foreach ($instalaciones as $instalacion)
+                    <option value="{{ $instalacion->id }}" data-name="{{ $instalacion->codigo }}">{{ $instalacion->codigo }}</option>
+                    @endforeach
+                </select>
+                </div>
+
+                <div class="form-group">
+                    <strong class="mr-3">Estado:</strong>
+                    <input class="my-1" type="text" class="form-control" id="destino_estado" name="destino_estado" disabled>
+                </div>
+                <div class="form-group ">
+                    <strong  class="mr-3">Municipio:</strong>
+                    <input class="my-1" type="text" class="form-control" id="destino_municipio" name="destino_municipio" disabled>
+                </div>
+                <div class="form-group ">
+                    <strong  class="mr-3">Ciudad:</strong>
+                    <input class="my-1" type="text" class="form-control" id="destino_ciudad" name="destino_ciudad" disabled>
+                </div>
+                <div class="form-group ">
+                    <strong  class="mr-3">Parroquia:</strong>
+                    <input class="my-1" type="text" class="form-control" id="destino_parroquia" name="destino_parroquia" disabled>
+                </div>
+                <div class="form-group ">
+                    <strong  class="mr-3">Zona Postal:</strong>
+                    <input class="my-1" type="text" class="form-control" id="destino_zip_code" name="destino_zip_code" disabled>
+                </div>
             </div>
         </div>
-        
+
+
+
+        <hr>
         <div class="package_data">
-            <div class="pull-right">
-                <button type="button" id="btnAdd" class="btn btn-primary" >Más Paquetes...</button>
+            <div class="row my-4">
+                <div class="col-6">
+                    <label class="h3" for="base-data">Datos Paquete</label>
+                </div>
+                <div class="col-6 text-right">
+                    <button type="button" id="btnAdd" class="btn btn-primary" >Añadir un paquete</button>
+                </div>
             </div>
-            <label for="base-data">Datos Paquete</label>
-            <div class="row group">
-                <div class="col-xs-3 col-sm-12 col-md-3">
-                    <div class="form-group">
-                        <strong>Peso:</strong>
-                        <input type="num" name="weight_pack[]" class="form-control">
-                    </div>
-                </div>
 
-                <div class="col-xs-3 col-sm-12 col-md-3">
-                    <div class="form-group">
-                        <strong>Ancho:</strong>
-                        <input type="num" name="width_pack[]" class="form-control">
-                    </div>
-                </div>
 
-                <div class="col-xs-3 col-sm-12 col-md-3">
-                    <div class="form-group">
-                        <strong>Alto:</strong>
-                        <input type="num" name="height_pack[]" class="form-control">
-                    </div>
-                </div>
-
-                <div class="col-xs-3 col-sm-12 col-md-3">
-                    <div class="form-group">
-                        <strong>Profundidad:</strong>
-                        <input type="num" name="deep_pack[]" class="form-control">
-                    </div>
-                </div>
-
-                <div class="col-xs-4 col-sm-12 col-md-4">
-                    <div class="form-group">
-                        <strong>Descripción Paquete:</strong>
-                        <input type="text" name="description_pack[]" class="form-control">
-                    </div>
-                </div>
-                <div class="col-xs-4 col-sm-12 col-md-4">
-                    <div class="form-group">
-                        <select name="type_package[]" id="tipoPaquete">
-                            <option value="0">Seleccione...</option>
+            <div class="row group my-3 ">
+                <div class="mr-4 col-xs-4 col-sm-12 col-md-2">
+                    <div class="form-group mr-4">
+                        <strong>Tipo:</strong><br>
+                        <select name="type_package[]" id="tipoPaquete" required>
+                            <option value="">Seleccione...</option>
                             <option value="1">Empaque</option>
                             <option value="2">Sobre</option>
                         </select>
                     </div>
                 </div>
-                <div class="pull-right">
+
+                <div class="col-xs-3 col-sm-12 col-md-2">
+                    <div class="">
+                        <strong>Peso (KG):</strong>
+                        <input type="num" name="weight_pack[]" class="form-control">
+                    </div>
+                </div>
+
+                <div class="col-xs-3 col-sm-12 col-md-2">
+                    <div class="form-group">
+                        <strong>Ancho (CM):</strong>
+                        <input type="num" name="width_pack[]" class="form-control">
+                    </div>
+                </div>
+
+                <div class="col-xs-3 col-sm-12 col-md-2">
+                    <div class="form-group">
+                        <strong>Alto (CM):</strong>
+                        <input type="num" name="height_pack[]" class="form-control">
+                    </div>
+                </div>
+
+                <div class="col-xs-3 col-sm-12 col-md-2">
+                    <div class="form-group">
+                        <strong>Largo (CM):</strong>
+                        <input type="num" name="deep_pack[]" class="form-control">
+                    </div>
+                </div>
+
+                <div class="col-xs-4 col-sm-12 col-md-3">
+                    <div class="form-group">
+                        <strong>Descripción Paquete:</strong>
+                        <input type="text" name="description_pack[]" class="form-control">
+                    </div>
+                </div>
+
+                <div class="pull-right my-auto">
                     <button type="button" class="btn btn-primary btnRemove" >Remover Campo</button>
+                </div>
+
+            </div>
+            <div class="row">
+
+            </div>
+        </div>
+
+        <hr>
+
+        <label class="h3 mb-3" for="locations">Remitente</label><br>
+
+        <h5 class="h5 mb-3">Datos Personales</h5>
+        <div class="row mb-3">
+
+            <div class="col-xs-4 col-sm-12 col-md-3">
+                <div class="form-group">
+                    <strong>CI/RIF:</strong>
+                    <input type="text" name="id_sender" class="form-control" required>
+                </div>
+            </div>
+            <div class="col-xs-4 col-sm-12 col-md-3">
+                <div class="form-group">
+                    <strong>E-Mail Sender:</strong>
+                    <input type="mail" name="mail_sender" class="form-control" required>
+                </div>
+            </div>
+            <div class="col-xs-4 col-sm-12 col-md-3">
+                <div class="form-group">
+                    <strong>Nombre/Razón Social:</strong>
+                    <input type="text" name="name_sender" class="form-control" required>
+                </div>
+            </div>
+            <div class="col-xs-4 col-sm-12 col-md-3">
+                <div class="form-group">
+                    <strong>Teléfono:</strong>
+                    <input type="text" name="phone_sender" class="form-control" required>
                 </div>
             </div>
         </div>
-        
-        <label for="locations">Ubicaciones</label>
-        <div class="row">
-            <div class="col-xs-3 col-sm-12 col-md-3">
+        <h5 class="h5 mb-3">Direccion</h5>
+        <div class="row mb-3">
+            <div class="col-xs-3 col-sm-12 col-md-2">
                 <div class="form-group">
-                    <select name="estados" id="dropdownEstados">
-                        <option value="Seleccione un estado">Seleccione un estado</option>
+                    <span><strong>Estados:</strong></span><br>
+                    <select name="estados" id="dropdownEstados" required>
+                        <option value="">Seleccione un estado</option>
                         @foreach ($estados as $edo)
                         <option value="{{ $edo->id }}" data-name="{{ $edo->estado }}">{{ $edo->estado }}</option>
                         @endforeach
@@ -137,217 +248,204 @@
                 </div>
             </div>
 
-            <div class="col-xs-3 col-sm-12 col-md-3">
+            <div class="col-xs-3 col-sm-12 col-md-2 mr-4">
                 <div class="form-group">
-                    <select name="municipios" id="dropdownMunicipios">
-                        <option value="0">Seleccione un municipio</option>
+                    <span><strong>Municipios:</strong></span><br>
+                    <select name="municipios" id="dropdownMunicipios" required>
+                        <option value="">Seleccione un municipio</option>
                     </select>
                 </div>
             </div>
 
-            <div class="col-xs-3 col-sm-12 col-md-3">
+            <div class="col-xs-3 col-sm-12 col-md-2 mr-4">
                 <div class="form-group">
-                    <select name="ciudades" id="dropdownCiudades">
-                        <option value="0">Seleccione una ciudad</option>
+                    <span><strong>Ciudades:</strong></span><br>
+                    <select name="ciudades" id="dropdownCiudades" required>
+                        <option value="">Seleccione una ciudad</option>
                     </select>
                 </div>
             </div>
 
-            <div class="col-xs-3 col-sm-12 col-md-3">
+            <div class="col-xs-3 col-sm-12 col-md-2 mr-4">
                 <div class="form-group">
-                    <select name="parroquias" id="dropdownParroquias">
-                        <option value="0">Seleccione una parroquia</option>
+                    <span><strong>Parroquias:</strong></span><br>
+                    <select name="parroquias" id="dropdownParroquias" required>
+                        <option value="">Seleccione una parroquia</option>
                     </select>
                 </div>
             </div>
 
-            <div class="col-xs-3 col-sm-12 col-md-3">
+            <div class="col-xs-3 col-sm-12 col-md-2 text-left">
                 <div class="form-group">
-                    <select name="zip_codes" id="dropdownZip_codes">
-                        <option value="0">Seleccione un codigo postal</option>
+                    <span><strong>Zona Postal:</strong></span><br>
+                    <select name="zip_codes" id="dropdownZip_codes" required>
+                        <option value="">Seleccione un codigo postal</option>
                     </select>
                 </div>
             </div>
         </div>
-
-        <label for="sender-package">Remitente</label>
-        <div class="row">
-            <div class="col-xs-4 col-sm-12 col-md-4">
-                <div class="form-group">
-                    <strong>CI/RIF:</strong>
-                    <input type="text" name="id_sender" class="form-control">
-                </div>
-            </div>
-            <div class="col-xs-4 col-sm-12 col-md-4">
-                <div class="form-group">
-                    <strong>E-Mail Sender:</strong>
-                    <input type="mail" name="mail_sender" class="form-control">
-                </div>
-            </div>
-            <div class="col-xs-4 col-sm-12 col-md-4">
-                <div class="form-group">
-                    <strong>Nombre/Razón Social:</strong>
-                    <input type="text" name="name_sender" class="form-control">
-                </div>
-            </div>
-            <div class="col-xs-4 col-sm-12 col-md-4">
-                <div class="form-group">
-                    <strong>Teléfono:</strong>
-                    <input type="text" name="phone_sender" class="form-control">
-                </div>
-            </div>
-            <div class="col-xs-4 col-sm-12 col-md-4">
+        <div class="row mb-3">
+            <div class="col-xs-4 col-sm-12 col-md-3">
                 <div class="form-group">
                     <strong>Dirección:</strong>
                     <input type="text" class="form-control" name="address_sender">
                 </div>
             </div>
-            <div class="col-xs-4 col-sm-12 col-md-4">
-                <div class="form-group">
-                    <strong>Estado:</strong>
-                    <input type="text" class="form-control" name="state_sender">
-                    <input type="hidden" name="state_sender_id">
-                </div>
-            </div>
-            <div class="col-xs-4 col-sm-12 col-md-4">
-                <div class="form-group">
-                    <strong>Municipio:</strong>
-                    <input type="text" class="form-control" name="province_sender">
-                    <input type="hidden" name="province_sender_id">
-                </div>
-            </div>
-            <div class="col-xs-4 col-sm-12 col-md-4">
-                <div class="form-group">
-                    <strong>Ciudad:</strong>
-                    <input type="text" class="form-control" name="city_sender">
-                    <input type="hidden" name="city_sender_id">
-                </div>
-            </div>
-            <div class="col-xs-4 col-sm-12 col-md-4">
+            <div class="col-xs-4 col-sm-12 col-md-3">
                 <div class="form-group">
                     <strong>Urbanización:</strong>
                     <input type="text" class="form-control" name="urban_sender">
                 </div>
             </div>
-            <div class="col-xs-4 col-sm-12 col-md-4">
-                <div class="form-group">
-                    <strong>Parroquia:</strong>
-                    <input type="text" class="form-control" name="parroq_sender">
-                    <input type="hidden" name="parroq_sender_id">
-                </div>
-            </div>
-            <div class="col-xs-4 col-sm-12 col-md-4">
+            <div class="col-xs-4 col-sm-12 col-md-3">
                 <div class="form-group">
                     <strong>Edificio/Casa:</strong>
                     <input type="text" class="form-control" name="house_sender">
                 </div>
             </div>
-            <div class="col-xs-4 col-sm-12 col-md-4">
-                <div class="form-group">
-                    <strong>Zona Postal:</strong>
-                    <input type="text" class="form-control" name="zip_sender">
-                    <input type="hidden" name="zip_sender_id">
-                </div>
-            </div>
-            <div class="col-xs-4 col-sm-12 col-md-4">
+            <div class="col-xs-4 col-sm-12 col-md-3">
                 <div class="form-group">
                     <strong>Punto de Referencia:</strong>
-                    <textarea class="form-control" rows="5" name="reference_sender" placeholder="Punto de Referencia"></textarea>
+                    <textarea class="form-control" rows="1" name="reference_sender" placeholder="Punto de Referencia"></textarea>
+                </div>
+            </div>
+            <div class="col-xs-4 col-sm-12 col-md-3">
+                <div class="form-group">
+                    <!-- <strong>Estado:</strong> -->
+                    <!-- <input type="text" class="form-control" name="state_sender" disabled> -->
+                    <input type="hidden" name="state_sender_id">
+                </div>
+            </div>
+            <div class="col-xs-4 col-sm-12 col-md-3">
+                <div class="form-group">
+                    <!-- <strong>Municipio:</strong> -->
+                    <!-- <input type="text" class="form-control" name="province_sender" disabled> -->
+                    <input type="hidden" name="province_sender_id" disabled>
+                </div>
+            </div>
+            <div class="col-xs-4 col-sm-12 col-md-3">
+                <div class="form-group">
+                    <!-- <strong>Ciudad:</strong> -->
+                    <!-- <input type="text" class="form-control" name="city_sender" disabled> -->
+                    <input type="hidden" name="city_sender_id" disabled>
+                </div>
+            </div>
+            <div class="col-xs-4 col-sm-12 col-md-3">
+                <div class="form-group">
+                    <!-- <strong>Parroquia:</strong> -->
+                    <!-- <input type="text" class="form-control" name="parroq_sender" disabled> -->
+                    <input type="hidden" name="parroq_sender_id" disabled>
+                </div>
+            </div>
+            <div class="col-xs-4 col-sm-12 col-md-3">
+                <div class="form-group">
+                    <!-- <strong>Zona Postal:</strong> -->
+                    <!-- <input type="text" class="form-control" name="zip_sender" disabled> -->
+                    <input type="hidden" name="zip_sender_id" disabled>
                 </div>
             </div>
         </div>
 
-        <label for="receiver-package">Destinatario</label>
+        <hr>
+
+        <label class="h3 mb-3" for="receiver-package">Destinatario</label>
+        <h5 class="h5 mb-3">Datos Personales</h5>
         <div class="row">
-            <div class="col-xs-4 col-sm-12 col-md-4">
+            <div class="col-xs-4 col-sm-12 col-md-3">
                 <div class="form-group">
                     <strong>CI/RIF:</strong>
-                    <input type="text" name="id_receiver" class="form-control">
+                    <input type="text" name="id_receiver" class="form-control" required>
                 </div>
             </div>
-            <div class="col-xs-4 col-sm-12 col-md-4">
+            <div class="col-xs-4 col-sm-12 col-md-3">
                 <div class="form-group">
                     <strong>E-Mail Sender:</strong>
-                    <input type="mail" name="mail_receiver" class="form-control">
+                    <input type="mail" name="mail_receiver" class="form-control" required>
                 </div>
             </div>
-            <div class="col-xs-4 col-sm-12 col-md-4">
+            <div class="col-xs-4 col-sm-12 col-md-3">
                 <div class="form-group">
                     <strong>Nombre/Razón Social:</strong>
-                    <input type="text" name="name_receiver" class="form-control">
+                    <input type="text" name="name_receiver" class="form-control" required>
                 </div>
             </div>
-            <div class="col-xs-4 col-sm-12 col-md-4">
+            <div class="col-xs-4 col-sm-12 col-md-3">
                 <div class="form-group">
                     <strong>Teléfono:</strong>
-                    <input type="text" name="phone_receiver" class="form-control">
+                    <input type="text" name="phone_receiver" class="form-control" required>
                 </div>
             </div>
-            <div class="col-xs-4 col-sm-12 col-md-4">
-                <div class="form-group">
-                    <strong>Dirección:</strong>
-                    <input type="text" class="form-control" name="address_receiver">
-                </div>
-            </div>
-            <div class="col-xs-4 col-sm-12 col-md-4">
+        </div>
+        <h5 class="h5 mb-3">Direccion</h5>
+        <div class="row mb-3">
+            <div class="col-xs-4 col-sm-12 col-md-2">
                 <div class="form-group">
                     <strong>Estado:</strong>
-                    <select name="state_receiver" id="selectEdo">
-                        <option value="Seleccione un estado">Seleccione un estado</option>
+                    <select name="state_receiver" id="selectEdo" required>
+                        <option value="">Seleccione un estado</option>
                         @foreach ($estados as $edo)
                         <option value="{{ $edo->id }}" data-name="{{ $edo->estado }}">{{ $edo->estado }}</option>
                         @endforeach
                     </select>
                 </div>
             </div>
-            <div class="col-xs-4 col-sm-12 col-md-4">
+            <div class="col-xs-4 col-sm-12 col-md-2 mr-4">
                 <div class="form-group">
                     <strong>Municipio:</strong>
-                    <select name="province_receiver" id="selectProv">
-                        <option value="0">Seleccione un municipio</option>
+                    <select name="province_receiver" id="selectProv" required>
+                        <option value="">Seleccione un municipio</option>
                     </select>
                 </div>
             </div>
-            <div class="col-xs-4 col-sm-12 col-md-4">
+            <div class="col-xs-4 col-sm-12 col-md-2 mr-4">
                 <div class="form-group">
                     <strong>Ciudad:</strong>
-                    <select name="city_receiver" id="selecCity">
-                        <option value="0">Seleccione una ciudad</option>
+                    <select name="city_receiver" id="selecCity" required>
+                        <option value="">Seleccione una ciudad</option>
                     </select>
                 </div>
             </div>
-            <div class="col-xs-4 col-sm-12 col-md-4">
+            <div class="col-xs-4 col-sm-12 col-md-2 mr-4">
                 <div class="form-group">
                     <strong>Parroquia:</strong>
-                    <select name="parroq_receiver" id="selectParroq">
-                        <option value="0">Seleccione una parroquia</option>
+                    <select name="parroq_receiver" id="selectParroq" required>
+                        <option value="">Seleccione una parroquia</option>
                     </select>
                 </div>
             </div>
-            <div class="col-xs-4 col-sm-12 col-md-4">
+
+            <div class="col-xs-4 col-sm-12 col-md-2">
+                <div class="form-group">
+                    <strong>Zona Postal:</strong>
+                    <select name="zip_receiver" id="selectZip" required>
+                        <option value="">Seleccione un codigo postal</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-xs-4 col-sm-12 col-md-3">
+                <div class="form-group">
+                    <strong>Dirección:</strong>
+                    <input type="text" class="form-control" name="address_receiver">
+                </div>
+            </div>
+            <div class="col-xs-4 col-sm-12 col-md-3">
                 <div class="form-group">
                     <strong>Urbanización:</strong>
                     <input type="text" class="form-control" name="urban_receiver">
                 </div>
             </div>
-            <div class="col-xs-4 col-sm-12 col-md-4">
+            <div class="col-xs-4 col-sm-12 col-md-3">
                 <div class="form-group">
                     <strong>Edificio/Casa:</strong>
                     <input type="text" class="form-control" name="house_receiver">
                 </div>
             </div>
-            <div class="col-xs-4 col-sm-12 col-md-4">
-                <div class="form-group">
-                    <strong>Zona Postal:</strong>
-                    <select name="zip_receiver" id="selectZip">
-                        <option value="0">Seleccione un codigo postal</option>
-                    </select>
-                </div>
-            </div>
-            <div class="col-xs-4 col-sm-12 col-md-4">
+            <div class="col-xs-4 col-sm-12 col-md-3">
                 <div class="form-group">
                     <strong>Punto de Referencia:</strong>
-                    <textarea class="form-control" rows="5" name="reference_receiver" placeholder="Punto de Referencia"></textarea>
+                    <textarea class="form-control" rows="1" name="reference_receiver" placeholder="Punto de Referencia"></textarea>
                 </div>
             </div>
         </div>
@@ -368,6 +466,30 @@
     })
 
     $( document ).ready(function() {
+
+        $('select#instalacion_destino').on('change', function(e) {
+            var finded = 0;
+            @foreach ($instalaciones as $instalacion)
+                var instalacion_id = {{$instalacion->id}};
+                if (instalacion_id == $('select#instalacion_destino option:checked' ).val()) {
+                    $('#destino_estado').val({{$instalacion->estado_id}});
+                    $('#destino_municipio').val({{$instalacion->municipio_id}});
+                    $('#destino_ciudad').val({{$instalacion->ciudad_id}});
+                    $('#destino_parroquia').val({{$instalacion->parroquia_id}});
+                    $('#destino_zip_code').val({{$instalacion->zip_code_id}});
+                    finded = 1;
+                }
+            @endforeach
+
+            if(finded == 0){
+                $('#destino_estado').val('');
+                $('#destino_municipio').val('');
+                $('#destino_ciudad').val('');
+                $('#destino_parroquia').val('');
+                $('#destino_zip_code').val('');
+            }
+        });
+
         $('select#dropdownEstados').on('change', function(e) {
             var valueEstados = $('#dropdownEstados').find(":selected").data('name');
             var idEstados = $('#dropdownEstados').val();
@@ -561,7 +683,7 @@
                 }
             });
         });
-        
+
         $('.package_data').multifield({
             section: '.group',
             btnAdd:'#btnAdd',

@@ -13,6 +13,7 @@ use App\cliente;
 use App\paquete;
 use App\paquetes_x_guia;
 use App\User;
+use App\instalacion;
 use Auth;
 
 use Illuminate\Http\Request;
@@ -37,12 +38,23 @@ class GuiaController extends Controller
      */
     public function create()
     {
+        $user = User::findOrFail(Auth::id());
+
+
+        $instalaciones = instalacion::with(['estado', 'ciudad', 'municipio', 'parroquia', 'zip_code'])->get();
+        $instalaciones = $instalaciones->except(['1', $user->instalacion_id]);
+
+        $instalacion_origen = instalacion::where('id', $user->instalacion_id)->with(['estado', 'ciudad', 'municipio', 'parroquia', 'zip_code'])->first();
+
+
         return view('guias.create', [
             'estados' => estado::orderBy('estado')->get(),
             'municipios' => municipio::orderBy('municipio')->get(),
             'ciudades' => ciudad::orderBy('ciudad')->get(),
             'parroquias' => parroquia::orderBy('parroquia')->get(),
-            'zip_codes' => zip_code::orderBy('zip_code')->get()
+            'zip_codes' => zip_code::orderBy('zip_code')->get(),
+            'instalaciones' => $instalaciones,
+            'instalacion_origen' => $instalacion_origen,
         ]);
     }
 
@@ -59,7 +71,7 @@ class GuiaController extends Controller
             'codigo' => 'required',
             //Guide Requirements
             'price_package' => 'required',
-            'date_deliver' => 'required',
+            //'date_deliver' => 'required',
             'type_destiny' => 'required',
             'type_payment' => 'required',
             //Package
@@ -69,24 +81,24 @@ class GuiaController extends Controller
             'deep_pack' => 'required',
             'description_pack' => 'required',
             //Guide Location - Direccion
-            // 'estados' => 'required',
-            // 'municipios' => 'required',
-            // 'ciudades' => 'required',
-            // 'parroquias' => 'required',
-            // 'zip_codes' => 'required',
+             'estados' => 'required',
+             'municipios' => 'required',
+             'ciudades' => 'required',
+             'parroquias' => 'required',
+             'zip_codes' => 'required',
             //Guide Sender - Cliente 1
             'id_sender' => 'required',
             'mail_sender' => 'required',
             'name_sender' => 'required',
             'phone_sender' => 'required',
             'address_sender' => 'required',
-            'state_sender_id' => 'required',
-            'province_sender_id' => 'required',
-            'city_sender_id' => 'required',
-            'urban_sender' => 'required',
-            'parroq_sender_id' => 'required',
+            //'state_sender_id' => 'required',
+            //'province_sender_id' => 'required',
+            //'city_sender_id' => 'required',
+            //'urban_sender' => 'required',
+            //'parroq_sender_id' => 'required',
             'house_sender' => 'required',
-            'zip_sender_id' => 'required',
+            //'zip_sender_id' => 'required',
             'reference_sender' => 'required',
             //Guide Receiver - Cliente 2
             'id_receiver' => 'required',
@@ -110,11 +122,11 @@ class GuiaController extends Controller
             'via-principal' => request('address_sender'),
             'edificio-casa' => request('house_sender'),
             'punto-referencia' => request('reference_sender'),
-            'estado_id' => request('state_sender_id'),
-            'ciudad_id' => request('city_sender_id'),
-            'municipio_id' => request('province_sender_id'),
-            'parroquia_id' => request('parroq_sender_id'),
-            'zip_code_id' => request('zip_sender_id'),
+            'estado_id' => request('estados'),
+            'ciudad_id' => request('ciudades'),
+            'municipio_id' => request('municipios'),
+            'parroquia_id' => request('parroquias'),
+            'zip_code_id' => request('zip_codes'),
         ]);
 
 
@@ -151,6 +163,10 @@ class GuiaController extends Controller
 
         ]);
 
+
+        $cod_origen = instalacion::findOrFail($request->get('instalacion_origen'));
+        $cod_destino = instalacion::findOrFail($request->get('instalacion_destino'));
+
         $guides = Guia::create([
             'codigo' => request('codigo'),
             'precio' => request('price_package'),
@@ -160,25 +176,42 @@ class GuiaController extends Controller
             'user_id' => Auth::id(),
             'cliente_remitente_id' => $client_sender->id,
             'cliente_destinatario_id' => $client_receiver->id,
-            'instalacion_origen_id' => 1,
-            'instalacion_destino_id' => 2,
+            'instalacion_origen_id' => request('instalacion_origen'),
+            'cod_origen' => $cod_origen->codigo,
+            'instalacion_destino_id' => request('instalacion_destino'),
+            'cod_destino' => $cod_destino->codigo,
             'tipo_destino_id' => request('type_destiny'),
             'tipo_pago_id' => request('type_payment'),
+            'status' => 'Pendiente',
         ]);
-        
-        for ($i=0; $i < count(request('weight_pack')); $i++) { 
+
+        $peso_volumetrico_total = 0;
+        $peso_total = 0;
+        $n_paquetes=0;
+
+        for ($i=0; $i < count(request('weight_pack')); $i++) {
+            $peso_vol = $request->get('width_pack')[$i] * $request->get('height_pack')[$i] * $request->get('deep_pack')[$i] * 333 / 1000000;
+            $peso_volumetrico_total += $peso_vol;
+            $peso_total += request('weight_pack')[$i];
+            $n_paquetes++;
+
             $package = Paquete::create([
                 'peso' => request('weight_pack')[$i],
                 'dim_ancho' => request('width_pack')[$i],
                 'dim_alto' => request('height_pack')[$i],
                 'dim_fondo' => request('deep_pack')[$i],
+                'peso_volumetrico' => $peso_vol,
                 'descripcion' => request('description_pack')[$i],
                 'tipo_paquete_id' => request('type_package')[$i],
                 'guia_id' => $guides->id,
             ]);
         }
 
-        
+        $guides->peso_total = $peso_total;
+        $guides->peso_volumetrico = $peso_volumetrico_total;
+        $guides->n_paquetes = $n_paquetes;
+        $guides->save();
+
         // echo "<pre>";
         // var_dump($package);
         // die;

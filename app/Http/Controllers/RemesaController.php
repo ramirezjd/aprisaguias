@@ -2,12 +2,7 @@
 
 namespace App\Http\Controllers;
 use App\guia;
-use App\estado;
-use App\municipio;
-use App\ciudad;
-use App\parroquia;
-use App\zip_code;
-use App\direccion;
+use App\instalacion;
 use App\cliente;
 use App\paquete;
 use App\paquetes_x_guia;
@@ -38,12 +33,16 @@ class RemesaController extends Controller
     public function create()
     {
         $user = User::findOrFail(Auth::id());
+        $allinst = instalacion::all()->except('1');
+        $instalaciones = instalacion::all()->except(['1', $user->instalacion_id]);
+        $guias = guia::where('instalacion_origen_id', $user->instalacion->id)->with(['user' , 'paquetes'])->get();
 
-        $guias = guia::where('instalacion_origen_id', $user->instalacion->id)->with('user')->get();
 
         return view('remesas.create', [
             'user' => $user,
             'guias' => $guias,
+            'instalaciones' => $instalaciones,
+            'allinst' => $allinst,
         ]);
     }
 
@@ -55,6 +54,7 @@ class RemesaController extends Controller
      */
     public function store(Request $request)
     {
+        dd($request);
         $request->validate([
             'codigo' => 'required',
             'guiasarray' => 'required'
@@ -79,14 +79,8 @@ class RemesaController extends Controller
                     $dim_alto_total+= $paquete->dim_alto;
                     $dim_fondo_total+= $paquete->dim_fondo;
                 }
-                dd($peso_total.' '.$dim_ancho_total.' '.$dim_alto_total.' '.$dim_fondo_total);
             }
-
         }
-
-
-
-
 
         return redirect()->route('users.index');
     }

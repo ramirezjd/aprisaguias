@@ -21,6 +21,9 @@ class guia extends Model
         'instalacion_destino_id',
         'tipo_destino_id',
         'tipo_pago_id',
+        'status',
+        'cod_origen',
+        'cod_destino',
     ];
 
     public function user()

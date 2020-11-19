@@ -40,11 +40,6 @@ class instalacion extends Model
         return $this->hasMany('App\instalacion');
     }
 
-    public function superior()
-    {
-        return $this->belongsTo('App\instalacion');
-    }
-
     public function tipo_instalacion()
     {
         return $this->belongsTo('App\tipo_instalacion');
@@ -60,19 +55,28 @@ class instalacion extends Model
         return $this->belongsTo('App\remesa');
     }
 
-    public function instalacion_guia_remitente()
+    public function estado()
     {
-        return $this->belongsTo('App\guia');
+        return $this->belongsTo('App\estado');
     }
 
-    public function instalacion_guia_destinatario()
+    public function ciudad()
     {
-        return $this->belongsTo('App\guia');
+        return $this->belongsTo('App\ciudad');
     }
 
-    public function instalacion_guia_actual()
+    public function municipio()
     {
-        return $this->belongsTo('App\guia');
+        return $this->belongsTo('App\municipio');
     }
 
+    public function parroquia()
+    {
+        return $this->belongsTo('App\parroquia');
+    }
+
+    public function zip_code()
+    {
+        return $this->belongsTo('App\zip_code');
+    }
 }

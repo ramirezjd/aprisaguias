@@ -16,6 +16,7 @@ class paquete extends Model
         'descripcion',
         'tipo_paquete_id',
         'guia_id',
+        'peso_volumetrico',
     ];
 
     public function guia()
