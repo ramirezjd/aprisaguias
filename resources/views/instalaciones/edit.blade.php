@@ -231,7 +231,7 @@
     @endsection
 @endcan
 
-@cannot('editar instalacion'){
+@cannot('editar instalacion')
     @section('content')
         <div class="container">
             <h1>No tiene los permisos necesarios para acceder a esta funcionalidad.</h1>

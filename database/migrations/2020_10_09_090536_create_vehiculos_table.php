@@ -18,6 +18,7 @@ class CreateVehiculosTable extends Migration
             $table->string('codigo', 120);
             $table->string('placa', 256);
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

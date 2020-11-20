@@ -1,17 +1,17 @@
 @extends('guias.layout')
-   
+
+@can('editar guia')
 @section('content')
+<div class="container">
     <div class="row">
-        <div class="col-lg-12 margin-tb">
-            <div class="pull-left">
-                <h2>Edit guia</h2>
-            </div>
-            <div class="pull-right">
-                <a class="btn btn-primary" href="{{ route('guias.index') }}"> Back</a>
-            </div>
+        <div class="col-md-6 margin-tb">
+            <h2>Edit guia</h2>
+        </div>
+        <div class="col-md-6 margin-tb text-right">
+            <a class="btn btn-primary" href="{{ route('guias.index') }}"> Back</a>
         </div>
     </div>
-   
+
     @if ($errors->any())
         <div class="alert alert-danger">
             <strong>Whoops!</strong> There were some problems with your input.<br><br>
@@ -22,11 +22,11 @@
             </ul>
         </div>
     @endif
-  
+
     <form action="{{ route('guias.update',$guia->id) }}" method="POST">
         @csrf
         @method('PUT')
-   
+
          <div class="row">
             <div class="col-xs-12 col-sm-12 col-md-12">
                 <input name="codigo" type="hidden" value="{{ $guia->codigo }}">
@@ -69,6 +69,17 @@
               <button type="submit" class="btn btn-primary">Submit</button>
             </div>
         </div>
-   
+
     </form>
+</div>
 @endsection
+
+@endcan
+
+@cannot('editar guia')
+    @section('content')
+        <div class="container">
+            <h1>No tiene los permisos necesarios para acceder a esta funcionalidad.</h1>
+        </div>
+    @endsection
+@endcannot

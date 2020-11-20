@@ -27,4 +27,9 @@ class remesa extends Model
     {
         return $this->belongsTo('App\vehiculo');
     }
+
+    public function transportista()
+    {
+        return $this->belongsTo('App\transportista');
+    }
 }

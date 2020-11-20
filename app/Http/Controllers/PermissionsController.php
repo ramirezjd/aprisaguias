@@ -60,5 +60,36 @@ class PermissionsController extends Controller
         $permissions = DB::table('permissions')->find($id);
         return view('permissions.show', ['permissions' => $permissions]);
     }
+    public function edit($id)
+    {
+        $permissions = DB::table('permissions')->find($id);
+        return view('permissions.edit', ['permissions' => $permissions]);
+    }
 
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, $id)
+    {
+        $affected = DB::table('permissions')
+              ->where('id', $id)
+              ->update(['name' => $request->name]);
+
+        return redirect()->route('permissions.index');
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id)
+    {
+        //
+    }
 }

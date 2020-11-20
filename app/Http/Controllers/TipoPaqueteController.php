@@ -14,7 +14,7 @@ class TipoPaqueteController extends Controller
      */
     public function index()
     {
-        //
+        return 'hola';
     }
 
     /**
@@ -24,7 +24,7 @@ class TipoPaqueteController extends Controller
      */
     public function create()
     {
-        //
+
     }
 
     /**

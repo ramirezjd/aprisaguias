@@ -20,7 +20,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::all();
+        $users = User::with('instalacion')->get();
 
         return view('users.index', [
             'users' => $users,
@@ -99,13 +99,9 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(user $user)
     {
-        $user = User::findOrFail($id);
-
-        $permissions = $user->getDirectPermissions();
-        $roles = $user->getRoleNames();
-        return $permissions;
+        return view('users.show',compact('user'));
     }
 
     /**

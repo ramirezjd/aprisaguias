@@ -17,7 +17,7 @@ class CreateClientesTable extends Migration
             $table->id();
             $table->string('tipo_documento', 2);
             $table->string('documento', 20);
-            $table->string('nombre-razonsocial', 256);
+            $table->string('nombre_razonsocial', 256);
             $table->string('email', 156);
             $table->string('telefono', 156);
             $table->softDeletes();

@@ -71,7 +71,7 @@ class RemesaController extends Controller
             $max = count($guias_array);
 
             for($i=0; $i < $max; $i++){
-                $guia = guia::where('id', $guias_array[$i])->get()->first();
+                $guia = guia::where('id', $guias_array[$i])->first();
                 //dd($guia->paquetes);
                 foreach($guia->paquetes as $paquete){
                     $peso_total+= $paquete->peso;

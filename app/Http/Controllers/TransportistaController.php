@@ -14,7 +14,8 @@ class TransportistaController extends Controller
      */
     public function index()
     {
-        //
+        $transportistas = transportista::all();
+        return view('transportistas.index', compact('transportistas'));
     }
 
     /**
@@ -24,7 +25,7 @@ class TransportistaController extends Controller
      */
     public function create()
     {
-        //
+        return view('transportistas.create');
     }
 
     /**
@@ -35,7 +36,25 @@ class TransportistaController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'tipo_documento' => 'required',
+            'documento' => 'required',
+            'nombres' => 'required',
+            'apellidos' => 'required',
+            'telefono' => 'required',
+            'direccion' => 'required',
+        ]);
+
+        transportista::create([
+            'tipo_documento' => request('tipo_documento'),
+            'documento' => request('documento'),
+            'nombres' => request('nombres'),
+            'apellidos' => request('apellidos'),
+            'telefono' => request('telefono'),
+            'direccion' => request('direccion'),
+        ]);
+
+        return redirect()->route('transportistas.index');
     }
 
     /**
@@ -46,7 +65,7 @@ class TransportistaController extends Controller
      */
     public function show(transportista $transportista)
     {
-        //
+        return view('transportistas.show',compact('transportista'));
     }
 
     /**
@@ -57,7 +76,7 @@ class TransportistaController extends Controller
      */
     public function edit(transportista $transportista)
     {
-        //
+        return view('transportistas.edit',compact('transportista'));
     }
 
     /**
@@ -69,7 +88,17 @@ class TransportistaController extends Controller
      */
     public function update(Request $request, transportista $transportista)
     {
-        //
+        $request->validate([
+            'tipo_documento' => 'required',
+            'documento' => 'required',
+            'nombres' => 'required',
+            'apellidos' => 'required',
+            'telefono' => 'required',
+            'direccion' => 'required',
+        ]);
+
+        $transportista->update($request->all());
+        return redirect()->route('transportistas.index');
     }
 
     /**
@@ -80,6 +109,8 @@ class TransportistaController extends Controller
      */
     public function destroy(transportista $transportista)
     {
-        //
+        $transportista->delete();
+
+        return redirect()->route('transportistas.index');
     }
 }

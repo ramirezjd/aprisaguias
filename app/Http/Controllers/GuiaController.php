@@ -11,10 +11,10 @@ use App\zip_code;
 use App\direccion;
 use App\cliente;
 use App\paquete;
-use App\paquetes_x_guia;
 use App\User;
 use App\instalacion;
 use Auth;
+use PDF;
 
 use Illuminate\Http\Request;
 
@@ -27,7 +27,7 @@ class GuiaController extends Controller
      */
     public function index()
     {
-        $guias = Guia::with('user', 'tipo_destino')->get();
+        $guias = Guia::with(['user', 'tipo_destino'])->get();
         return view('guias.index', compact('guias'));
     }
 
@@ -281,4 +281,27 @@ class GuiaController extends Controller
         return redirect()->route('guias.index')
                         ->with('success','Guía Eliminada Exitosamente.');
     }
+
+    public function pdftest($id){
+        $guia = guia::findOrFail($id);
+        $remitente = cliente::findOrFail($guia->cliente_remitente_id);
+        $destinatario = cliente::findOrFail($guia->cliente_destinatario_id);
+
+        $pdf = PDF::loadView('guias.pdf',compact('guia', 'remitente', 'destinatario'));
+        return $pdf->download('guia-'.$guia->codigo.'.pdf');
+        //return view('guias.pdf')->with(compact('guia', 'remitente', 'destinatario'));
+
+    }
+
+    public function createPDF() {
+        // retreive all records from db
+        $data = guia::all();
+
+        // share data to view
+        view()->share('employee',$data);
+        $pdf = PDF::loadView('pdf_view', $data);
+
+        // download PDF file with download method
+        return $pdf->download('pdf_file.pdf');
+      }
 }

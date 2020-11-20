@@ -1,5 +1,6 @@
 @extends('guias.layout')
 
+@can('crear guia')
 @section('content')
 <div class="container">
     <div class="row mb-3">
@@ -9,7 +10,7 @@
             </div>
         </div>
         <div class="col-6 text-right my-auto">
-                <a class="btn btn-primary" href="{{ route('guias.index') }}"> Back</a>
+                <a class="btn btn-primary" href="{{ route('guias.index') }}"> Volver</a>
         </div>
     </div>
     @if ($errors->any())
@@ -694,3 +695,12 @@
 </script>
 
 @endsection
+@endcan
+
+@cannot('crear guia')
+    @section('content')
+        <div class="container">
+            <h1>No tiene los permisos necesarios para acceder a esta funcionalidad.</h1>
+        </div>
+    @endsection
+@endcannot

@@ -22,6 +22,7 @@ class CreateTransportistasTable extends Migration
             $table->string('direccion', 256);
             $table->string('telefono', 156);
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

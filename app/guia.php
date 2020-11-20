@@ -56,9 +56,9 @@ class guia extends Model
         return $this->hasMany('App\guias_x_remesa');
     }
 
-    public function remitente()
+    public function clientes()
     {
-        return $this->hasOne('App\User');
+        return $this->hasOne('App\Cliente');
     }
 
     public function destinatario()
