@@ -16,7 +16,7 @@ class CreateGuiasTable extends Migration
         Schema::create('guias', function (Blueprint $table) {
             $table->id();
             $table->string('codigo', 120);
-            $table->float('precio', 8, 2);
+            $table->float('precio', 15, 2);
             $table->float('asegurado', 8, 2);
             $table->float('peso_total', 8, 2)->nullable();
             $table->float('peso_volumetrico', 8, 2)->nullable();

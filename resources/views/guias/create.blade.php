@@ -473,11 +473,11 @@
             @foreach ($instalaciones as $instalacion)
                 var instalacion_id = {{$instalacion->id}};
                 if (instalacion_id == $('select#instalacion_destino option:checked' ).val()) {
-                    $('#destino_estado').val({{$instalacion->estado_id}});
-                    $('#destino_municipio').val({{$instalacion->municipio_id}});
-                    $('#destino_ciudad').val({{$instalacion->ciudad_id}});
-                    $('#destino_parroquia').val({{$instalacion->parroquia_id}});
-                    $('#destino_zip_code').val({{$instalacion->zip_code_id}});
+                    $('#destino_estado').val('{{$instalacion->estado->estado}}');
+                    $('#destino_municipio').val('{{$instalacion->municipio->municipio}}');
+                    $('#destino_ciudad').val('{{$instalacion->ciudad->ciudad}}');
+                    $('#destino_parroquia').val('{{$instalacion->parroquia->parroquia}}');
+                    $('#destino_zip_code').val('{{$instalacion->zip_code->zip_code}}');
                     finded = 1;
                 }
             @endforeach

@@ -20,13 +20,17 @@ class CreateRemesasTable extends Migration
             $table->string('destino', 256);
             $table->float('peso_volumetrico_total', 10, 2);
             $table->float('volumen_total', 10, 2);
-            $table->timestamps();
+            $table->float('peso_total', 10, 2);
             $table->timestamp('fecha_entrega',0)->nullable();
-            $table->softDeletes();
 
             $table->unsignedBigInteger('vehiculo_id');
+            $table->unsignedBigInteger('transportista_id');
+
+            $table->timestamps();
+            $table->softDeletes();
 
             $table->foreign('vehiculo_id')->references('id')->on('vehiculos');
+            $table->foreign('transportista_id')->references('id')->on('transportistas');
         });
     }
 

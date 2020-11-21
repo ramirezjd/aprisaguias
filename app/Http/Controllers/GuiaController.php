@@ -46,7 +46,6 @@ class GuiaController extends Controller
 
         $instalacion_origen = instalacion::where('id', $user->instalacion_id)->with(['estado', 'ciudad', 'municipio', 'parroquia', 'zip_code'])->first();
 
-
         return view('guias.create', [
             'estados' => estado::orderBy('estado')->get(),
             'municipios' => municipio::orderBy('municipio')->get(),
@@ -146,7 +145,7 @@ class GuiaController extends Controller
         $client_sender = Cliente::create([
             'tipo_documento' => 'V-',
             'documento' => request('id_sender'),
-            'nombre-razonsocial' => request('name_sender'),
+            'nombre_razonsocial' => request('name_sender'),
             'email' => request('mail_sender'),
             'telefono' => request('phone_sender'),
             'direccion_id' => $direccion_sender->id,
@@ -156,7 +155,7 @@ class GuiaController extends Controller
         $client_receiver = Cliente::create([
             'tipo_documento' => 'V-',
             'documento' => request('id_receiver'),
-            'nombre-razonsocial' => request('name_receiver'),
+            'nombre_razonsocial' => request('name_receiver'),
             'email' => request('mail_receiver'),
             'telefono' => request('phone_receiver'),
             'direccion_id' => $direccion_receiver->id,

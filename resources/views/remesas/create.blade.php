@@ -79,14 +79,30 @@
                 @endforeach
 
                 <div class="row mt-4 pt-4">
-                    <div class="col text-center">
+                    <div class="col-4 text-center">
                         <label class="form-check-label" for="instalacion">Instalacion destino</label>
                         <select class="ml-4" name="instalacion_destino" id="instalacion_destino" required>
                             <option value="">Seleccione una sucursal</option>
                             @foreach ($instalaciones as $instalacion)
-                            <div class="col-3">
                                 <option value="{{$instalacion->id}}">{{$instalacion->id}} / {{$instalacion->codigo}} / {{$instalacion->descripcion}}</option>
-                            </div>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="col-4 text-center">
+                        <label class="form-check-label" for="vehiculo">Vehiculo</label><br>
+                        <select class="ml-4" name="vehiculo" id="vehiculo" required>
+                            <option value="">Seleccione un vehiculo</option>
+                            @foreach ($vehiculos as $vehiculo)
+                                <option value="{{$vehiculo->id}}">{{$vehiculo->id}} / {{$vehiculo->codigo}} / {{$vehiculo->placa}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="col-4 text-center">
+                        <label class="form-check-label" for="transportista">Transportista</label><br>
+                        <select class="ml-4" name="transportista" id="transportista" required>
+                            <option value="">Seleccione un Transportista</option>
+                            @foreach ($transportistas as $transportista)
+                                <option value="{{$transportista->id}}">{{$transportista->id}} / {{$transportista->documento}} / {{$transportista->nombres}}</option>
                             @endforeach
                         </select>
                     </div>
