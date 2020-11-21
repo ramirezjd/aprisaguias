@@ -17,6 +17,8 @@ class ciudad extends Model
         return $this->belongsTo('App\municipio');
     }
 
-
+    public function instalaciones(){
+        return $this->hasMany('App\instalacion');
+    }
 
 }

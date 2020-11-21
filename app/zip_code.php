@@ -14,4 +14,8 @@ class zip_code extends Model
     public function parroquia(){
         return $this->belongsTo('App\parroquia');
     }
+
+    public function instalaciones(){
+        return $this->hasMany('App\instalacion');
+    }
 }

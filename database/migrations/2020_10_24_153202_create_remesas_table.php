@@ -16,17 +16,21 @@ class CreateRemesasTable extends Migration
         Schema::create('remesas', function (Blueprint $table) {
             $table->id();
             $table->string('codigo', 120);
-            $table->string('descripcion', 256);
-            $table->string('peso_total', 256);
-            $table->string('volumen_total', 256);
+            $table->string('origen', 256);
+            $table->string('destino', 256);
+            $table->float('peso_volumetrico_total', 10, 2);
+            $table->float('volumen_total', 10, 2);
+            $table->float('peso_total', 10, 2);
             $table->timestamp('fecha_entrega',0)->nullable();
-            $table->softDeletes();
 
             $table->unsignedBigInteger('vehiculo_id');
+            $table->unsignedBigInteger('transportista_id');
 
             $table->timestamps();
+            $table->softDeletes();
 
             $table->foreign('vehiculo_id')->references('id')->on('vehiculos');
+            $table->foreign('transportista_id')->references('id')->on('transportistas');
         });
     }
 

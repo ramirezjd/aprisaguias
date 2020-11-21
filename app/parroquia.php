@@ -18,4 +18,8 @@ class parroquia extends Model
     public function zip_code(){
         return $this->hasOne('App\zip_code');
     }
+
+    public function instalaciones(){
+        return $this->hasMany('App\instalacion');
+    }
 }

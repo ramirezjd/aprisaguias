@@ -7,14 +7,14 @@
         <div class="row">
             <div class="col-lg-12 margin-tb">
                 <div class="pull-left">
-                    <h2>Add New guia</h2>
+                    <h2>Edit Instalacion</h2>
                 </div>
                 <div class="pull-right">
-                    <a class="btn btn-primary" href="{{ route('instalacion.index') }}"> Back</a>
+                    <a class="btn btn-primary" href="{{ route('instalaciones.index') }}"> Back</a>
                 </div>
             </div>
         </div>
-        <form action="{{ route('instalacion.update', $instalacion->id) }}" method="POST">
+        <form action="{{ route('instalaciones.update', $instalacion->id) }}" method="POST">
             @csrf
             @method('PUT')
 
@@ -115,7 +115,7 @@
             })
 
                 $("#via_principal").val('{{$instalacion->via_principal}}');
-                $("#tipo_instalacion option[value="+{{ $instalacion->tipo_instalaciones_id }}+"]").attr("selected", true);
+                $("#tipo_instalacion option[value="+{{ $instalacion->tipo_instalacion_id }}+"]").attr("selected", true);
                 $("#dropdownEstados option[value="+{{$instalacion->estado_id}}+"]").attr("selected", true);
                 $("#dropdownMunicipios option[value="+{{$instalacion->municipio_id}}+"]").attr("selected", true);
                 $("#dropdownCiudades option[value="+{{$instalacion->ciudad_id}}+"]").attr("selected", true);
@@ -231,7 +231,7 @@
     @endsection
 @endcan
 
-@cannot('editar instalacion'){
+@cannot('editar instalacion')
     @section('content')
         <div class="container">
             <h1>No tiene los permisos necesarios para acceder a esta funcionalidad.</h1>

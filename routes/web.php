@@ -15,16 +15,23 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+
+
 Route::middleware('auth')->group(function(){
     Route::resource('/permissions', 'PermissionsController')->only([
-        'index', 'show', 'create'
+        'index', 'show', 'create', 'store', 'edit', 'update'
     ]);;
     Route::resource('/remesas', 'RemesaController')->only([
-        'index', 'show', 'create'
+        'index', 'show', 'create', 'store'
     ]);;
     Route::resource('/instalaciones', 'InstalacionController');
     Route::resource('/users', 'UserController');
+    Route::get('/guias/{id}/pdf','GuiaController@pdftest')->name('pdftest');
     Route::resource('/guias', 'GuiaController');
+    Route::resource('/tipo-paquetes', 'TipoPaqueteController');
+    Route::resource('/transportistas', 'TransportistaController');
+    Route::resource('/vehiculos', 'VehiculoController');
+
 });
 
 

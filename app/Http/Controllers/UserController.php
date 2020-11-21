@@ -20,7 +20,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::all();
+        $users = User::with('instalacion')->get();
 
         return view('users.index', [
             'users' => $users,
@@ -80,12 +80,13 @@ class UserController extends Controller
 
         $user->assignRole($request->get('roles'));
 
-        $permissions_array = $request->get('permissions');
-        $max = count($permissions_array);
+        if($request->get('permissions')){
+            $permissions_array = $request->get('permissions');
+            $max = count($permissions_array);
 
-
-        for($i=0; $i < $max; $i++){
-            $user->givePermissionTo($permissions_array[$i]);
+            for($i=0; $i < $max; $i++){
+                $user->givePermissionTo($permissions_array[$i]);
+            }
         }
 
         return redirect()->route('users.index');
@@ -98,13 +99,9 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(user $user)
     {
-        $user = User::findOrFail($id);
-
-        $permissions = $user->getDirectPermissions();
-        $roles = $user->getRoleNames();
-        return $permissions;
+        return view('users.show',compact('user'));
     }
 
     /**
@@ -185,11 +182,13 @@ class UserController extends Controller
             }
         }
 
-        $permissions_array = $request->get('permissions');
-        $max = count($permissions_array);
+        if($request->get('permissions')){
+            $permissions_array = $request->get('permissions');
+            $max = count($permissions_array);
 
-        for($i=0; $i < $max; $i++){
-            $user->givePermissionTo($permissions_array[$i]);
+            for($i=0; $i < $max; $i++){
+                $user->givePermissionTo($permissions_array[$i]);
+            }
         }
 
         if($request->get('instalacion') != $user->instalacion_id ){

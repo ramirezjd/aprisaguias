@@ -3,12 +3,18 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class vehiculo extends Model
 {
+    use SoftDeletes;
+    protected $fillable = [
+        'codigo',
+        'placa',
+    ];
     public function remesa()
     {
-        return $this->hasOne('App\remesa');
+        return $this->hasMany('App\remesa');
     }
 
     public function transportista_x_vehiculo()

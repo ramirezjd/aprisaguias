@@ -12,7 +12,7 @@ class cliente extends Model
     protected $fillable = [
         'tipo_documento',
         'documento',
-        'nombre-razonsocial',
+        'nombre_razonsocial',
         'email',
         'telefono',
         'direccion_id'
@@ -23,9 +23,9 @@ class cliente extends Model
         return $this->hasOne('App\direccion');
     }
 
-    public function remitente()
+    public function guias()
     {
-        return $this->belongsT('App\cliente');
+        return $this->belongsTo('App\guia');
     }
 
     public function destinatario()

@@ -65,6 +65,8 @@ class InstalacionController extends Controller
             'via_principal' => 'required',
         ]);
 
+
+
         if($request->get('estados')<10){
             $aux = '0';
         }
@@ -102,7 +104,7 @@ class InstalacionController extends Controller
             'zip_code_id' => request('zip_codes'),
         ]);
 
-        return redirect()->route('instalacion.index');
+        return redirect()->route('instalaciones.index');
     }
 
     /**
@@ -122,12 +124,9 @@ class InstalacionController extends Controller
      * @param  \App\instalacion  $instalacion
      * @return \Illuminate\Http\Response
      */
-    public function edit(instalacion $instalacion)
+    public function edit($id)
     {
-
-        //$parroquia = parroquia::findOrFail($instalacion->parroquia_id);
-        //return $parroquia->zip_code;
-
+        $instalacion = instalacion::findOrFail($id);
         $municipios = estado::findOrFail($instalacion->estado_id)->municipios;
         $ciudades = municipio::findOrFail($instalacion->municipio_id)->ciudades;
         $parroquias = municipio::findOrFail($instalacion->municipio_id)->parroquias;
@@ -151,8 +150,9 @@ class InstalacionController extends Controller
      * @param  \App\instalacion  $instalacion
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, instalacion $instalacion)
+    public function update(Request $request, $id)
     {
+        $instalacion = instalacion::findOrFail($id);
         $request->validate([
             'descripcion' => 'required',
             'tipo_instalacion' => 'required',
@@ -183,7 +183,7 @@ class InstalacionController extends Controller
         ]);
 
 
-        return redirect()->route('instalacion.index');
+        return redirect()->route('instalaciones.index');
     }
 
     /**
@@ -194,9 +194,10 @@ class InstalacionController extends Controller
      */
 
 
-    public function destroy(instalacion $instalacion)
+    public function destroy($id)
     {
+        $instalacion = instalacion::findOrFail($id);
         $instalacion->delete();
-        return redirect()->route('instalacion.index');
+        return redirect()->route('instalaciones.index');
     }
 }

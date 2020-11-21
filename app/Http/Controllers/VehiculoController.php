@@ -14,7 +14,8 @@ class VehiculoController extends Controller
      */
     public function index()
     {
-        //
+        $vehiculos = vehiculo::all();
+        return view('vehiculos.index',compact('vehiculos'));
     }
 
     /**
@@ -24,7 +25,7 @@ class VehiculoController extends Controller
      */
     public function create()
     {
-        //
+        return view('vehiculos.create');
     }
 
     /**
@@ -35,7 +36,17 @@ class VehiculoController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'codigo' => 'required',
+            'placa' => 'required',
+        ]);
+
+        vehiculo::create([
+            'codigo' => request('codigo'),
+            'placa' => request('placa'),
+        ]);
+
+        return redirect()->route('vehiculos.index');
     }
 
     /**
@@ -46,7 +57,7 @@ class VehiculoController extends Controller
      */
     public function show(vehiculo $vehiculo)
     {
-        //
+        return view('vehiculos.show',compact('vehiculo'));
     }
 
     /**
@@ -57,7 +68,7 @@ class VehiculoController extends Controller
      */
     public function edit(vehiculo $vehiculo)
     {
-        //
+        return view('vehiculos.edit',compact('vehiculo'));
     }
 
     /**
@@ -69,7 +80,11 @@ class VehiculoController extends Controller
      */
     public function update(Request $request, vehiculo $vehiculo)
     {
-        //
+        $vehiculo->update([
+            'codigo' => request('codigo'),
+            'placa' => request('placa'),
+        ]);
+        return redirect()->route('vehiculos.index');
     }
 
     /**
@@ -80,6 +95,9 @@ class VehiculoController extends Controller
      */
     public function destroy(vehiculo $vehiculo)
     {
-        //
+        $vehiculo->delete();
+
+        return redirect()->route('vehiculos.index')
+                        ->with('success','Guía Eliminada Exitosamente.');
     }
 }

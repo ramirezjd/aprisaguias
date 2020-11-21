@@ -14,4 +14,8 @@ class estado extends Model
     public function municipios(){
         return $this->hasMany('App\municipio');
     }
+
+    public function instalaciones(){
+        return $this->hasMany('App\instalacion');
+    }
 }

@@ -22,4 +22,8 @@ class municipio extends Model
     public function parroquias(){
         return $this->hasMany('App\parroquia');
     }
+
+    public function instalaciones(){
+        return $this->hasMany('App\instalacion');
+    }
 }
