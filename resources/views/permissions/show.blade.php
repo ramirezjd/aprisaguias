@@ -1,4 +1,4 @@
-@extends('permissions.layout')
+@extends('layouts.app')
 
 
 @can('ver permisos')

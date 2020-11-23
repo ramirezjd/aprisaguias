@@ -11,6 +11,7 @@ class vehiculo extends Model
     protected $fillable = [
         'codigo',
         'placa',
+        'status',
     ];
     public function remesa()
     {

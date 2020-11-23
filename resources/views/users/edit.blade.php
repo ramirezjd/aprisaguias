@@ -1,4 +1,5 @@
-@extends('instalaciones.layout')
+@extends('layouts.app')
+
 
 @can('editar usuario')
 @section('content')

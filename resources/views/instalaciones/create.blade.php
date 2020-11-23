@@ -1,4 +1,4 @@
-@extends('instalaciones.layout')
+@extends('layouts.app')
 
 
 @can('crear instalacion')
@@ -138,7 +138,7 @@
         //parroquia_request = e.target.value;
 
         $.ajax({
-            url:"{{ route('request_parroquia') }}",
+            url:"{{ route('getZipCodes') }}",
             method:"GET",
             data:{"parroquia_id":parroquia_id},
             dataType:"json",
@@ -165,7 +165,7 @@
         //municipio_request = e.target.value;
 
         $.ajax({
-            url:"{{ route('request_municipio') }}",
+            url:"{{ route('getCiudades') }}",
             method:"GET",
             data:{"municipio_id":municipio_id},
             dataType:"json",
@@ -186,7 +186,7 @@
             });
 
             $.ajax({
-            url:"{{ route('request_ciudad') }}",
+            url:"{{ route('getParroquias') }}",
             method:"GET",
             data:{"municipio_id":municipio_id},
             dataType:"json",
@@ -213,7 +213,7 @@
             //estado_request = e.target.value;
 
             $.ajax({
-            url:"{{ route('request_estado') }}",
+            url:"{{ route('getMunicipios') }}",
             method:"GET",
             data:{"estado_id":estado_id},
             dataType:"json",

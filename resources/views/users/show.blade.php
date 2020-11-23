@@ -1,5 +1,4 @@
-@extends('permissions.layout')
-
+@extends('layouts.app')
 
 @can('ver usuario')
 @section('content')

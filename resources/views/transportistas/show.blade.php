@@ -1,4 +1,4 @@
-@extends('permissions.layout')
+@extends('layouts.app')
 
 
 @can('ver vehiculo')
@@ -43,6 +43,10 @@
         <div class="col-3">
             <h5 class="font-weight-bold">Telefono</h5>
             <span>{{$transportista->telefono}}</span>
+        </div>
+        <div class="col-3">
+            <h5 class="font-weight-bold">Status</h5>
+            <span>{{$transportista->status}}</span>
         </div>
     </div>
 

@@ -16,6 +16,7 @@ class transportista extends Model
         'apellidos',
         'telefono',
         'direccion',
+        'status',
     ];
     public function transportista_x_vehiculo()
     {

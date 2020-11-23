@@ -18,12 +18,8 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::middleware('auth')->group(function(){
-    Route::resource('/permissions', 'PermissionsController')->only([
-        'index', 'show', 'create', 'store', 'edit', 'update'
-    ]);;
-    Route::resource('/remesas', 'RemesaController')->only([
-        'index', 'show', 'create', 'store'
-    ]);;
+    Route::resource('/permissions', 'PermissionsController');
+    Route::resource('/remesas', 'RemesaController');
     Route::resource('/instalaciones', 'InstalacionController');
     Route::resource('/users', 'UserController');
     Route::get('/guias/{id}/pdf','GuiaController@pdftest')->name('pdftest');
@@ -34,20 +30,10 @@ Route::middleware('auth')->group(function(){
 
 });
 
-
-Route::get('/parroquias', 'ParroquiaController@getChild')->name('request_parroquia');
-Route::get('/ciudades', 'MunicipioController@getChild2')->name('request_ciudad');
-Route::get('/municipios', 'MunicipioController@getChild')->name('request_municipio');
-Route::get('/estados', 'EstadoController@getChild')->name('request_estado');
-Route::post('/direccion/create', 'DireccionController@store')->name('registrar_direccion');
-
-
-
-Route::get('/testing', function () {
-    return view('testing-form', [
-        'estados' => estado::orderBy('estado')->get(),
-    ]);
-});
+Route::get('/getMunicipios', 'DireccionController@EstadoGetMunicipios')->name('getMunicipios');
+Route::get('/getCiudades', 'DireccionController@MunicipioGetCiudades')->name('getCiudades');
+Route::get('/getParroquias', 'DireccionController@MunicipioGetParroquias')->name('getParroquias');
+Route::get('/getZipCodes', 'DireccionController@ParroquiaGetZipCodes')->name('getZipCodes');
 
 
 Route::get('/', function () {

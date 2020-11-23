@@ -18,10 +18,13 @@ class CreateRemesasTable extends Migration
             $table->string('codigo', 120);
             $table->string('origen', 256);
             $table->string('destino', 256);
+            $table->string('cod_origen', 256);
+            $table->string('cod_destino', 256);
             $table->float('peso_volumetrico_total', 10, 2);
             $table->float('volumen_total', 10, 2);
             $table->float('peso_total', 10, 2);
             $table->timestamp('fecha_entrega',0)->nullable();
+            $table->string('status', 256);
 
             $table->unsignedBigInteger('vehiculo_id');
             $table->unsignedBigInteger('transportista_id');

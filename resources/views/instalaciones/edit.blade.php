@@ -1,4 +1,4 @@
-@extends('instalaciones.layout')
+@extends('layouts.app')
 
 
 @can('editar instalacion')
@@ -23,46 +23,46 @@
                     <br>
                     <div class="form-group">
                         <strong>Nombre a mostrar:</strong>
-                        <input class="form-control" name="descripcion" id="descripcion" value={{ $instalacion->descripcion}}></textarea>
+                        <input class="form-control" name="descripcion" id="descripcion" value={{ $instalacion->descripcion}} required></textarea>
                     </div>
 
                     <br>
-                    <select name="tipo_instalacion" id="tipo_instalacion">
+                    <select name="tipo_instalacion" id="tipo_instalacion" required>
                         <option value="Seleccione un tipo de instalacion">Seleccione un tipo de instalacion</option>
                         @foreach ($tipos as $tipo)
                         <option value="{{ $tipo->id }}">{{ $tipo->nombre }}</option>
                         @endforeach
                     </select>
                     <br><br>
-                    <select name="estados" id="dropdownEstados">
+                    <select name="estados" id="dropdownEstados" required>
                         <option value="Seleccione un estado">Seleccione un estado</option>
                         @foreach ($estados as $estados)
                         <option value="{{ $estados->id }}">{{ $estados->estado }}</option>
                         @endforeach
                     </select>
 
-                    <select name="municipios" id="dropdownMunicipios">
+                    <select name="municipios" id="dropdownMunicipios" required>
                         <option value="0">Seleccione un municipio</option>
                         @foreach ($municipios as $municipio)
                         <option value="{{ $municipio->id }}">{{ $municipio->municipio }}</option>
                         @endforeach
                     </select>
 
-                    <select name="ciudades" id="dropdownCiudades">
+                    <select name="ciudades" id="dropdownCiudades" required>
                         <option value="0">Seleccione una ciudad</option>
                         @foreach ($ciudades as $ciudad)
                         <option value="{{ $ciudad->id }}">{{ $ciudad->ciudad }}</option>
                         @endforeach
                     </select>
 
-                    <select name="parroquias" id="dropdownParroquias">
+                    <select name="parroquias" id="dropdownParroquias" required>
                         <option value="0">Seleccione una parroquia</option>
                         @foreach ($parroquias as $parroquia)
                         <option value="{{ $parroquia->id }}">{{ $parroquia->parroquia }}</option>
                         @endforeach
                     </select>
 
-                    <select name="zip_codes" id="dropdownZip_codes">
+                    <select name="zip_codes" id="dropdownZip_codes" required>
                         <option value="0">Seleccione un codigo postal</option>
                         <option value="{{ $zip_code->id }}">{{ $zip_code->zip_code }}</option>
                     </select>
@@ -72,25 +72,25 @@
             <div class="col-xs-4 col-sm-12 col-md-3">
                 <div class="form-group">
                     <strong>Urbanizacion:</strong>
-                    <textarea class="form-control" rows="1" name="urbanizacion" id="urbanizacion" placeholder="urbanizacion">{{$instalacion->urbanizacion}}</textarea>
+                    <textarea class="form-control" rows="1" name="urbanizacion" id="urbanizacion" placeholder="urbanizacion" required>{{$instalacion->urbanizacion}}</textarea>
                 </div>
             </div>
             <div class="col-xs-4 col-sm-12 col-md-3">
                 <div class="form-group">
                     <strong>Edificio / Casa:</strong>
-                    <textarea class="form-control" rows="1" name="edificio_casa" id="edificio_casa" placeholder="Edificio / Casa">{{$instalacion->edificio_casa}}</textarea>
+                    <textarea class="form-control" rows="1" name="edificio_casa" id="edificio_casa" placeholder="Edificio / Casa" required>{{$instalacion->edificio_casa}}</textarea>
                 </div>
             </div>
             <div class="col-xs-4 col-sm-12 col-md-3">
                 <div class="form-group">
                     <strong>Punto de Referencia:</strong>
-                    <textarea class="form-control" rows="1" name="punto_referencia" id="punto_referencia" placeholder="Punto de Referencia">{{$instalacion->punto_referencia}}</textarea>
+                    <textarea class="form-control" rows="1" name="punto_referencia" id="punto_referencia" placeholder="Punto de Referencia" required>{{$instalacion->punto_referencia}}</textarea>
                 </div>
             </div>
             <div class="col-xs-4 col-sm-12 col-md-3">
                 <div class="form-group">
                     <p><label class="form-check-label" for="via_principal">Via Principal</label></p>
-                    <select name="via_principal" id="via_principal">
+                    <select name="via_principal" id="via_principal" required>
                         <option value="0">Seleccione una opcion</option>
                         <option value="SI">SI</option>
                         <option value="NO">NO</option>
@@ -129,7 +129,7 @@
                 var parroquia_id = e.target.value;
 
                 $.ajax({
-                    url:"{{ route('request_parroquia') }}",
+                    url:"{{ route('getZipCodes') }}",
                     method:"GET",
                     data:{"parroquia_id":parroquia_id},
                     dataType:"json",
@@ -137,7 +137,7 @@
 
                         $('#dropdownZip_codes').empty();
 
-                        $('#dropdownZip_codes').append('<option value="'+0+'">Seleccione una zona postal</option>');
+                        $('#dropdownZip_codes').append('<option value="">Seleccione una zona postal</option>');
                         $('#dropdownZip_codes').append('<option value="'+data.id+'">'+data.zip_code+'</option>');
 
 
@@ -156,7 +156,7 @@
                 //municipio_request = e.target.value;
 
                 $.ajax({
-                    url:"{{ route('request_municipio') }}",
+                    url:"{{ route('getCiudades') }}",
                     method:"GET",
                     data:{"municipio_id":municipio_id},
                     dataType:"json",
@@ -164,7 +164,7 @@
 
                         $('#dropdownCiudades').empty();
 
-                        $('#dropdownCiudades').append('<option value="'+0+'">Seleccione una ciudad</option>');
+                        $('#dropdownCiudades').append('<option value="">Seleccione una ciudad</option>');
 
 
                         $.each(data, function(i, id, ciudad) {
@@ -177,7 +177,7 @@
                     });
 
                     $.ajax({
-                    url:"{{ route('request_ciudad') }}",
+                    url:"{{ route('getParroquias') }}",
                     method:"GET",
                     data:{"municipio_id":municipio_id},
                     dataType:"json",
@@ -185,7 +185,7 @@
 
                         $('#dropdownParroquias').empty();
 
-                        $('#dropdownParroquias').append('<option value="'+0+'">Seleccione una parroquia</option>');
+                        $('#dropdownParroquias').append('<option value="">Seleccione una parroquia</option>');
 
                         $.each(data, function(i, id, parroquia) {
                             $('#dropdownParroquias').append('<option value="'+data[i].id+'">'+data[i].parroquia+'</option>');
@@ -204,7 +204,7 @@
                     //estado_request = e.target.value;
 
                     $.ajax({
-                    url:"{{ route('request_estado') }}",
+                    url:"{{ route('getMunicipios') }}",
                     method:"GET",
                     data:{"estado_id":estado_id},
                     dataType:"json",
@@ -212,7 +212,7 @@
 
                         $('#dropdownMunicipios').empty();
 
-                        $('#dropdownMunicipios').append('<option value="'+0+'">Seleccione un municipio</option>');
+                        $('#dropdownMunicipios').append('<option value="">Seleccione un municipio</option>');
 
                         $.each(data, function(i, id, municipio) {
                             $('#dropdownMunicipios').append('<option value="'+data[i].id+'">'+data[i].municipio+'</option>');

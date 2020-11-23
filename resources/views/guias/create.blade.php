@@ -1,4 +1,4 @@
-@extends('guias.layout')
+@extends('layouts.app')
 
 @can('crear guia')
 @section('content')
@@ -38,7 +38,7 @@
                     <input type="num" name="price_package" class="form-control" required>
                 </div>
 
-                <div class="form-group">
+                <div class="form-group d-none">
                     <strong>Fecha Creación:</strong>
                     <input type="date" name="date_creation" class="form-control" disabled
                     value="{{ $today = date('Y-m-d') }}">
@@ -527,14 +527,14 @@
         var parroquia_id = e.target.value;
 
         $.ajax({
-            url:"{{ route('request_parroquia') }}",
+            url:"{{ route('getZipCodes') }}",
             method:"GET",
             data:{"parroquia_id":parroquia_id},
             dataType:"json",
             success:function(data){
 
                 $('#dropdownZip_codes').empty();
-                $('#dropdownZip_codes').append('<option value="'+0+'">Seleccione una zona postal</option>');
+                $('#dropdownZip_codes').append('<option value="">Seleccione una zona postal</option>');
                 $('#dropdownZip_codes').append('<option value="'+data.id+'" data-name="'+data.zip_code+'">'+data.zip_code+'</option>');
             },
             error: function (data) {
@@ -551,14 +551,14 @@
         console.log('municipio_id', municipio_id);
 
         $.ajax({
-            url:"{{ route('request_municipio') }}",
+            url:"{{ route('getCiudades') }}",
             method:"GET",
             data:{"municipio_id":municipio_id},
             dataType:"json",
             success:function(data){
 
                 $('#dropdownCiudades').empty();
-                $('#dropdownCiudades').append('<option value="'+0+'">Seleccione una ciudad</option>');
+                $('#dropdownCiudades').append('<option value="">Seleccione una ciudad</option>');
 
                 $.each(data, function(i, id, ciudad) {
                     $('#dropdownCiudades').append('<option value="'+data[i].id+'" data-name="'+data[i].ciudad+'">'+data[i].ciudad+'</option>');
@@ -570,14 +570,14 @@
             });
 
             $.ajax({
-            url:"{{ route('request_ciudad') }}",
+            url:"{{ route('getParroquias') }}",
             method:"GET",
             data:{"municipio_id":municipio_id},
             dataType:"json",
             success:function(data){
 
                 $('#dropdownParroquias').empty();
-                $('#dropdownParroquias').append('<option value="'+0+'">Seleccione una parroquia</option>');
+                $('#dropdownParroquias').append('<option value="">Seleccione una parroquia</option>');
 
                 $.each(data, function(i, id, parroquia) {
                     $('#dropdownParroquias').append('<option value="'+data[i].id+'" data-name="'+data[i].parroquia+'">'+data[i].parroquia+'</option>');
@@ -591,18 +591,16 @@
         });
 
         $( '#dropdownEstados' ).change(function(e) {
-
             var estado_id = e.target.value;
-
             $.ajax({
-            url:"{{ route('request_estado') }}",
+            url:"{{ route('getMunicipios') }}",
             method:"GET",
             data:{"estado_id":estado_id},
             dataType:"json",
             success:function(data){
 
                 $('#dropdownMunicipios').empty();
-                $('#dropdownMunicipios').append('<option value="'+0+'">Seleccione un municipio</option>');
+                $('#dropdownMunicipios').append('<option value="">Seleccione un municipio</option>');
 
                 $.each(data, function(i, id, municipio) {
                     $('#dropdownMunicipios').append('<option value="'+data[i].id+'" data-name="'+data[i].municipio+'">'+data[i].municipio+'</option>');
@@ -621,13 +619,13 @@
             var estado_id = e.target.value;
 
             $.ajax({
-            url:"{{ route('request_estado') }}",
+            url:"{{ route('getMunicipios') }}",
             method:"GET",
             data:{"estado_id":estado_id},
             dataType:"json",
                 success:function(data){
                     $('#selectProv').empty();
-                    $('#selectProv').append('<option value="'+0+'">Seleccione un municipio</option>');
+                    $('#selectProv').append('<option value="">Seleccione un municipio</option>');
                     $.each(data, function(i, id, municipio) {
                         $('#selectProv').append('<option value="'+data[i].id+'" data-name="'+data[i].municipio+'">'+data[i].municipio+'</option>');
                     });
@@ -640,13 +638,13 @@
             var municipio_id = e.target.value;
 
             $.ajax({
-                url:"{{ route('request_municipio') }}",
+                url:"{{ route('getCiudades') }}",
                 method:"GET",
                 data:{"municipio_id":municipio_id},
                 dataType:"json",
                 success:function(data){
                     $('#selecCity').empty();
-                    $('#selecCity').append('<option value="'+0+'">Seleccione una ciudad</option>');
+                    $('#selecCity').append('<option value="">Seleccione una ciudad</option>');
                     $.each(data, function(i, id, ciudad) {
                         $('#selecCity').append('<option value="'+data[i].id+'" data-name="'+data[i].ciudad+'">'+data[i].ciudad+'</option>');
                     });
@@ -654,13 +652,13 @@
             });
 
             $.ajax({
-                url:"{{ route('request_ciudad') }}",
+                url:"{{ route('getParroquias') }}",
                 method:"GET",
                 data:{"municipio_id":municipio_id},
                 dataType:"json",
                 success:function(data){
                     $('#selectParroq').empty();
-                    $('#selectParroq').append('<option value="'+0+'">Seleccione una parroquia</option>');
+                    $('#selectParroq').append('<option value="">Seleccione una parroquia</option>');
                     $.each(data, function(i, id, parroquia) {
                         $('#selectParroq').append('<option value="'+data[i].id+'" data-name="'+data[i].parroquia+'">'+data[i].parroquia+'</option>');
                     });
@@ -673,13 +671,13 @@
             var parroquia_id = e.target.value;
 
             $.ajax({
-                url:"{{ route('request_parroquia') }}",
+                url:"{{ route('getZipCodes') }}",
                 method:"GET",
                 data:{"parroquia_id":parroquia_id},
                 dataType:"json",
                 success:function(data){
                     $('#selectZip').empty();
-                    $('#selectZip').append('<option value="'+0+'">Seleccione una zona postal</option>');
+                    $('#selectZip').append('<option value="">Seleccione una zona postal</option>');
                     $('#selectZip').append('<option value="'+data.id+'" data-name="'+data.zip_code+'">'+data.zip_code+'</option>');
                 }
             });

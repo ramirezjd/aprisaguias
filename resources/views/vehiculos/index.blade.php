@@ -1,4 +1,4 @@
-@extends('users.layout')
+@extends('layouts.app')
 
 
 @can('ver vehiculo')
@@ -20,6 +20,7 @@
                         <th>ID</th>
                         <th>Codigo</th>
                         <th>Placa</th>
+                        <th>Status</th>
                         <th>Acciones</th>
                     </tr>
                     @foreach ($vehiculos as $vehiculo)
@@ -27,6 +28,7 @@
                         <td class="text-center">{{ $vehiculo->id }}</td>
                         <td class="text-center">{{ $vehiculo->codigo}}</td>
                         <td class="text-center">{{ $vehiculo->placa }}</td>
+                        <td class="text-center">{{ $vehiculo->status }}</td>
                         <td class="text-center">
                             <form action="{{ route('vehiculos.destroy',$vehiculo->id) }}" method="POST">
                                 <a class="btn btn-info" href="{{ route('vehiculos.show',$vehiculo->id) }}">Ver</a>

@@ -1,4 +1,4 @@
-@extends('guias.layout')
+@extends('layouts.app')
 
 @can('ver guia')
 @section('content')

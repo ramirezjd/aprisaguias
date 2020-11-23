@@ -12,11 +12,14 @@ class remesa extends Model
         'codigo',
         'origen',
         'destino',
+        'cod_origen',
+        'cod_destino',
         'peso_volumetrico_total',
         'volumen_total',
         'peso_total',
         'vehiculo_id',
         'transportista_id',
+        'status',
     ];
     public function guias_x_remesa()
     {
