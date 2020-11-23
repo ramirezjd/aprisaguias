@@ -27,7 +27,14 @@ class GuiaController extends Controller
      */
     public function index()
     {
-        $guias = Guia::with(['user', 'tipo_destino'])->get();
+        $user = User::findOrFail(Auth::id());
+        if($user->hasRole('super-admin')){
+            $guias = guia::with(['user' , 'tipo_destino'])->get();
+        }
+        else{
+            $guias = guia::where('instalacion_origen_id', $user->instalacion_id)->with(['user' , 'tipo_destino'])->get();
+        }
+
         return view('guias.index', compact('guias'));
     }
 
@@ -280,7 +287,7 @@ class GuiaController extends Controller
         return redirect()->route('guias.index')
                         ->with('success','Guía Eliminada Exitosamente.');
     }
-
+    /*
     public function pdftest($id){
         $guia = guia::findOrFail($id);
         $remitente = cliente::findOrFail($guia->cliente_remitente_id);
@@ -291,16 +298,48 @@ class GuiaController extends Controller
         //return view('guias.pdf')->with(compact('guia', 'remitente', 'destinatario'));
 
     }
+    */
 
-    public function createPDF() {
-        // retreive all records from db
-        $data = guia::all();
+    public function pdftest($id){
+        $guia = guia::findOrFail($id);
+        $remitente = cliente::findOrFail($guia->cliente_remitente_id);
+        $destinatario = cliente::findOrFail($guia->cliente_destinatario_id);
+        $origen = direccion::where('id', $remitente->direccion_id)->with(['estado', 'ciudad', 'municipio', 'parroquia', 'zip_code'])->first();
+        $destino = direccion::where('id', $destinatario->direccion_id)->with(['estado', 'ciudad', 'municipio', 'parroquia', 'zip_code'])->first();
 
-        // share data to view
-        view()->share('employee',$data);
-        $pdf = PDF::loadView('pdf_view', $data);
+        $direccion_origen = $origen->estado->estado. '-' . $origen->municipio->municipio . '-' .
+            $origen->ciudad->ciudad . '-' . $origen->parroquia->parroquia . '-' . $origen->zip_code->zip_code;
 
-        // download PDF file with download method
-        return $pdf->download('pdf_file.pdf');
-      }
+        $direccion_destino = $destino->estado->estado. '-' . $destino->municipio->municipio . '-' .
+            $destino->ciudad->ciudad . '-' . $destino->parroquia->parroquia . '-' . $destino->zip_code->zip_code;
+
+        $data = [
+            //meta
+            'codigo' => $guia->codigo,
+            'peso_total' => $guia->peso_total,
+            'peso_volumetrico' => $guia->peso_volumetrico,
+            'fecha_creacion' => $guia->fecha_creacion,
+
+            //origen
+            'origen' => $guia->cod_origen,
+            'remitente_tipo_documento' => $remitente->tipo_documento,
+            'remitente_documento' => $remitente->documento,
+            'remitente_nombre_razonsocial' => $remitente->nombre_razonsocial,
+            'remitente_email' => $remitente->email,
+            'remitente_telefono' => $remitente->telefono,
+            'remitente_direccion' => $direccion_origen,
+
+            //destino
+            'destino' => $guia->cod_destino,
+            'destinatario_tipo_documento' => $destinatario->tipo_documento,
+            'destinatario_documento' => $destinatario->documento,
+            'destinatario_nombre_razonsocial' => $destinatario->nombre_razonsocial,
+            'destinatario_email' => $destinatario->email,
+            'destinatario_telefono' => $destinatario->telefono,
+            'destinatario_direccion' => $direccion_destino,
+        ];
+        $pdf = PDF::loadView('pdf', $data);
+        return $pdf->stream('GUIA-'.$guia->codigo);
+    }
+
 }

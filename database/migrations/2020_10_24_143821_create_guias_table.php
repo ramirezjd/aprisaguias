@@ -17,9 +17,9 @@ class CreateGuiasTable extends Migration
             $table->id();
             $table->string('codigo', 120);
             $table->float('precio', 15, 2);
-            $table->float('asegurado', 8, 2);
-            $table->float('peso_total', 8, 2)->nullable();
-            $table->float('peso_volumetrico', 8, 2)->nullable();
+            $table->float('asegurado', 15, 2);
+            $table->float('peso_total', 10, 2)->nullable();
+            $table->float('peso_volumetrico', 10, 2)->nullable();
             $table->integer('n_paquetes')->nullable();
             $table->string('cod_origen', 120);
             $table->string('cod_destino', 120);

@@ -1,4 +1,4 @@
-@extends('remesas.layout')
+@extends('layouts.app')
 
 
 @can('ver remesa')

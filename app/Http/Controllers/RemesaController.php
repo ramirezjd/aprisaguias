@@ -5,7 +5,7 @@ use App\guia;
 use App\instalacion;
 use App\vehiculo;
 use App\transportista;
-use App\paquetes_x_guia;
+use App\guias_x_remesa;
 use App\User;
 use DB;
 use Auth;
@@ -22,7 +22,18 @@ class RemesaController extends Controller
      */
     public function index()
     {
-        return 'What r u looking 4?';
+        $user = User::findOrFail(Auth::id());
+        if($user->hasRole('super-admin')){
+            $remesas = remesa::with(['vehiculo' , 'transportista'])->get();
+            $remesas_destino = remesa::where('destino', $user->instalacion_id)->with(['vehiculo' , 'transportista'])->get();
+        }
+        else{
+            $remesas = remesa::where('origen', $user->instalacion_id)->with(['vehiculo' , 'transportista'])->get();
+            $remesas_destino = remesa::where('destino', $user->instalacion_id)->with(['vehiculo' , 'transportista'])->get();
+        }
+
+        return view ('remesas.index', compact('remesas'), compact('remesas_destino'));
+
     }
 
     /**
@@ -34,9 +45,12 @@ class RemesaController extends Controller
     {
         $user = User::findOrFail(Auth::id());
         $instalaciones = instalacion::all()->except(['1', $user->instalacion_id]);
-        $guias = guia::where('instalacion_origen_id', $user->instalacion->id)->with(['user' , 'paquetes'])->get();
-        $transportistas = transportista::all();
-        $vehiculos = vehiculo::all();
+        $guias = guia::where([['instalacion_origen_id', '=', $user->instalacion->id],
+                            ['status', '=', 'Pendiente']
+                            ])->with(['user' , 'paquetes'])->get();
+
+        $transportistas = transportista::where('status','Disponible')->get();
+        $vehiculos = vehiculo::where('status','Disponible')->get();
 
         return view('remesas.create', [
             'user' => $user,
@@ -69,41 +83,64 @@ class RemesaController extends Controller
         $dim_fondo_total = 0;
         $peso_volumetrico_total = 0;
 
-        if($request->get('guiasarray')){
 
-            $guias_array = $request->get('guiasarray');
-            $max = count($guias_array);
+        $guias_array = $request->get('guiasarray');
+        $max = count($guias_array);
 
-            for($i=0; $i < $max; $i++){
-                $guia = guia::where('id', $guias_array[$i])->first();
-                foreach($guia->paquetes as $paquete){
-                    $peso_total+= $paquete->peso;
-                    $dim_ancho_total+= $paquete->dim_ancho;
-                    $dim_alto_total+= $paquete->dim_alto;
-                    $dim_fondo_total+= $paquete->dim_fondo;
-                    $peso_volumetrico_total+= $paquete->peso_volumetrico;
-                }
+        for($i=0; $i < $max; $i++){
+            $guia = guia::where('id', $guias_array[$i])->first();
+            foreach($guia->paquetes as $paquete){
+                $peso_total+= $paquete->peso;
+                $dim_ancho_total+= $paquete->dim_ancho;
+                $dim_alto_total+= $paquete->dim_alto;
+                $dim_fondo_total+= $paquete->dim_fondo;
+                $peso_volumetrico_total+= $paquete->peso_volumetrico;
             }
         }
+
         $volumen_total = $dim_ancho_total*$dim_alto_total*$dim_fondo_total;
 
         $user = User::findOrFail(Auth::id());
         $origen = $user->instalacion_id;
 
-        $remesas = remesa::create([
+        $origen2 = instalacion::find($origen);
+        $destino = instalacion::find($request->get('instalacion_destino'));
+
+        $remesa = remesa::create([
             'codigo' => request('codigo'),
             'origen' => $origen,
             'destino' => request('instalacion_destino'),
+            'cod_origen' => $origen2->codigo,
+            'cod_destino' => $destino->codigo,
             'peso_volumetrico_total' => $peso_volumetrico_total,
             'volumen_total' => $volumen_total,
             'peso_total' => $peso_total,
-            'vehiculo_id' => request('codigo'),
+            'vehiculo_id' => request('vehiculo'),
             'transportista_id' => request('transportista'),
+            'status' => 'Creada',
         ]);
 
+        $remesa->save();
 
+        for($i=0; $i < $max; $i++){
+            $guia = guia::where('id', $guias_array[$i])->first();
+            guias_x_remesa::create([
+                'guia_id' => $guia->id,
+                'remesa_id' => $remesa->id,
+            ]);
+            $guia->status = 'En remesa';
+            $guia->save();
+        }
 
-        return redirect()->route('users.index');
+        $transportista = transportista::findOrFail($request->get('transportista'));
+        $transportista->status = 'Viajando';
+        $transportista->save();
+
+        $vehiculo = vehiculo::findOrFail($request->get('vehiculo'));
+        $vehiculo->status = 'Viajando';
+        $vehiculo->save();
+
+        return redirect()->route('remesas.index');
     }
 
     /**
@@ -125,7 +162,15 @@ class RemesaController extends Controller
      */
     public function edit(remesa $remesa)
     {
-        //
+        $id = $remesa->id;
+        $remesa = remesa::where('id', $id)->with(['vehiculo' , 'transportista'])->first();
+        $transportistas = transportista::all();
+        $vehiculos = vehiculo::all();
+        return view('remesas.edit', [
+            'remesa' => $remesa,
+            'vehiculos' => $vehiculos,
+            'transportistas' => $transportistas,
+        ]);
     }
 
     /**
@@ -148,6 +193,6 @@ class RemesaController extends Controller
      */
     public function destroy(remesa $remesa)
     {
-        //
+        return('asdaskjdas');
     }
 }

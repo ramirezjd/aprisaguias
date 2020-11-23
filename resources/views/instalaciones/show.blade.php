@@ -1,4 +1,4 @@
-@extends('instalaciones.layout')
+@extends('layouts.app')
 
 
 @if(auth()->user()->hasPermissionTo(14) && $instalacion->id != 1)
