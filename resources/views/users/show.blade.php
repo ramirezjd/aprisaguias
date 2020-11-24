@@ -45,7 +45,7 @@
     <div class="row">
         <div class="col-6">
             <h5 class="font-weight-bold">Cargo</h5>
-            <span>{{ $user->getRoleNames()->first() }}</span>
+            <span>{{ $cargo->name }}</span>
         </div>
         <div class="col-6">
             <h5 class="font-weight-bold">Instalacion</h5>

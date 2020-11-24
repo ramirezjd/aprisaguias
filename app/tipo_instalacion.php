@@ -9,6 +9,13 @@ class tipo_instalacion extends Model
 {
 
     use SoftDeletes;
+
+    protected $fillable = [
+        'nombre',
+        'descripcion',
+    ];
+
+
     protected $table = "tipo_instalaciones";
 
     public function instalaciones()

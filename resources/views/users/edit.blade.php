@@ -84,8 +84,8 @@
             <!--Roles -->
             <div class="col -6">
                 <label class="form-check-label" for="roles">Cargo</label>
-                <select class="ml-4" name="roles" id="roles">
-                    <option value="0">Seleccione un cargo</option>
+                <select class="ml-4" name="roles" id="roles" required>
+                    <option value="">Seleccione un cargo</option>
                     @foreach ($roles as $role)
                     <div class="col-3">
                         <option value="{{$role->id}}">{{$role->name}}</option>
@@ -97,8 +97,8 @@
             <!-- Facilities -->
             <div class="col -6">
                 <label class="form-check-label" for="instalacion">Instalacion asociada</label>
-                <select class="ml-4" name="instalacion" id="instalacion">
-                    <option value="0">Seleccione una sucursal</option>
+                <select class="ml-4" name="instalacion" id="instalacion" required>
+                    <option value="">Seleccione una sucursal</option>
                     @foreach ($instalaciones as $instalacion)
                     <div class="col-3">
                         <option value="{{$instalacion->id}}">{{$instalacion->id}} / {{$instalacion->codigo}} / {{$instalacion->descripcion}}</option>
@@ -119,7 +119,7 @@
             @foreach ($permissions as $permission)
             <div class="col-3">
                 <input type="checkbox" class="form-check-input" id="{{$permission->id}}" name="permissions[]" value="{{$permission->id}}">
-                <label class="form-check-label" for="exampleCheck1">{{$permission->name}}</label>
+                <label class="form-check-label" for="{{$permission->id}}">{{$permission->name}}</label>
             </div>
             @endforeach
         </div>
@@ -137,12 +137,33 @@
     $( document ).ready(function() {
 
         $("#instalacion").val('{{$user->instalacion_id}}');
-        $("#roles").val('{{$role_id->id}}');
+        $("#roles").val('{{$user->rol}}');
 
         @foreach ($arraypermisos as $arraypermiso)
                 $("#{{$arraypermiso}}").prop("checked", true);
         @endforeach
 
+        $('select#roles').on('change', function(e) {
+            @foreach ($permissions as $permission)
+                $("#{{$permission->id}}").prop("checked", false);
+            @endforeach
+
+            var id = $('select#roles').val();
+            $.ajax({
+            url:"{{ route('getpermissions')}}",
+            method:"GET",
+            data:{"id":id},
+            dataType:"json",
+            success:function(data){
+                $.each(data, function(i, id) {
+                    $("#"+data[i].id).prop("checked", true);
+                });
+            },
+            error: function (data) {
+                console.log('fail', data);
+            }
+            });
+        });
     });
     </script>
 

@@ -20,6 +20,7 @@ class CreateUsersTable extends Migration
             $table->string('nombres', 256);
             $table->string('apellidos', 256);
             $table->string('email', 156)->unique();
+            $table->bigInteger('rol');
             $table->timestamp('email_verified_at')->nullable();
             $table->unsignedBigInteger('instalacion_id');
             $table->softDeletes();

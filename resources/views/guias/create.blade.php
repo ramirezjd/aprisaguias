@@ -152,8 +152,9 @@
                         <strong>Tipo:</strong><br>
                         <select name="type_package[]" id="tipoPaquete" required>
                             <option value="">Seleccione...</option>
-                            <option value="1">Empaque</option>
-                            <option value="2">Sobre</option>
+                            @foreach ($tipo_paquetes as $tipo)
+                            <option value="{{$tipo->id}}">{{$tipo->nombre}}</option>
+                            @endforeach
                         </select>
                     </div>
                 </div>

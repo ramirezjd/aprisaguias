@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use DB;
+use auth;
 use App\User;
 use App\instalacion;
 use App\usuarios_x_instalacion;
@@ -20,7 +21,13 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::with('instalacion')->get();
+        $user = User::findOrFail(Auth::id());
+        if($user->hasRole('super-admin')){
+            $users = User::with('instalacion')->get();
+        }
+        else{
+            $users = User::with('instalacion')->get()->except('1');
+        }
 
         return view('users.index', [
             'users' => $users,
@@ -61,7 +68,8 @@ class UserController extends Controller
             'apellidos' => 'required',
             'email' => 'required',
             'password' => 'required',
-            'instalacion' => 'required'
+            'instalacion' => 'required',
+            'roles' => 'required'
         ]);
 
         $user = User::create([
@@ -71,6 +79,7 @@ class UserController extends Controller
             'email' => request('email'),
             'password' => Hash::make(request('password')),
             'instalacion_id' => request('instalacion'),
+            'rol' => request('roles'),
         ]);
 
         usuarios_x_instalacion::create([
@@ -78,7 +87,7 @@ class UserController extends Controller
             'user_id' => $user->id,
         ]);
 
-        $user->assignRole($request->get('roles'));
+        //$user->assignRole($request->get('roles'));
 
         if($request->get('permissions')){
             $permissions_array = $request->get('permissions');
@@ -101,7 +110,8 @@ class UserController extends Controller
      */
     public function show(user $user)
     {
-        return view('users.show',compact('user'));
+        $cargo = role::findOrFail($user->rol);
+        return view('users.show',['user' => $user, 'cargo' => $cargo]);
     }
 
     /**
@@ -115,10 +125,9 @@ class UserController extends Controller
         $user = User::findOrFail($id);
         $permissions = Permission::all();
         $roles = Role::all()->except(1);
+        $rol = role::findOrFail($user->rol);
         $instalaciones = instalacion::all()->except(1);
         $aspermissions = $user->getAllPermissions();
-        $aroles = $user->getRoleNames();
-        $role_id = DB::table('roles')->where('name', $aroles)->first();
 
 
         $arraypermisos = array();
@@ -135,7 +144,7 @@ class UserController extends Controller
             'instalaciones' => $instalaciones,
             'arraypermisos' => $arraypermisos,
             'alength' => count($arraypermisos),
-            'role_id' => $role_id,
+            'role_id' => $user->rol,
         ]);
     }
 
@@ -168,13 +177,7 @@ class UserController extends Controller
             $user->password = Hash::make($request->get('password'));
         }
 
-        foreach($roles as $role){
-            if($user->hasRole($role->name)){
-                $user->removeRole($role->name);
-            }
-        }
-
-        $user->assignRole($request->get('roles'));
+        $user->rol = $request->get('roles');
 
         foreach ($permissions as $permission){
             if($user->hasPermissionTo($permission->id)){
