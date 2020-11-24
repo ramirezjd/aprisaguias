@@ -18,6 +18,7 @@ class AdminUserSeeder extends Seeder
             'nombres' => 'Admin',
             'apellidos' => 'Aprisa',
             'email' => 'admin@aprisa.com',
+            'rol' => 1,
             'password' => bcrypt('thisisagoodpsw'),
             'instalacion_id' => 1,
         ]);
@@ -34,11 +35,10 @@ class AdminUserSeeder extends Seeder
             'nombres' => 'What',
             'apellidos' => 'Ever',
             'email' => 'regular@user.com',
+            'rol' => 5,
             'password' => bcrypt('nothardatall'),
             'instalacion_id' => 2,
         ]);
-
-        $user2->assignRole('Rol de ejemplo');
 
         usuarios_x_instalacion::create([
             'instalacion_id' => 2,

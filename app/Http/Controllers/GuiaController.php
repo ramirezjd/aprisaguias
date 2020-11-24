@@ -11,6 +11,7 @@ use App\zip_code;
 use App\direccion;
 use App\cliente;
 use App\paquete;
+use App\tipo_paquete;
 use App\User;
 use App\instalacion;
 use Auth;
@@ -47,6 +48,7 @@ class GuiaController extends Controller
     {
         $user = User::findOrFail(Auth::id());
 
+        $tipo_paquetes = tipo_paquete::all();
 
         $instalaciones = instalacion::with(['estado', 'ciudad', 'municipio', 'parroquia', 'zip_code'])->get();
         $instalaciones = $instalaciones->except(['1', $user->instalacion_id]);
@@ -61,6 +63,7 @@ class GuiaController extends Controller
             'zip_codes' => zip_code::orderBy('zip_code')->get(),
             'instalaciones' => $instalaciones,
             'instalacion_origen' => $instalacion_origen,
+            'tipo_paquetes' => $tipo_paquetes,
         ]);
     }
 

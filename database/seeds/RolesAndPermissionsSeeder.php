@@ -16,28 +16,6 @@ class RolesAndPermissionsSeeder extends Seeder
         // Reset cached roles and permissions
         app()[\Spatie\Permission\PermissionRegistrar::class]->forgetCachedPermissions();
 
-        // create permissions
-
-        //Role related
-        Permission::create(['name' => 'crear roles']);   //c
-        Permission::create(['name' => 'ver roles']);     //r
-        Permission::create(['name' => 'editar roles']);  //u
-        Permission::create(['name' => 'borrar roles']);  //d
-
-        Permission::create(['name' => 'asignar roles']);
-        Permission::create(['name' => 'remover roles']);
-
-        //Permission related
-        Permission::create(['name' => 'crear permisos']);   //c
-        Permission::create(['name' => 'ver permisos']);     //r
-        Permission::create(['name' => 'editar permisos']);  //u
-        Permission::create(['name' => 'borrar permisos']);  //d
-
-        Permission::create(['name' => 'asignar permisos']);
-        Permission::create(['name' => 'remover permisos']);
-
-
-
 
         //Instalacion related
         Permission::create(['name' => 'crear instalacion']);   //c
@@ -74,6 +52,36 @@ class RolesAndPermissionsSeeder extends Seeder
         Permission::create(['name' => 'ver usuario']);     //r
         Permission::create(['name' => 'editar usuario']);  //u
         Permission::create(['name' => 'borrar usuario']);  //d
+
+        //Tipo_paquete related
+        Permission::create(['name' => 'crear tipo_paquete']);   //c
+        Permission::create(['name' => 'ver tipo_paquete']);     //r
+        Permission::create(['name' => 'editar tipo_paquete']);  //u
+        Permission::create(['name' => 'borrar tipo_paquete']);  //d
+
+        //Tipo_instalacion related
+        Permission::create(['name' => 'crear tipo_instalacion']);   //c
+        Permission::create(['name' => 'ver tipo_instalacion']);     //r
+        Permission::create(['name' => 'editar tipo_instalacion']);  //u
+        Permission::create(['name' => 'borrar tipo_instalacion']);  //d
+
+        //Tipo_destino related
+        Permission::create(['name' => 'crear tipo_destino']);   //c
+        Permission::create(['name' => 'ver tipo_destino']);     //r
+        Permission::create(['name' => 'editar tipo_destino']);  //u
+        Permission::create(['name' => 'borrar tipo_destino']);  //d
+
+        //Role related
+        Permission::create(['name' => 'crear roles']);   //c
+        Permission::create(['name' => 'ver roles']);     //r
+        Permission::create(['name' => 'editar roles']);  //u
+        Permission::create(['name' => 'borrar roles']);  //d
+
+        //Permission related
+        Permission::create(['name' => 'crear permisos']);   //c
+        Permission::create(['name' => 'ver permisos']);     //r
+        Permission::create(['name' => 'editar permisos']);  //u
+        Permission::create(['name' => 'borrar permisos']);  //d
 
         /*
         // this can be done as separate statements

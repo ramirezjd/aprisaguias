@@ -27,16 +27,16 @@
                 @foreach ($permissions as $permission)
                     @if ($permission->id%2==0)
 
-                        <td class="text-center">{{ $permission->id }}</td>
-                        <td class="text-center">{{ $permission->name }}</td>
-                        <td class="text-center">
+                        <td class="text-center p-1 align-middle">{{ $permission->id }}</td>
+                        <td class="text-center p-1 align-middle">{{ $permission->name }}</td>
+                        <td class="text-center p-1 align-middle">
                             <a class="btn btn-info" href="{{ route('permissions.show',$permission->id) }}">Ver</a>
                         </td>
                     @else
                         <tr>
-                        <td class="text-center">{{ $permission->id }}</td>
-                        <td class="text-center">{{ $permission->name }}</td>
-                        <td class="text-center">
+                        <td class="text-center p-1 align-middle">{{ $permission->id }}</td>
+                        <td class="text-center p-1 align-middle">{{ $permission->name }}</td>
+                        <td class="text-center p-1 align-middle">
                             <a class="btn btn-info" href="{{ route('permissions.show',$permission->id) }}">Ver</a>
                         </td>
                     @endif

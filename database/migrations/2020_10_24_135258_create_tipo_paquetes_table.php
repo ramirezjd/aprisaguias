@@ -19,6 +19,7 @@ class CreateTipoPaquetesTable extends Migration
             $table->float('precio',8,2)->nullable();
             $table->string('descripcion', 256);
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

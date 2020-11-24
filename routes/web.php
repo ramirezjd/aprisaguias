@@ -1,7 +1,5 @@
 <?php
 
-use App\Http\Controllers\GuiaController;
-use App\estado;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,9 +14,11 @@ use Illuminate\Support\Facades\Route;
 */
 
 
-
 Route::middleware('auth')->group(function(){
+    Route::get('/getpermissions', 'RolesController@getpermissions')->name('getpermissions');
     Route::resource('/permissions', 'PermissionsController');
+    Route::resource('/roles', 'RolesController');
+    Route::resource('/tipopaquetes', 'TipoPaqueteController');
     Route::resource('/remesas', 'RemesaController');
     Route::resource('/instalaciones', 'InstalacionController');
     Route::resource('/users', 'UserController');
@@ -27,7 +27,6 @@ Route::middleware('auth')->group(function(){
     Route::resource('/tipo-paquetes', 'TipoPaqueteController');
     Route::resource('/transportistas', 'TransportistaController');
     Route::resource('/vehiculos', 'VehiculoController');
-
 });
 
 Route::get('/getMunicipios', 'DireccionController@EstadoGetMunicipios')->name('getMunicipios');
@@ -39,8 +38,6 @@ Route::get('/getZipCodes', 'DireccionController@ParroquiaGetZipCodes')->name('ge
 Route::get('/', function () {
     return view('welcome');
 });
-
-
 
 Auth::routes();
 

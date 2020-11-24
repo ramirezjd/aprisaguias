@@ -46,7 +46,7 @@ class PermissionsController extends Controller
         $ca =  \Carbon\Carbon::now();
         $ua = \Carbon\Carbon::now();
         DB::insert('insert into permissions (name, guard_name, created_at, updated_at) values (? , ?, ?, ?)', [$request->name, 'web', $ca, $ua]);
-        return redirect('/permissions/');
+        return redirect()->route('guias.index');
     }
 
     /**
@@ -60,6 +60,7 @@ class PermissionsController extends Controller
         $permissions = DB::table('permissions')->find($id);
         return view('permissions.show', ['permissions' => $permissions]);
     }
+
     public function edit($id)
     {
         $permissions = DB::table('permissions')->find($id);

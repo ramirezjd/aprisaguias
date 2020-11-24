@@ -31,15 +31,19 @@
                     <td class="text-center">{{ $instalacion->tipo_instalacion->nombre }}</td>
                     <td class="text-center">
                         <form action="{{ route('instalaciones.destroy', $instalacion->id) }}" method="POST">
-
+                            @can('ver instalacion')
                             <a class="btn btn-info" href="{{ route('instalaciones.show', $instalacion->id) }}">Ver</a>
+                            @endcan
 
+                            @can('editar instalacion')
                             <a class="btn btn-primary" href="{{ route('instalaciones.edit', $instalacion->id) }}">Editar</a>
+                            @endcan
 
+                            @can('borrar instalacion')
                             @csrf
                             @method('DELETE')
-
                             <button type="submit" class="btn btn-danger">Borrar</button>
+                            @endcan
                         </form>
                     </td>
                 </tr>
