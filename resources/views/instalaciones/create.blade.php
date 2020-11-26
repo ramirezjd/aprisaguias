@@ -114,7 +114,7 @@
         </div>
         <div class="row mb-3">
             <div class="col text-center">
-                <button type="submit" class="btn btn-primary" id="submitButton">Submit</button>
+                <button type="submit" class="btn btn-primary" id="submitButton">Enviar</button>
             </div>
         </div>
         </form>

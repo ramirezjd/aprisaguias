@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 
-@can('ver remesa')
+@can('ver instalacion')
 @section('content')
 <div class="container">
     <div class="row mb-3">
@@ -30,6 +30,7 @@
                     <td class="text-center">{{ $instalacion->codigo }}</td>
                     <td class="text-center">{{ $instalacion->tipo_instalacion->nombre }}</td>
                     <td class="text-center">
+                        @if($instalacion->id != 1)
                         <form action="{{ route('instalaciones.destroy', $instalacion->id) }}" method="POST">
                             @can('ver instalacion')
                             <a class="btn btn-info" href="{{ route('instalaciones.show', $instalacion->id) }}">Ver</a>
@@ -45,6 +46,7 @@
                             <button type="submit" class="btn btn-danger">Borrar</button>
                             @endcan
                         </form>
+                        @endif
                     </td>
                 </tr>
                 @endforeach

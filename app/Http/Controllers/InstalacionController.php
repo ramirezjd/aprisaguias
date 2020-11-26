@@ -120,9 +120,12 @@ class InstalacionController extends Controller
      * @param  \App\instalacion  $instalacion
      * @return \Illuminate\Http\Response
      */
-    public function show(instalacion $instalacion)
+    public function show( $id)
     {
-        return view('instalaciones.show',compact('instalacion'));
+        $instalacion = instalacion::where('id', $id)->with(['estado', 'ciudad', 'municipio', 'parroquia', 'zip_code', 'tipo_instalacion'])->first();
+        return view('instalaciones.show',[
+            'instalacion' => $instalacion,
+        ]);
     }
 
     /**

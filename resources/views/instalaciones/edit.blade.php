@@ -1,8 +1,7 @@
 @extends('layouts.app')
 
-
-@can('editar instalacion')
-    @section('content')
+@if(auth()->user()->can('editar instalacion') && $instalacion->id != 1)
+@section('content')
     <div class="container">
         <div class="row">
             <div class="col-lg-12 margin-tb">
@@ -10,10 +9,12 @@
                     <h2>Edit Instalacion</h2>
                 </div>
                 <div class="pull-right">
-                    <a class="btn btn-primary" href="{{ route('instalaciones.index') }}"> Back</a>
+                    <a class="btn btn-primary" href="{{ route('instalaciones.index') }}">Volver</a>
                 </div>
             </div>
         </div>
+
+        <div class="row">
         <form action="{{ route('instalaciones.update', $instalacion->id) }}" method="POST">
             @csrf
             @method('PUT')
@@ -99,142 +100,140 @@
 
             </div>
             <div class="col-md-12 text-center">
-                <button type="submit" class="btn btn-primary" id="submitButton">Submit</button>
+                <button type="submit" class="btn btn-primary" id="submitButton">Enviar</button>
             </div>
-        </div>
         </form>
-
         </div>
 
+    </div>
 
-        <script type="text/javascript">
-            $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+
+    <script type="text/javascript">
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        })
+
+            $("#via_principal").val('{{$instalacion->via_principal}}');
+            $("#tipo_instalacion option[value="+{{ $instalacion->tipo_instalacion_id }}+"]").attr("selected", true);
+            $("#dropdownEstados option[value="+{{$instalacion->estado_id}}+"]").attr("selected", true);
+            $("#dropdownMunicipios option[value="+{{$instalacion->municipio_id}}+"]").attr("selected", true);
+            $("#dropdownCiudades option[value="+{{$instalacion->ciudad_id}}+"]").attr("selected", true);
+            $("#dropdownParroquias option[value="+{{$instalacion->parroquia_id}}+"]").attr("selected", true);
+            $("#dropdownZip_codes option[value="+{{$instalacion->zip_code_id}}+"]").attr("selected", true);
+
+        $( document ).ready(function() {
+
+            $( '#dropdownParroquias' ).change(function(e) {
+
+            var parroquia_id = e.target.value;
+
+            $.ajax({
+                url:"{{ route('getZipCodes') }}",
+                method:"GET",
+                data:{"parroquia_id":parroquia_id},
+                dataType:"json",
+                success:function(data){
+
+                    $('#dropdownZip_codes').empty();
+
+                    $('#dropdownZip_codes').append('<option value="">Seleccione una zona postal</option>');
+                    $('#dropdownZip_codes').append('<option value="'+data.id+'">'+data.zip_code+'</option>');
+
+
+                },
+                error: function (data) {
+                    alert('fail');
                 }
-            })
-
-                $("#via_principal").val('{{$instalacion->via_principal}}');
-                $("#tipo_instalacion option[value="+{{ $instalacion->tipo_instalacion_id }}+"]").attr("selected", true);
-                $("#dropdownEstados option[value="+{{$instalacion->estado_id}}+"]").attr("selected", true);
-                $("#dropdownMunicipios option[value="+{{$instalacion->municipio_id}}+"]").attr("selected", true);
-                $("#dropdownCiudades option[value="+{{$instalacion->ciudad_id}}+"]").attr("selected", true);
-                $("#dropdownParroquias option[value="+{{$instalacion->parroquia_id}}+"]").attr("selected", true);
-                $("#dropdownZip_codes option[value="+{{$instalacion->zip_code_id}}+"]").attr("selected", true);
-
-            $( document ).ready(function() {
-
-                $( '#dropdownParroquias' ).change(function(e) {
-
-                var parroquia_id = e.target.value;
-
-                $.ajax({
-                    url:"{{ route('getZipCodes') }}",
-                    method:"GET",
-                    data:{"parroquia_id":parroquia_id},
-                    dataType:"json",
-                    success:function(data){
-
-                        $('#dropdownZip_codes').empty();
-
-                        $('#dropdownZip_codes').append('<option value="">Seleccione una zona postal</option>');
-                        $('#dropdownZip_codes').append('<option value="'+data.id+'">'+data.zip_code+'</option>');
-
-
-                    },
-                    error: function (data) {
-                        alert('fail');
-                    }
-                    });
-
-                });
-
-
-                $( '#dropdownMunicipios' ).change(function(e) {
-
-                var municipio_id = e.target.value;
-                //municipio_request = e.target.value;
-
-                $.ajax({
-                    url:"{{ route('getCiudades') }}",
-                    method:"GET",
-                    data:{"municipio_id":municipio_id},
-                    dataType:"json",
-                    success:function(data){
-
-                        $('#dropdownCiudades').empty();
-
-                        $('#dropdownCiudades').append('<option value="">Seleccione una ciudad</option>');
-
-
-                        $.each(data, function(i, id, ciudad) {
-                            $('#dropdownCiudades').append('<option value="'+data[i].id+'">'+data[i].ciudad+'</option>');
-                        });
-                    },
-                    error: function (data) {
-                        alert('fail');
-                    }
-                    });
-
-                    $.ajax({
-                    url:"{{ route('getParroquias') }}",
-                    method:"GET",
-                    data:{"municipio_id":municipio_id},
-                    dataType:"json",
-                    success:function(data){
-
-                        $('#dropdownParroquias').empty();
-
-                        $('#dropdownParroquias').append('<option value="">Seleccione una parroquia</option>');
-
-                        $.each(data, function(i, id, parroquia) {
-                            $('#dropdownParroquias').append('<option value="'+data[i].id+'">'+data[i].parroquia+'</option>');
-                        });
-                    },
-                    error: function (data) {
-                        alert('fail');
-                    }
-                    });
-
-                });
-
-                $( '#dropdownEstados' ).change(function(e) {
-
-                    var estado_id = e.target.value;
-                    //estado_request = e.target.value;
-
-                    $.ajax({
-                    url:"{{ route('getMunicipios') }}",
-                    method:"GET",
-                    data:{"estado_id":estado_id},
-                    dataType:"json",
-                    success:function(data){
-
-                        $('#dropdownMunicipios').empty();
-
-                        $('#dropdownMunicipios').append('<option value="">Seleccione un municipio</option>');
-
-                        $.each(data, function(i, id, municipio) {
-                            $('#dropdownMunicipios').append('<option value="'+data[i].id+'">'+data[i].municipio+'</option>');
-                        });
-                    },
-                    error: function (data) {
-                        alert('fail');
-                    }
-                    });
-
-
                 });
 
             });
-        </script>
-    @endsection
-@endcan
 
-@cannot('editar instalacion')
+
+            $( '#dropdownMunicipios' ).change(function(e) {
+
+            var municipio_id = e.target.value;
+            //municipio_request = e.target.value;
+
+            $.ajax({
+                url:"{{ route('getCiudades') }}",
+                method:"GET",
+                data:{"municipio_id":municipio_id},
+                dataType:"json",
+                success:function(data){
+
+                    $('#dropdownCiudades').empty();
+
+                    $('#dropdownCiudades').append('<option value="">Seleccione una ciudad</option>');
+
+
+                    $.each(data, function(i, id, ciudad) {
+                        $('#dropdownCiudades').append('<option value="'+data[i].id+'">'+data[i].ciudad+'</option>');
+                    });
+                },
+                error: function (data) {
+                    alert('fail');
+                }
+                });
+
+                $.ajax({
+                url:"{{ route('getParroquias') }}",
+                method:"GET",
+                data:{"municipio_id":municipio_id},
+                dataType:"json",
+                success:function(data){
+
+                    $('#dropdownParroquias').empty();
+
+                    $('#dropdownParroquias').append('<option value="">Seleccione una parroquia</option>');
+
+                    $.each(data, function(i, id, parroquia) {
+                        $('#dropdownParroquias').append('<option value="'+data[i].id+'">'+data[i].parroquia+'</option>');
+                    });
+                },
+                error: function (data) {
+                    alert('fail');
+                }
+                });
+
+            });
+
+            $( '#dropdownEstados' ).change(function(e) {
+
+                var estado_id = e.target.value;
+                //estado_request = e.target.value;
+
+                $.ajax({
+                url:"{{ route('getMunicipios') }}",
+                method:"GET",
+                data:{"estado_id":estado_id},
+                dataType:"json",
+                success:function(data){
+
+                    $('#dropdownMunicipios').empty();
+
+                    $('#dropdownMunicipios').append('<option value="">Seleccione un municipio</option>');
+
+                    $.each(data, function(i, id, municipio) {
+                        $('#dropdownMunicipios').append('<option value="'+data[i].id+'">'+data[i].municipio+'</option>');
+                    });
+                },
+                error: function (data) {
+                    alert('fail');
+                }
+                });
+
+
+            });
+
+        });
+    </script>
+@endsection
+@else
     @section('content')
         <div class="container">
             <h1>No tiene los permisos necesarios para acceder a esta funcionalidad.</h1>
         </div>
     @endsection
-@endcannot
+@endif

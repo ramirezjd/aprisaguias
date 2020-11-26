@@ -49,6 +49,7 @@
             <span>{{ $user->email }}</span>
         </div>
         <div class="col-3">
+            @if($user->id != 1)
             <form action="{{ route('users.destroy',$user->id) }}" method="POST">
                 @can('ver usuario')
                 <a class="btn btn-info" href="{{ route('users.show',$user->id) }}">Show</a>
@@ -64,6 +65,7 @@
                 <button type="submit" class="btn btn-danger">Delete</button>
                 @endcan
             </form>
+            @endif
         </div>
     </div>
     @endforeach

@@ -93,7 +93,14 @@
                     <td class="text-center">{{ $remesa->status }}</td>
                     <td class="text-center">{{ $remesa->vehiculo->placa }}</td>
                     <td class="text-center">{{ $remesa->transportista->telefono }}</td>
-                    <td class="text-center"><a class="btn btn-primary" href="{{ route('remesas.show',$remesa->id) }}">Recibir</a></td>
+                    <td class="text-center">
+                        <form action="{{ route('recibir', $remesa->id) }}" method="GET">
+                            @if ($remesa->status != 'Cerrada')
+                                <button type="submit" class="btn btn-primary" name="id" value="{{$remesa->id}}">Recibir</button>
+                            @endif
+                        </form>
+                    </td>
+
                 </tr>
                 @endforeach
             </table>

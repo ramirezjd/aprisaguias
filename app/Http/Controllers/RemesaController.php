@@ -45,7 +45,7 @@ class RemesaController extends Controller
     {
         $user = User::findOrFail(Auth::id());
         $instalaciones = instalacion::all()->except(['1', $user->instalacion_id]);
-        $guias = guia::where([['instalacion_origen_id', '=', $user->instalacion->id],
+        $guias = guia::where([['instalacion_actual_id', '=', $user->instalacion->id],
                             ['status', '=', 'Pendiente']
                             ])->with(['user' , 'paquetes'])->get();
 
@@ -151,7 +151,10 @@ class RemesaController extends Controller
      */
     public function show(remesa $remesa)
     {
-        //
+        $remesa = remesa::findOrFail($remesa->id);
+        $guias_paquetes = guias_x_remesa::where('remesa_id', $remesa->id)->with('guia.paquetes')->get();
+
+        return view ('remesas.show', compact('remesa'), compact('guias_paquetes'));
     }
 
     /**
@@ -194,5 +197,77 @@ class RemesaController extends Controller
     public function destroy(remesa $remesa)
     {
         return('asdaskjdas');
+    }
+
+
+    public function recibir(Request $request)
+    {
+        $remesa = remesa::findOrFail($request->id);
+        $guias_paquetes = guias_x_remesa::where('remesa_id', $request->id)->with('guia.paquetes')->get();
+
+        return view ('remesas.recibir', compact('remesa'), compact('guias_paquetes'));
+    }
+
+    public function terminar(Request $request)
+    {
+        $remesa = remesa::where('id',$request->id)->with(['vehiculo','transportista'])->first();
+        $remesa->status= 'Cerrada';
+        $remesa->save();
+
+        $vehiculo = $remesa->vehiculo;
+        $vehiculo->status = 'Disponible';
+        $vehiculo->save();
+
+        $transportista = $remesa->transportista;
+        $transportista->status = 'Disponible';
+        $transportista->save();
+
+        $user = User::findOrFail(Auth::id());
+        $instalacion = $user->instalacion;
+
+        $index = 0;
+        foreach($request->guias as $id){
+            $flag = 0;
+            $guia = guia::where('id',$id)->with('paquetes')->first();
+            if($request->novedades[$index] != NULL){
+                $guia->novedad = $request->novedades[$index];
+                $flag = 1;
+            }
+            else{
+                $guia->novedad = 'OK';
+            }
+
+            if($guia->instalacion_destino_id == $instalacion->id){
+                $guia->status = 'En destino';
+            }
+            else{
+                $guia->status = 'Pendiente';
+            }
+
+            $guia->cod_actual = $instalacion->codigo;
+            $guia->instalacion_actual_id = $instalacion->id;
+
+            $index= $index+1;
+
+            $index2 = 0;
+            foreach($guia->paquetes as $paquete){
+                if($request->paquetes[$index2] != NULL){
+                    $paquete->novedad = $request->paquetes[$index2];
+                    $flag = 1;
+                }
+                else{
+                    $paquete->novedad = 'OK';
+                }
+                $paquete->save();
+                $index2 = $index2+1;
+            }
+
+            if($flag == 1){
+                $guia->status = 'Novedad';
+            }
+
+            $guia->save();
+        }
+        return redirect()->route('remesas.index');
     }
 }
