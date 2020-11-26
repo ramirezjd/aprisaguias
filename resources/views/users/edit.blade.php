@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
+@if(auth()->user()->can('editar usuario') && $user->id != 1)
 
-@can('editar usuario')
 @section('content')
 <div class="container">
     <div class="row mb-3">
@@ -168,12 +168,12 @@
     </script>
 
 @endsection
-@endcan
 
-@cannot('editar usuario')
+@else
+
     @section('content')
         <div class="container">
             <h1>No tiene los permisos necesarios para acceder a esta funcionalidad.</h1>
         </div>
     @endsection
-@endcannot
+@endif

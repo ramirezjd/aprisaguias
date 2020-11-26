@@ -30,13 +30,19 @@ class GuiaController extends Controller
     {
         $user = User::findOrFail(Auth::id());
         if($user->hasRole('super-admin')){
-            $guias = guia::with(['user' , 'tipo_destino'])->get();
+            $guias_enviar = guia::with(['user' , 'tipo_destino'])->get();
+            $guias_entregar = guia::with(['user' , 'tipo_destino'])->get();
         }
         else{
-            $guias = guia::where('instalacion_origen_id', $user->instalacion_id)->with(['user' , 'tipo_destino'])->get();
+            $guias_enviar = guia::where('instalacion_actual_id', $user->instalacion_id)->where('status', 'Pendiente')->with(['user' , 'tipo_destino'])->get();
+            $guias_entregar = guia::where('instalacion_actual_id', $user->instalacion_id)->where('instalacion_destino_id', $user->instalacion_id)->with(['user' , 'tipo_destino'])->get();
         }
 
-        return view('guias.index', compact('guias'));
+        return view('guias.index',[
+            'guias_enviar' => $guias_enviar,
+            'guias_entregar' => $guias_entregar,
+            'user' => $user,
+        ]);
     }
 
     /**
@@ -189,6 +195,8 @@ class GuiaController extends Controller
             'cod_origen' => $cod_origen->codigo,
             'instalacion_destino_id' => request('instalacion_destino'),
             'cod_destino' => $cod_destino->codigo,
+            'instalacion_actual_id' => request('instalacion_origen'),
+            'cod_actual' => $cod_origen->codigo,
             'tipo_destino_id' => request('type_destiny'),
             'tipo_pago_id' => request('type_payment'),
             'status' => 'Pendiente',
@@ -238,7 +246,9 @@ class GuiaController extends Controller
      */
     public function show(guia $guia)
     {
-        return view('guias.show',compact('guia'));
+        $guiaa = guia::where('id', $guia->id)->first();
+        $user = User::findOrFail(Auth::id());
+        return view('guias.show',['guia'=>$guiaa, 'user'=> $user]);
     }
 
     /**
@@ -290,18 +300,7 @@ class GuiaController extends Controller
         return redirect()->route('guias.index')
                         ->with('success','Guía Eliminada Exitosamente.');
     }
-    /*
-    public function pdftest($id){
-        $guia = guia::findOrFail($id);
-        $remitente = cliente::findOrFail($guia->cliente_remitente_id);
-        $destinatario = cliente::findOrFail($guia->cliente_destinatario_id);
 
-        $pdf = PDF::loadView('guias.pdf',compact('guia', 'remitente', 'destinatario'));
-        return $pdf->download('guia-'.$guia->codigo.'.pdf');
-        //return view('guias.pdf')->with(compact('guia', 'remitente', 'destinatario'));
-
-    }
-    */
 
     public function pdftest($id){
         $guia = guia::findOrFail($id);

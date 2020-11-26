@@ -95,9 +95,13 @@ class RolesAndPermissionsSeeder extends Seeder
         $role = Role::create(['name' => 'super-admin']);
         $role->syncPermissions(Permission::all());
         $role = Role::create(['name' => 'Jefe de sucursal']);
+        $role->givePermissionTo(['crear guia', 'ver guia', 'editar guia', 'borrar guia', 'crear remesa', 'ver remesa', 'editar remesa', 'borrar remesa']);
         $role = Role::create(['name' => 'Operario de guias']);
+        $role->givePermissionTo(['crear guia', 'ver guia', 'editar guia', 'borrar guia']);
         $role = Role::create(['name' => 'Encargado de Deposito']);
+        $role->givePermissionTo(['crear remesa', 'ver remesa', 'editar remesa', 'borrar remesa']);
         $role = Role::create(['name' => 'Rol de ejemplo']);
+        $role->givePermissionTo(['crear guia', 'ver guia', 'editar guia', 'borrar guia', 'crear remesa', 'ver remesa', 'editar remesa', 'borrar remesa']);
     }
 }
 

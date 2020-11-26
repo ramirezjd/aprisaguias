@@ -14,7 +14,6 @@ class DatabaseSeeder extends Seeder
         $this->call(RolesAndPermissionsSeeder::class);
         $this->call(VehiculosSeeder::class);
         $this->call(TransportistaSeeder::class);
-        $this->call(RegionSeeder::class);
         $this->call(EstadosSeeder::class);
         $this->call(MunicipiosSeeder::class);
         $this->call(CiudadesSeeder::class);

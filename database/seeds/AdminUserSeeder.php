@@ -36,7 +36,7 @@ class AdminUserSeeder extends Seeder
             'apellidos' => 'Ever',
             'email' => 'regular@user.com',
             'rol' => 5,
-            'password' => bcrypt('nothardatall'),
+            'password' => bcrypt('1234'),
             'instalacion_id' => 2,
         ]);
 
@@ -44,5 +44,24 @@ class AdminUserSeeder extends Seeder
             'instalacion_id' => 2,
             'user_id' => $user2->id,
         ]);
+
+        $user2->givePermissionTo(['crear guia', 'ver guia', 'editar guia', 'borrar guia', 'crear remesa', 'ver remesa', 'editar remesa', 'borrar remesa']);
+
+        $user3 = User::create([
+            'username' => 'regular-user2',
+            'nombres' => 'What2',
+            'apellidos' => 'Ever2',
+            'email' => 'regular2@user.com',
+            'rol' => 5,
+            'password' => bcrypt('1234'),
+            'instalacion_id' => 3,
+        ]);
+
+        usuarios_x_instalacion::create([
+            'instalacion_id' => 3,
+            'user_id' => $user3->id,
+        ]);
+
+        $user3->givePermissionTo(['crear guia', 'ver guia', 'editar guia', 'borrar guia', 'crear remesa', 'ver remesa', 'editar remesa', 'borrar remesa']);
     }
 }
