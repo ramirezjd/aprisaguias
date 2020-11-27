@@ -6,7 +6,7 @@
 <div class="container">
     <div class="row mb-3">
         <div class="col-lg-6 margin-tb">
-            <h2>CRUD de Permisos</h2>
+            <h2>CRUD de Roles</h2>
         </div>
         <div class="col-6 text-right">
             <a class="btn btn-success" href="{{ route('roles.create') }}"> Crear Role</a>

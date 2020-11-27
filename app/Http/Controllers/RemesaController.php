@@ -7,6 +7,7 @@ use App\vehiculo;
 use App\transportista;
 use App\guias_x_remesa;
 use App\User;
+use PDF;
 use DB;
 use Auth;
 
@@ -270,4 +271,32 @@ class RemesaController extends Controller
         }
         return redirect()->route('remesas.index');
     }
+
+    public function imprimir(request $request)
+    {
+        $remesa = remesa::firstWhere('id', $request->id);
+        $guias_x_remesa = guias_x_remesa::where('remesa_id', $request->id)->with('guia')->get();
+
+        $guias = collect();
+        foreach($guias_x_remesa as $guia){
+            $guias->push($guia->guia);
+        }
+
+        $data = [
+            'remesa' => $remesa,
+            'guias' => $guias,
+        ];
+
+        PDF::setOptions([
+            'dpi' => 150,
+            'defaultFont' => 'sans-serif',
+            'fontHeightRatio' => 1,
+            'isPhpEnabled' => true,
+        ]);
+
+        $pdf = PDF::loadView('remesas.pdf', $data);
+        return $pdf->stream('REMESA-'.$remesa->codigo);
+    }
+
+
 }

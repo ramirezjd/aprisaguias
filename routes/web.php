@@ -20,6 +20,7 @@ Route::middleware('auth')->group(function(){
     Route::resource('/roles', 'RolesController');
     Route::resource('/tipopaquetes', 'TipoPaqueteController');
     Route::get('/remesas/recibir', 'RemesaController@recibir')->name('recibir');
+    Route::get('/remesas/imprimir', 'RemesaController@imprimir')->name('imprimirremesa');
     Route::get('/remesas/terminar', 'RemesaController@terminar');
     Route::resource('/remesas', 'RemesaController');
     Route::resource('/instalaciones', 'InstalacionController');

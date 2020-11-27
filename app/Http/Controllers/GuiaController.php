@@ -308,6 +308,7 @@ class GuiaController extends Controller
         $destinatario = cliente::findOrFail($guia->cliente_destinatario_id);
         $origen = direccion::where('id', $remitente->direccion_id)->with(['estado', 'ciudad', 'municipio', 'parroquia', 'zip_code'])->first();
         $destino = direccion::where('id', $destinatario->direccion_id)->with(['estado', 'ciudad', 'municipio', 'parroquia', 'zip_code'])->first();
+        $paquetes = $guia->paquetes;
 
         $direccion_origen = $origen->estado->estado. '-' . $origen->municipio->municipio . '-' .
             $origen->ciudad->ciudad . '-' . $origen->parroquia->parroquia . '-' . $origen->zip_code->zip_code;
@@ -339,7 +340,17 @@ class GuiaController extends Controller
             'destinatario_email' => $destinatario->email,
             'destinatario_telefono' => $destinatario->telefono,
             'destinatario_direccion' => $direccion_destino,
+
+            'paquetes' => $paquetes->all(),
         ];
+
+        PDF::setOptions([
+            'dpi' => 150,
+            'defaultFont' => 'sans-serif',
+            'fontHeightRatio' => 1,
+            'isPhpEnabled' => true,
+        ]);
+
         $pdf = PDF::loadView('pdf', $data);
         return $pdf->stream('GUIA-'.$guia->codigo);
     }
