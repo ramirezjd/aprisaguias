@@ -7,6 +7,7 @@ use App\vehiculo;
 use App\transportista;
 use App\guias_x_remesa;
 use App\User;
+use PDF;
 use DB;
 use Auth;
 
@@ -33,7 +34,6 @@ class RemesaController extends Controller
         }
 
         return view ('remesas.index', compact('remesas'), compact('remesas_destino'));
-
     }
 
     /**
@@ -233,9 +233,6 @@ class RemesaController extends Controller
                 $guia->novedad = $request->novedades[$index];
                 $flag = 1;
             }
-            else{
-                $guia->novedad = 'OK';
-            }
 
             if($guia->instalacion_destino_id == $instalacion->id){
                 $guia->status = 'En destino';
@@ -247,27 +244,62 @@ class RemesaController extends Controller
             $guia->cod_actual = $instalacion->codigo;
             $guia->instalacion_actual_id = $instalacion->id;
 
-            $index= $index+1;
+            $index++;
 
-            $index2 = 0;
             foreach($guia->paquetes as $paquete){
-                if($request->paquetes[$index2] != NULL){
-                    $paquete->novedad = $request->paquetes[$index2];
-                    $flag = 1;
-                }
-                else{
-                    $paquete->novedad = 'OK';
+                $index2 = 0;
+                foreach($request->paquetes as $request_paquete){
+                    if($paquete->id == $request_paquete){
+                        if($request->novedad_paquetes[$index2] != NULL){
+                            $paquete->novedad = $request->novedad_paquetes[$index2];
+                            $flag = 1;
+                        }
+                        else{
+                            $paquete->novedad = 'OK';
+                        }
+                    }
+                    $index2++;
                 }
                 $paquete->save();
-                $index2 = $index2+1;
             }
 
             if($flag == 1){
-                $guia->status = 'Novedad';
+                $guia->novedad = 'Novedad';
+            }
+            else{
+                $guia->novedad = 'OK';
             }
 
             $guia->save();
         }
         return redirect()->route('remesas.index');
     }
+
+    public function imprimir(request $request)
+    {
+        $remesa = remesa::firstWhere('id', $request->id);
+        $guias_x_remesa = guias_x_remesa::where('remesa_id', $request->id)->with('guia')->get();
+
+        $guias = collect();
+        foreach($guias_x_remesa as $guia){
+            $guias->push($guia->guia);
+        }
+
+        $data = [
+            'remesa' => $remesa,
+            'guias' => $guias,
+        ];
+
+        PDF::setOptions([
+            'dpi' => 150,
+            'defaultFont' => 'sans-serif',
+            'fontHeightRatio' => 1,
+            'isPhpEnabled' => true,
+        ]);
+
+        $pdf = PDF::loadView('remesas.pdf', $data);
+        return $pdf->stream('REMESA-'.$remesa->codigo);
+    }
+
+
 }

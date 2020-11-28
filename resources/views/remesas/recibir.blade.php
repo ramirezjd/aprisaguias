@@ -20,14 +20,19 @@
                 <input type="checkbox" class="form-check-input align-middle" id="{{$guia->guia->id}}" name="guias[]" value="{{$guia->guia->id}}" required>
                 <label class="form-check-label align-middle" for="{{$guia->guia->id}}"><h4>Guia: {{$guia->guia->codigo}} | Origen: {{$guia->guia->cod_origen}} | Destino: {{$guia->guia->cod_destino}} | Peso: {{$guia->guia->peso_total}} | Peso Vol: {{$guia->guia->peso_volumetrico}}</h4></label>
             </div>
+
+
             @foreach ($guia->guia->paquetes as $paquete)
             <div class="col-6 align-middle">
                 <h5 class="ml-3">Paquete: {{$guia->guia->codigo}}/{{ $loop->index+1 }} | Peso: {{ $paquete->peso }} | Ancho: {{ $paquete->dim_ancho }} | Alto: {{ $paquete->dim_alto }} | Largo: {{ $paquete->dim_fondo }}</h5>
             </div>
             <div class="col-6 align-middle">
-                <input class="form-control" type="text" name="paquetes[]" placeholder="Default input">
+                <input class="form-control" type="text" name="novedad_paquetes[]" placeholder="Default input">
+                <input class="form-control" type="hidden" name="paquetes[]"  value="{{ $paquete->id }}" placeholder="Default input">
             </div>
             @endforeach
+
+
             <div class="col-12 align-middle">
                 <input class="form-control" type="text" name="novedades[]" placeholder="Default input">
             </div>

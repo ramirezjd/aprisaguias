@@ -40,18 +40,25 @@
                     <td class="text-center">{{ $remesa->vehiculo->placa }}</td>
                     <td class="text-center">{{ $remesa->transportista->telefono }}</td>
                     <td class="text-center">
-                        <form action="{{ route('remesas.destroy',$remesa->id) }}" method="POST">
 
-                            <a class="btn btn-info" href="{{ route('remesas.show',$remesa->id) }}">Ver</a>
+                        <div class="d-flex">
+                            <a class="btn btn-info mx-1" href="{{ route('remesas.show',$remesa->id) }}">Ver</a>
 
-                            <a class="btn btn-primary" href="{{ route('remesas.edit',$remesa->id) }}">Editar</a>
+                            <form action="{{route('imprimirremesa')}}" method="GET">
+                                <input type='text' name='id' value="{{$remesa->id}}" hidden>
+                                <button type="submit" target="_blank" class="btn btn-success mx-1">Imprimir</button>
+                            </form>
+
+                            <a class="btn btn-primary d-none" type="submit" href="{{ route('remesas.edit',$remesa->id) }}">Editar</a>
                             @can('borrar remesa')
+                            <form action="{{ route('remesas.destroy',$remesa->id) }}" method="POST">
                             @csrf
                             @method('DELETE')
 
-                            <button type="submit" class="btn btn-danger">Borrar</button>
+                            <button type="submit" class="btn btn-danger d-none">Borrar</button>
                             @endcan
                         </form>
+                    </div>
                     </td>
                 </tr>
                 @endforeach

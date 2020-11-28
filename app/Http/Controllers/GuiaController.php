@@ -32,15 +32,18 @@ class GuiaController extends Controller
         if($user->hasRole('super-admin')){
             $guias_enviar = guia::with(['user' , 'tipo_destino'])->get();
             $guias_entregar = guia::with(['user' , 'tipo_destino'])->get();
+            $guias_entregadas = guia::with(['user' , 'tipo_destino'])->get();
         }
         else{
             $guias_enviar = guia::where('instalacion_actual_id', $user->instalacion_id)->where('status', 'Pendiente')->with(['user' , 'tipo_destino'])->get();
-            $guias_entregar = guia::where('instalacion_actual_id', $user->instalacion_id)->where('instalacion_destino_id', $user->instalacion_id)->with(['user' , 'tipo_destino'])->get();
+            $guias_entregar = guia::where('instalacion_actual_id', $user->instalacion_id)->where('instalacion_destino_id', $user->instalacion_id)->where('status', 'En destino')->with(['user' , 'tipo_destino'])->get();
+            $guias_entregadas = guia::where('instalacion_actual_id', $user->instalacion_id)->where('instalacion_destino_id', $user->instalacion_id)->where('status', 'Cerrada')->with(['user' , 'tipo_destino'])->get();
         }
 
         return view('guias.index',[
             'guias_enviar' => $guias_enviar,
             'guias_entregar' => $guias_entregar,
+            'guias_entregadas' => $guias_entregadas,
             'user' => $user,
         ]);
     }
@@ -308,6 +311,7 @@ class GuiaController extends Controller
         $destinatario = cliente::findOrFail($guia->cliente_destinatario_id);
         $origen = direccion::where('id', $remitente->direccion_id)->with(['estado', 'ciudad', 'municipio', 'parroquia', 'zip_code'])->first();
         $destino = direccion::where('id', $destinatario->direccion_id)->with(['estado', 'ciudad', 'municipio', 'parroquia', 'zip_code'])->first();
+        $paquetes = $guia->paquetes;
 
         $direccion_origen = $origen->estado->estado. '-' . $origen->municipio->municipio . '-' .
             $origen->ciudad->ciudad . '-' . $origen->parroquia->parroquia . '-' . $origen->zip_code->zip_code;
@@ -339,9 +343,29 @@ class GuiaController extends Controller
             'destinatario_email' => $destinatario->email,
             'destinatario_telefono' => $destinatario->telefono,
             'destinatario_direccion' => $direccion_destino,
+
+            'n_paquetes' => count($paquetes),
+            'paquetes' => $paquetes->all(),
         ];
+
+        PDF::setOptions([
+            'dpi' => 150,
+            'defaultFont' => 'sans-serif',
+            'fontHeightRatio' => 1,
+            'isPhpEnabled' => true,
+        ]);
+
         $pdf = PDF::loadView('pdf', $data);
         return $pdf->stream('GUIA-'.$guia->codigo);
     }
 
+
+    public function entregar(request $request){
+        $guia = guia::where('id' ,$request->id)->first();
+
+        $guia->status = "Cerrada";
+        $guia->update();
+
+        return redirect()->route('guias.index');
+    }
 }
