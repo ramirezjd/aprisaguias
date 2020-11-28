@@ -4,9 +4,9 @@ namespace App\Http\Controllers;
 
 use App\instalacion;
 use App\estado;
-use App\ciudad;
+use Auth;
 use App\municipio;
-use App\parroquia;
+use App\user;
 use App\zip_code;
 
 use App\direccion;
@@ -24,7 +24,14 @@ class InstalacionController extends Controller
      */
     public function index()
     {
-        $instalaciones = instalacion::with('tipo_instalacion')->get();
+        $user = User::findOrFail(Auth::id());
+        if($user->hasRole('super-admin')){
+            $instalaciones = instalacion::with('tipo_instalacion')->get();
+        }
+        else{
+            $instalaciones = instalacion::with('tipo_instalacion')->get()->except('1');
+        }
+
         return view('instalaciones.index', [
             'instalaciones' => $instalaciones,
         ]);
@@ -113,9 +120,12 @@ class InstalacionController extends Controller
      * @param  \App\instalacion  $instalacion
      * @return \Illuminate\Http\Response
      */
-    public function show(instalacion $instalacion)
+    public function show( $id)
     {
-        return view('instalaciones.show',compact('instalacion'));
+        $instalacion = instalacion::where('id', $id)->with(['estado', 'ciudad', 'municipio', 'parroquia', 'zip_code', 'tipo_instalacion'])->first();
+        return view('instalaciones.show',[
+            'instalacion' => $instalacion,
+        ]);
     }
 
     /**

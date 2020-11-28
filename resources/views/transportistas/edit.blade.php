@@ -1,4 +1,4 @@
-@extends('vehiculos.layout')
+@extends('layouts.app')
 
 @can('editar transportista')
 @section('content')

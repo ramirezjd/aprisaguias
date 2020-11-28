@@ -1,4 +1,4 @@
-@extends('users.layout')
+@extends('layouts.app')
 
 
 @can('ver transportista')
@@ -22,8 +22,8 @@
                         <th>Documento</th>
                         <th>Nombres</th>
                         <th>Apellidos</th>
-                        <th>Direccion</th>
                         <th>Telefono</th>
+                        <th>Status</th>
                         <th>Acciones</th>
                     </tr>
                     @foreach ($transportistas as $transportista)
@@ -33,8 +33,8 @@
                         <td class="text-center">{{ $transportista->documento}}</td>
                         <td class="text-center">{{ $transportista->nombres }}</td>
                         <td class="text-center">{{ $transportista->apellidos }}</td>
-                        <td class="text-center">{{ $transportista->direccion}}</td>
                         <td class="text-center">{{ $transportista->telefono }}</td>
+                        <td class="text-center">{{ $transportista->status }}</td>
                         <td class="text-center">
                             <form action="{{ route('transportistas.destroy',$transportista->id) }}" method="POST">
                                 <a class="btn btn-info" href="{{ route('transportistas.show',$transportista->id) }}">Ver</a>

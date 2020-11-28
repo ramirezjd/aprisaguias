@@ -97,7 +97,6 @@ class VehiculoController extends Controller
     {
         $vehiculo->delete();
 
-        return redirect()->route('vehiculos.index')
-                        ->with('success','Guía Eliminada Exitosamente.');
+        return redirect()->route('vehiculos.index');
     }
 }

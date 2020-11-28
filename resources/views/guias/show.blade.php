@@ -1,6 +1,6 @@
-@extends('guias.layout')
+@extends('layouts.app')
 
-@can('ver guia')
+@if(auth()->user()->can('ver guia') && ($guia->instalacion_origen_id == $user->instalacion_id || $guia->instalacion_actual_id == $user->instalacion_id || $user->hasRole ('super-admin')))
 @section('content')
     <div class="container">
         <div class="row mb-3">
@@ -81,12 +81,10 @@
 
     </div>
 @endsection
-@endcan
-
-@cannot('ver guia')
+@else
     @section('content')
         <div class="container">
             <h1>No tiene los permisos necesarios para acceder a esta funcionalidad.</h1>
         </div>
     @endsection
-@endcannot
+@endif

@@ -1,4 +1,4 @@
-@extends('guias.layout')
+@extends('layouts.app')
 
 @can('ver guia')
 @section('content')
@@ -8,7 +8,7 @@
             <h2>CRUD de Guias</h2>
         </div>
         <div class="col-6 text-right">
-            <a class="btn btn-success" href="{{ route('guias.create') }}"> Crear Guia</a>
+            <a class="btn btn-success" href="{{ route('guias.create') }}">Crear Guia</a>
         </div>
     </div>
 
@@ -17,9 +17,10 @@
             <p>{{ $message }}</p>
         </div>
     @endif
-
+@hasrole('super-admin')
     <div class="row">
         <div class="col-12">
+            <h2>Guias Admin</h2><br>
             <table class="table table-bordered">
                 <tr>
                     <th>Cod</th>
@@ -28,11 +29,12 @@
                     <th>Precio</th>
                     <th>Origen</th>
                     <th>Destino</th>
-                    <th>Nº Paquetes</th>
+                    <th>Actual</th>
+                    <th>Nº Paq</th>
                     <th>Status</th>
                     <th>Acciones</th>
                 </tr>
-                @foreach ($guias as $guia)
+                @foreach ($guias_enviar as $guia)
                 <tr>
                     <td class="text-center">{{ $guia->codigo }}</td>
                     <td class="text-center">{{ $guia->peso_total}}</td>
@@ -40,6 +42,60 @@
                     <td class="text-center">{{ $guia->precio }}</td>
                     <td class="text-center">{{ $guia->cod_origen }}</td>
                     <td class="text-center">{{ $guia->cod_destino }}</td>
+                    <td class="text-center">{{ $guia->cod_actual }}</td>
+                    <td class="text-center">{{ $guia->n_paquetes }}</td>
+                    <td class="text-center">{{ $guia->status }}</td>
+                    <td class="text-center">
+                        @if(auth()->user()->can('ver guia') && ($guia->instalacion_origen_id == $user->instalacion_id || $guia->instalacion_actual_id == $user->instalacion_id || $user->hasRole ('super-admin')))
+                        <form action="{{ route('guias.destroy',$guia->id) }}" method="POST">
+
+                            <a class="btn btn-info" href="{{ route('guias.show',$guia->id) }}">Ver</a>
+
+                            <a class="btn btn-primary d-none" href="{{ route('guias.edit',$guia->id) }}">Editar</a>
+
+                            <a class="btn btn-success" href="{{ route('pdftest',$guia->id) }}">Imprimir </a>
+                            @can('borrar guia')
+                            @csrf
+                            @method('DELETE')
+
+                            <button type="submit" class="btn btn-danger d-none">Borrar</button>
+                            @endcan
+                        </form>
+                        @endif
+                    </td>
+                </tr>
+                @endforeach
+            </table>
+        </div>
+
+    </div>
+
+@else
+    <div class="row">
+        <div class="col-12">
+            <h2>Guias por Enviar</h2><br>
+            <table class="table table-bordered">
+                <tr>
+                    <th>Cod</th>
+                    <th>Peso (Kg)</th>
+                    <th>Peso Vol (Kg)</th>
+                    <th>Precio</th>
+                    <th>Origen</th>
+                    <th>Destino</th>
+                    <th>Actual</th>
+                    <th>Nº Paq</th>
+                    <th>Status</th>
+                    <th>Acciones</th>
+                </tr>
+                @foreach ($guias_enviar as $guia)
+                <tr>
+                    <td class="text-center">{{ $guia->codigo }}</td>
+                    <td class="text-center">{{ $guia->peso_total}}</td>
+                    <td class="text-center">{{ $guia->peso_volumetrico }}</td>
+                    <td class="text-center">{{ $guia->precio }}</td>
+                    <td class="text-center">{{ $guia->cod_origen }}</td>
+                    <td class="text-center">{{ $guia->cod_destino }}</td>
+                    <td class="text-center">{{ $guia->cod_actual }}</td>
                     <td class="text-center">{{ $guia->n_paquetes }}</td>
                     <td class="text-center">{{ $guia->status }}</td>
                     <td class="text-center">
@@ -47,14 +103,64 @@
 
                             <a class="btn btn-info" href="{{ route('guias.show',$guia->id) }}">Ver</a>
 
-                            <a class="btn btn-primary" href="{{ route('guias.edit',$guia->id) }}">Editar</a>
+                            <a class="btn btn-primary d-none" href="{{ route('guias.edit',$guia->id) }}">Editar</a>
 
                             <a class="btn btn-success" href="{{ route('pdftest',$guia->id) }}">Imprimir </a>
                             @can('borrar guia')
                             @csrf
                             @method('DELETE')
 
-                            <button type="submit" class="btn btn-danger">Borrar</button>
+                            <button type="submit" class="btn btn-danger d-none">Borrar</button>
+                            @endcan
+                        </form>
+                    </td>
+                </tr>
+                @endforeach
+            </table>
+        </div>
+
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            <h2>Guias por Entregar</h2><br>
+            <table class="table table-bordered">
+                <tr>
+                    <th>Cod</th>
+                    <th>Peso (Kg)</th>
+                    <th>Peso Vol (Kg)</th>
+                    <th>Precio</th>
+                    <th>Origen</th>
+                    <th>Destino</th>
+                    <th>Actual</th>
+                    <th>Nº Paq</th>
+                    <th>Status</th>
+                    <th>Acciones</th>
+                </tr>
+                @foreach ($guias_entregar as $guia)
+                <tr>
+                    <td class="text-center">{{ $guia->codigo }}</td>
+                    <td class="text-center">{{ $guia->peso_total}}</td>
+                    <td class="text-center">{{ $guia->peso_volumetrico }}</td>
+                    <td class="text-center">{{ $guia->precio }}</td>
+                    <td class="text-center">{{ $guia->cod_origen }}</td>
+                    <td class="text-center">{{ $guia->cod_destino }}</td>
+                    <td class="text-center">{{ $guia->cod_actual }}</td>
+                    <td class="text-center">{{ $guia->n_paquetes }}</td>
+                    <td class="text-center">{{ $guia->status }}</td>
+                    <td class="text-center">
+                        <form action="{{ route('guias.destroy',$guia->id) }}" method="POST">
+
+                            <a class="btn btn-info" href="{{ route('guias.show',$guia->id) }}">Ver</a>
+
+                            <a class="btn btn-primary d-none" href="{{ route('guias.edit',$guia->id) }}">Editar</a>
+
+                            <a class="btn btn-success" href="{{ route('pdftest',$guia->id) }}">Imprimir </a>
+                            @can('borrar guia')
+                            @csrf
+                            @method('DELETE')
+
+                            <button type="submit" class="btn btn-danger d-none">Borrar</button>
                             @endcan
                         </form>
                     </td>
@@ -65,6 +171,7 @@
 
     </div>
 </div>
+@endhasrole
 @endsection
 @endcan
 

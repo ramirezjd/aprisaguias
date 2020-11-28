@@ -18,12 +18,15 @@ class guia extends Model
         'cliente_remitente_id',
         'cliente_destinatario_id',
         'instalacion_origen_id',
+        'instalacion_actual_id',
         'instalacion_destino_id',
         'tipo_destino_id',
         'tipo_pago_id',
         'status',
         'cod_origen',
         'cod_destino',
+        'cod_actual',
+        'novedad',
     ];
 
     public function user()

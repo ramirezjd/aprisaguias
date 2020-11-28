@@ -1,7 +1,6 @@
-@extends('permissions.layout')
+@extends('layouts.app')
 
-
-@can('ver usuario')
+@if(auth()->user()->can('ver usuario') && $user->id != 1)
 @section('content')
 <div class="container">
     <div class="row mb-3">
@@ -46,7 +45,7 @@
     <div class="row">
         <div class="col-6">
             <h5 class="font-weight-bold">Cargo</h5>
-            <span>{{ $user->getRoleNames()->first() }}</span>
+            <span>{{ $cargo->name }}</span>
         </div>
         <div class="col-6">
             <h5 class="font-weight-bold">Instalacion</h5>
@@ -107,12 +106,10 @@
 
 </div>
 @endsection
-@endcan
-
-@cannot('ver usuario')
+@else
     @section('content')
         <div class="container">
             <h1>No tiene los permisos necesarios para acceder a esta funcionalidad.</h1>
         </div>
     @endsection
-@endcannot
+@endif

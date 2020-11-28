@@ -11,6 +11,7 @@ use App\zip_code;
 use App\direccion;
 use App\cliente;
 use App\paquete;
+use App\tipo_paquete;
 use App\User;
 use App\instalacion;
 use Auth;
@@ -27,8 +28,21 @@ class GuiaController extends Controller
      */
     public function index()
     {
-        $guias = Guia::with(['user', 'tipo_destino'])->get();
-        return view('guias.index', compact('guias'));
+        $user = User::findOrFail(Auth::id());
+        if($user->hasRole('super-admin')){
+            $guias_enviar = guia::with(['user' , 'tipo_destino'])->get();
+            $guias_entregar = guia::with(['user' , 'tipo_destino'])->get();
+        }
+        else{
+            $guias_enviar = guia::where('instalacion_actual_id', $user->instalacion_id)->where('status', 'Pendiente')->with(['user' , 'tipo_destino'])->get();
+            $guias_entregar = guia::where('instalacion_actual_id', $user->instalacion_id)->where('instalacion_destino_id', $user->instalacion_id)->with(['user' , 'tipo_destino'])->get();
+        }
+
+        return view('guias.index',[
+            'guias_enviar' => $guias_enviar,
+            'guias_entregar' => $guias_entregar,
+            'user' => $user,
+        ]);
     }
 
     /**
@@ -40,6 +54,7 @@ class GuiaController extends Controller
     {
         $user = User::findOrFail(Auth::id());
 
+        $tipo_paquetes = tipo_paquete::all();
 
         $instalaciones = instalacion::with(['estado', 'ciudad', 'municipio', 'parroquia', 'zip_code'])->get();
         $instalaciones = $instalaciones->except(['1', $user->instalacion_id]);
@@ -54,6 +69,7 @@ class GuiaController extends Controller
             'zip_codes' => zip_code::orderBy('zip_code')->get(),
             'instalaciones' => $instalaciones,
             'instalacion_origen' => $instalacion_origen,
+            'tipo_paquetes' => $tipo_paquetes,
         ]);
     }
 
@@ -179,6 +195,8 @@ class GuiaController extends Controller
             'cod_origen' => $cod_origen->codigo,
             'instalacion_destino_id' => request('instalacion_destino'),
             'cod_destino' => $cod_destino->codigo,
+            'instalacion_actual_id' => request('instalacion_origen'),
+            'cod_actual' => $cod_origen->codigo,
             'tipo_destino_id' => request('type_destiny'),
             'tipo_pago_id' => request('type_payment'),
             'status' => 'Pendiente',
@@ -228,7 +246,9 @@ class GuiaController extends Controller
      */
     public function show(guia $guia)
     {
-        return view('guias.show',compact('guia'));
+        $guiaa = guia::where('id', $guia->id)->first();
+        $user = User::findOrFail(Auth::id());
+        return view('guias.show',['guia'=>$guiaa, 'user'=> $user]);
     }
 
     /**
@@ -281,26 +301,58 @@ class GuiaController extends Controller
                         ->with('success','Guía Eliminada Exitosamente.');
     }
 
+
     public function pdftest($id){
         $guia = guia::findOrFail($id);
         $remitente = cliente::findOrFail($guia->cliente_remitente_id);
         $destinatario = cliente::findOrFail($guia->cliente_destinatario_id);
+        $origen = direccion::where('id', $remitente->direccion_id)->with(['estado', 'ciudad', 'municipio', 'parroquia', 'zip_code'])->first();
+        $destino = direccion::where('id', $destinatario->direccion_id)->with(['estado', 'ciudad', 'municipio', 'parroquia', 'zip_code'])->first();
+        $paquetes = $guia->paquetes;
 
-        $pdf = PDF::loadView('guias.pdf',compact('guia', 'remitente', 'destinatario'));
-        return $pdf->download('guia-'.$guia->codigo.'.pdf');
-        //return view('guias.pdf')->with(compact('guia', 'remitente', 'destinatario'));
+        $direccion_origen = $origen->estado->estado. '-' . $origen->municipio->municipio . '-' .
+            $origen->ciudad->ciudad . '-' . $origen->parroquia->parroquia . '-' . $origen->zip_code->zip_code;
 
+        $direccion_destino = $destino->estado->estado. '-' . $destino->municipio->municipio . '-' .
+            $destino->ciudad->ciudad . '-' . $destino->parroquia->parroquia . '-' . $destino->zip_code->zip_code;
+
+        $data = [
+            //meta
+            'codigo' => $guia->codigo,
+            'peso_total' => $guia->peso_total,
+            'peso_volumetrico' => $guia->peso_volumetrico,
+            'fecha_creacion' => $guia->fecha_creacion,
+
+            //origen
+            'origen' => $guia->cod_origen,
+            'remitente_tipo_documento' => $remitente->tipo_documento,
+            'remitente_documento' => $remitente->documento,
+            'remitente_nombre_razonsocial' => $remitente->nombre_razonsocial,
+            'remitente_email' => $remitente->email,
+            'remitente_telefono' => $remitente->telefono,
+            'remitente_direccion' => $direccion_origen,
+
+            //destino
+            'destino' => $guia->cod_destino,
+            'destinatario_tipo_documento' => $destinatario->tipo_documento,
+            'destinatario_documento' => $destinatario->documento,
+            'destinatario_nombre_razonsocial' => $destinatario->nombre_razonsocial,
+            'destinatario_email' => $destinatario->email,
+            'destinatario_telefono' => $destinatario->telefono,
+            'destinatario_direccion' => $direccion_destino,
+
+            'paquetes' => $paquetes->all(),
+        ];
+
+        PDF::setOptions([
+            'dpi' => 150,
+            'defaultFont' => 'sans-serif',
+            'fontHeightRatio' => 1,
+            'isPhpEnabled' => true,
+        ]);
+
+        $pdf = PDF::loadView('pdf', $data);
+        return $pdf->stream('GUIA-'.$guia->codigo);
     }
 
-    public function createPDF() {
-        // retreive all records from db
-        $data = guia::all();
-
-        // share data to view
-        view()->share('employee',$data);
-        $pdf = PDF::loadView('pdf_view', $data);
-
-        // download PDF file with download method
-        return $pdf->download('pdf_file.pdf');
-      }
 }

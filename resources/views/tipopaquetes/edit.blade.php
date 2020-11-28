@@ -1,14 +1,14 @@
 @extends('layouts.app')
 
-@can('editar vehiculo')
+@can('editar tipo_paquete')
 @section('content')
 <div class="container">
     <div class="row">
         <div class="col-md-6 margin-tb">
-            <h2>Editar Vehiculo</h2>
+            <h2>Editar Tipo de Paquete</h2>
         </div>
         <div class="col-md-6 margin-tb text-right">
-            <a class="btn btn-primary" href="{{ route('vehiculos.index') }}">Volver</a>
+            <a class="btn btn-primary" href="{{ route('tipopaquetes.index') }}">Volver</a>
         </div>
     </div>
 
@@ -23,21 +23,26 @@
         </div>
     @endif
 
-    <form action="{{ route('vehiculos.update',$vehiculo->id) }}" method="POST">
+    <form action="{{ route('tipopaquetes.update',$tipo_paquete->id) }}" method="POST">
         @csrf
         @method('PUT')
 
         <div class="row mx-auto my-3">
-            <div class="col-2"></div>
             <div class="col-4">
-                <label for="codigo">Codigo</label>
-                <input class="form-control " type="text" name="codigo" placeholder="codigo" value="{{$vehiculo->codigo}}" required>
+                <label for="codigo">Nombre</label>
+                <input class="form-control " type="text" name="nombre" placeholder="nombre" value="{{$tipo_paquete->nombre}}" required>
             </div>
             <div class="col-4">
-                <label for="placa">Placa</label>
-                <input class="form-control " type="text" name="placa" placeholder="placa" value="{{$vehiculo->placa}}" required>
+                <label for="placa">Descripcion</label>
+                <input class="form-control " type="text" name="descripcion" placeholder="descripcion" value="{{$tipo_paquete->descripcion}}" required>
             </div>
-            <div class="col-2"></div>
+            <div class="col-4">
+                @if ($tipo_paquete->precio == NULL)
+                @else
+                    <label for="placa">Precio</label>
+                    <input class="form-control " type="text" name="precio" placeholder="precio" value="{{$tipo_paquete->precio}}" required>
+                @endif
+            </div>
         </div>
         <div class="row mt-3">
             <div class="col text-center">
@@ -51,7 +56,7 @@
 
 @endcan
 
-@cannot('editar vehiculo')
+@cannot('editar tipo_paquete')
     @section('content')
         <div class="container">
             <h1>No tiene los permisos necesarios para acceder a esta funcionalidad.</h1>

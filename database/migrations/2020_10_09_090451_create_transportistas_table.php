@@ -21,6 +21,7 @@ class CreateTransportistasTable extends Migration
             $table->string('apellidos', 256);
             $table->string('direccion', 256);
             $table->string('telefono', 156);
+            $table->string('status', 156)->default('Disponible');
             $table->timestamps();
             $table->softDeletes();
         });
