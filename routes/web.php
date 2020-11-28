@@ -25,7 +25,7 @@ Route::middleware('auth')->group(function(){
     Route::resource('/remesas', 'RemesaController');
     Route::resource('/instalaciones', 'InstalacionController');
     Route::resource('/users', 'UserController');
-    Route::get('/guias/entregar', 'RemesaController@recibir')->name('entregar');
+    Route::get('/guias/entregar', 'GuiaController@entregar')->name('entregarguia');
     Route::get('/guias/{id}/pdf','GuiaController@pdftest')->name('pdftest');
     Route::resource('/guias', 'GuiaController');
     Route::resource('/tipo-paquetes', 'TipoPaqueteController');

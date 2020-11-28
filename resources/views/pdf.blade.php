@@ -13,7 +13,7 @@
     <table style="width: 100%;">
         <tr>
             <td colspan="2" style="border: solid;">
-                <p>codigo {{$codigo}}/{{$loop->index+1}}</p>
+                <p>codigo {{$codigo}} - {{$loop->index+1}} / {{$n_paquetes}}</p>
                 <p>peso_total {{$peso_total}}</p>
                 <p>peso_volumetrico {{$peso_volumetrico}}</p>
                 <p>fecha_creacion {{$fecha_creacion}}</p>
@@ -39,7 +39,7 @@
         </tr>
         <tr>
             <td colspan="2" style="border: solid;">
-                <p>codigo {{$codigo}}/{{$loop->index+1}}</p>
+                <p>codigo {{$codigo}} - {{$loop->index+1}} / {{$n_paquetes}}</p>
                 <p>peso_total {{$peso_total}}</p>
                 <p>peso_volumetrico {{$peso_volumetrico}}</p>
                 <p>fecha_creacion {{$fecha_creacion}}</p>
@@ -65,7 +65,7 @@
         </tr>
         <tr>
             <td colspan="2" style="border: solid;">
-                <p>codigo {{$codigo}}/{{$loop->index+1}}</p>
+                <p>codigo {{$codigo}} - {{$loop->index+1}} / {{$n_paquetes}}</p>
                 <p>peso_total {{$peso_total}}</p>
                 <p>peso_volumetrico {{$peso_volumetrico}}</p>
                 <p>fecha_creacion {{$fecha_creacion}}</p>

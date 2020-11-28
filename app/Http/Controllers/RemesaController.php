@@ -34,7 +34,6 @@ class RemesaController extends Controller
         }
 
         return view ('remesas.index', compact('remesas'), compact('remesas_destino'));
-
     }
 
     /**
@@ -234,9 +233,6 @@ class RemesaController extends Controller
                 $guia->novedad = $request->novedades[$index];
                 $flag = 1;
             }
-            else{
-                $guia->novedad = 'OK';
-            }
 
             if($guia->instalacion_destino_id == $instalacion->id){
                 $guia->status = 'En destino';
@@ -248,23 +244,30 @@ class RemesaController extends Controller
             $guia->cod_actual = $instalacion->codigo;
             $guia->instalacion_actual_id = $instalacion->id;
 
-            $index= $index+1;
+            $index++;
 
-            $index2 = 0;
             foreach($guia->paquetes as $paquete){
-                if($request->paquetes[$index2] != NULL){
-                    $paquete->novedad = $request->paquetes[$index2];
-                    $flag = 1;
-                }
-                else{
-                    $paquete->novedad = 'OK';
+                $index2 = 0;
+                foreach($request->paquetes as $request_paquete){
+                    if($paquete->id == $request_paquete){
+                        if($request->novedad_paquetes[$index2] != NULL){
+                            $paquete->novedad = $request->novedad_paquetes[$index2];
+                            $flag = 1;
+                        }
+                        else{
+                            $paquete->novedad = 'OK';
+                        }
+                    }
+                    $index2++;
                 }
                 $paquete->save();
-                $index2 = $index2+1;
             }
 
             if($flag == 1){
-                $guia->status = 'Novedad';
+                $guia->novedad = 'Novedad';
+            }
+            else{
+                $guia->novedad = 'OK';
             }
 
             $guia->save();

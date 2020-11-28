@@ -46,7 +46,7 @@
 
                             <form action="{{route('imprimirremesa')}}" method="GET">
                                 <input type='text' name='id' value="{{$remesa->id}}" hidden>
-                                <button type="submit" class="btn btn-success mx-1">Imprimir</button>
+                                <button type="submit" target="_blank" class="btn btn-success mx-1">Imprimir</button>
                             </form>
 
                             <a class="btn btn-primary d-none" type="submit" href="{{ route('remesas.edit',$remesa->id) }}">Editar</a>

@@ -12,7 +12,11 @@
         </div>
     </div>
 
-
+    <div class="row">
+        <div class="col">
+            <h2>Remesa: {{$remesa->codigo}}</h2>
+        </div>
+    </div>
     @foreach ($guias_paquetes as $guia)
         <div class="row my-3">
             <div class="col-12 align-middle">
