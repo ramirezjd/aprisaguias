@@ -100,7 +100,7 @@
     </table>
     <div style="page-break-after: always;"></div>
     @endforeach
-
+    <img src="data:image/png;base64, {!! base64_encode(QrCode::format('png')->size(200)->generate('http://google.com')) !!} ">
 
     </body>
 </html>

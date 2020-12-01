@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
+use Illuminate\Support\Facades\Storage;
 
 /*
 |--------------------------------------------------------------------------
@@ -31,6 +33,16 @@ Route::middleware('auth')->group(function(){
     Route::resource('/tipo-paquetes', 'TipoPaqueteController');
     Route::resource('/transportistas', 'TransportistaController');
     Route::resource('/vehiculos', 'VehiculoController');
+});
+
+Route::get('qrcode', function () {
+
+    $image = \QrCode::format('png')->size(200)->generate('This was just a test');
+    $output_file = '/img/qr-code/img-' . time() . '.png';
+    Storage::disk('local')->put($output_file, $image);
+    //return QrCode::size(300)->format('png')->generate('A basic example of QR code! Nicesnippets.com');
+    //return view('qrcode');
+
 });
 
 Route::get('/getMunicipios', 'DireccionController@EstadoGetMunicipios')->name('getMunicipios');
