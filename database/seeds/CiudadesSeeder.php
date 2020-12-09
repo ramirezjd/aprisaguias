@@ -8983,6 +8983,11 @@ class CiudadesSeeder extends Seeder
             'ciudad'=>'La Sabana'
             ] );
 
-
+            Ciudad::create( [
+                'id'=>1133,
+                'estado_id'=>25,
+                'municipio_id'=>336,
+                'ciudad'=>'CUCUTA'
+                ] );
     }
 }

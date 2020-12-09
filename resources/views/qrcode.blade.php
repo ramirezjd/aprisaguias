@@ -4,3 +4,4 @@
     {!! QrCode::size(250)->generate('Hola, QR de prueba!!'); !!}
 @endsection
 
+

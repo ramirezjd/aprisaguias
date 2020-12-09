@@ -131,5 +131,10 @@ class EstadosSeeder extends Seeder
         'id'=>24,
         'estado'=>'VARGAS'
         ] );
+
+        Estado::create( [
+            'id'=>25,
+            'estado'=>'CUCUTA'
+        ] );
     }
 }

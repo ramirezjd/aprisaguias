@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\guia;
+use App\guias_x_remesa;
 use App\estado;
 use App\municipio;
 use App\ciudad;
@@ -16,6 +17,10 @@ use App\User;
 use App\instalacion;
 use Auth;
 use PDF;
+use Endroid\QrCode\QrCode;
+use Endroid\QrCode\ErrorCorrectionLevel;
+use Endroid\QrCode\LabelAlignment;
+use File;
 
 use Illuminate\Http\Request;
 
@@ -60,12 +65,12 @@ class GuiaController extends Controller
         $tipo_paquetes = tipo_paquete::all();
 
         $instalaciones = instalacion::with(['estado', 'ciudad', 'municipio', 'parroquia', 'zip_code'])->get();
-        $instalaciones = $instalaciones->except(['1', $user->instalacion_id]);
+        $instalaciones = $instalaciones->except(['1','2', $user->instalacion_id]);
 
         $instalacion_origen = instalacion::where('id', $user->instalacion_id)->with(['estado', 'ciudad', 'municipio', 'parroquia', 'zip_code'])->first();
 
         return view('guias.create', [
-            'estados' => estado::orderBy('estado')->get(),
+            'estados' => estado::where('id', '!=', '25')->orderBy('estado')->get(),
             'municipios' => municipio::orderBy('municipio')->get(),
             'ciudades' => ciudad::orderBy('ciudad')->get(),
             'parroquias' => parroquia::orderBy('parroquia')->get(),
@@ -135,51 +140,95 @@ class GuiaController extends Controller
             //Guide Package - Paquete
         ]);
 
-        $direccion_sender = Direccion::create([
-            'urbanizacion' => request('urban_sender'),
-            'via-principal' => request('address_sender'),
-            'edificio-casa' => request('house_sender'),
-            'punto-referencia' => request('reference_sender'),
-            'estado_id' => request('estados'),
-            'ciudad_id' => request('ciudades'),
-            'municipio_id' => request('municipios'),
-            'parroquia_id' => request('parroquias'),
-            'zip_code_id' => request('zip_codes'),
-        ]);
+        $client_sender = cliente::where('documento', $request->get('id_sender'))->first();
+
+        if($client_sender != null){
+            $direccion_sender= direccion::where('id', $client_sender->direccion_id)->first();
+            $direccion_sender->urbanizacion = $request->get('urban_sender');
+            $direccion_sender->via_principal = $request->get('address_sender');
+            $direccion_sender->edificio_casa = $request->get('house_sender');
+            $direccion_sender->punto_referencia = $request->get('reference_sender');
+            $direccion_sender->estado_id = $request->get('estados');
+            $direccion_sender->ciudad_id = $request->get('ciudades');
+            $direccion_sender->municipio_id = $request->get('municipios');
+            $direccion_sender->parroquia_id = $request->get('parroquias');
+            $direccion_sender->zip_code_id = $request->get('zip_codes');
+            $direccion_sender->save();
+
+            $client_sender->nombre_razonsocial = $request->get('name_sender');
+            $client_sender->email = $request->get('mail_sender');
+            $client_sender->telefono = $request->get('phone_sender');
+            $client_sender->save();
+        }
+        else{
+            $direccion_sender = Direccion::create([
+                'urbanizacion' => request('urban_sender'),
+                'via_principal' => request('address_sender'),
+                'edificio_casa' => request('house_sender'),
+                'punto_referencia' => request('reference_sender'),
+                'estado_id' => request('estados'),
+                'ciudad_id' => request('ciudades'),
+                'municipio_id' => request('municipios'),
+                'parroquia_id' => request('parroquias'),
+                'zip_code_id' => request('zip_codes'),
+            ]);
+
+            $client_sender = Cliente::create([
+                'tipo_documento' => 'V-',
+                'documento' => request('id_sender'),
+                'nombre_razonsocial' => request('name_sender'),
+                'email' => request('mail_sender'),
+                'telefono' => request('phone_sender'),
+                'direccion_id' => $direccion_sender->id,
+            ]);
+        }
 
 
-        $direccion_receiver = Direccion::create([
-            'urbanizacion' => request('urban_receiver'),
-            'via-principal' => request('address_receiver'),
-            'edificio-casa' => request('house_receiver'),
-            'punto-referencia' => request('reference_receiver'),
-            'estado_id' => request('state_receiver'),
-            'ciudad_id' => request('city_receiver'),
-            'municipio_id' => request('province_receiver'),
-            'parroquia_id' => request('parroq_receiver'),
-            'zip_code_id' => request('zip_receiver'),
-        ]);
 
+        $client_receiver = cliente::where('documento', $request->get('id_receiver'))->first();
+        if($client_receiver != null){
 
-        $client_sender = Cliente::create([
-            'tipo_documento' => 'V-',
-            'documento' => request('id_sender'),
-            'nombre_razonsocial' => request('name_sender'),
-            'email' => request('mail_sender'),
-            'telefono' => request('phone_sender'),
-            'direccion_id' => $direccion_sender->id,
+            $direccion_receiver = direccion::where('id', $client_receiver->direccion_id)->first();
 
-        ]);
+            $direccion_receiver->urbanizacion = $request->get('urban_receiver');
+            $direccion_receiver->via_principal = $request->get('address_receiver');
+            $direccion_receiver->edificio_casa = $request->get('house_receiver');
+            $direccion_receiver->punto_referencia = $request->get('reference_receiver');
+            $direccion_receiver->estado_id = $request->get('state_receiver');
+            $direccion_receiver->ciudad_id = $request->get('city_receiver');
+            $direccion_receiver->municipio_id = $request->get('province_receiver');
+            $direccion_receiver->parroquia_id = $request->get('parroq_receiver');
+            $direccion_receiver->zip_code_id = $request->get('zip_receiver');
+            $direccion_receiver->save();
 
-        $client_receiver = Cliente::create([
-            'tipo_documento' => 'V-',
-            'documento' => request('id_receiver'),
-            'nombre_razonsocial' => request('name_receiver'),
-            'email' => request('mail_receiver'),
-            'telefono' => request('phone_receiver'),
-            'direccion_id' => $direccion_receiver->id,
+            $client_receiver->nombre_razonsocial = $request->get('name_receiver');
+            $client_receiver->email = $request->get('mail_receiver');
+            $client_receiver->telefono = $request->get('phone_receiver');
+            $client_receiver->save();
+        }
+        else{
+            $direccion_receiver = Direccion::create([
+                'urbanizacion' => request('urban_receiver'),
+                'via_principal' => request('address_receiver'),
+                'edificio_casa' => request('house_receiver'),
+                'punto_referencia' => request('reference_receiver'),
+                'estado_id' => request('state_receiver'),
+                'ciudad_id' => request('city_receiver'),
+                'municipio_id' => request('province_receiver'),
+                'parroquia_id' => request('parroq_receiver'),
+                'zip_code_id' => request('zip_receiver'),
+            ]);
 
-        ]);
+            $client_receiver = Cliente::create([
+                'tipo_documento' => 'V-',
+                'documento' => request('id_receiver'),
+                'nombre_razonsocial' => request('name_receiver'),
+                'email' => request('mail_receiver'),
+                'telefono' => request('phone_receiver'),
+                'direccion_id' => $direccion_receiver->id,
+
+            ]);
+        }
 
 
         $cod_origen = instalacion::findOrFail($request->get('instalacion_origen'));
@@ -210,16 +259,45 @@ class GuiaController extends Controller
         $n_paquetes=0;
 
         for ($i=0; $i < count(request('weight_pack')); $i++) {
-            $peso_vol = $request->get('width_pack')[$i] * $request->get('height_pack')[$i] * $request->get('deep_pack')[$i] * 333 / 1000000;
+
+            if(request('weight_pack')[$i] != null){
+                $peso = request('weight_pack')[$i];
+            }
+            else{
+                $peso = 1;
+            }
+
+            if(request('width_pack')[$i] != null){
+                $dim_ancho = request('width_pack')[$i];
+            }
+            else{
+                $dim_ancho = 1;
+            }
+
+            if(request('width_pack')[$i] != null){
+                $dim_alto = request('height_pack')[$i];
+            }
+            else{
+                $dim_alto = 1;
+            }
+
+            if(request('width_pack')[$i] != null){
+                $dim_fondo = request('deep_pack')[$i];
+            }
+            else{
+                $dim_fondo = 1;
+            }
+
+            $peso_vol = $dim_ancho * $dim_alto *$dim_fondo * 333 / 1000000;
             $peso_volumetrico_total += $peso_vol;
-            $peso_total += request('weight_pack')[$i];
+            $peso_total += $peso;
             $n_paquetes++;
 
             $package = Paquete::create([
-                'peso' => request('weight_pack')[$i],
-                'dim_ancho' => request('width_pack')[$i],
-                'dim_alto' => request('height_pack')[$i],
-                'dim_fondo' => request('deep_pack')[$i],
+                'peso' => $peso,
+                'dim_ancho' => $dim_ancho,
+                'dim_alto' => $dim_alto,
+                'dim_fondo' => $dim_fondo,
                 'peso_volumetrico' => $peso_vol,
                 'descripcion' => request('description_pack')[$i],
                 'tipo_paquete_id' => request('type_package')[$i],
@@ -232,10 +310,6 @@ class GuiaController extends Controller
         $guides->n_paquetes = $n_paquetes;
         $guides->save();
 
-        // echo "<pre>";
-        // var_dump($package);
-        // die;
-        // echo "</pre>";
 
         return redirect()->route('guias.index')
                         ->with('success','Guía Creadas Exitosamente.');
@@ -355,7 +429,25 @@ class GuiaController extends Controller
             'isPhpEnabled' => true,
         ]);
 
-        $pdf = PDF::loadView('pdf', $data);
+        $qrCode = new QrCode('hello world on qr');
+		$qrCode->setSize(300);
+		$qrCode->setMargin(10);
+		$qrCode->setEncoding('UTF-8');
+		$qrCode->setWriterByName('png');
+		$qrCode->setErrorCorrectionLevel(ErrorCorrectionLevel::HIGH());
+		$qrCode->setForegroundColor(['r' => 0, 'g' => 0, 'b' => 0, 'a' => 0]);
+		$qrCode->setBackgroundColor(['r' => 255, 'g' => 255, 'b' => 255, 'a' => 0]);
+		$qrCode->setLogoSize(150, 200);
+		$qrCode->setValidateResult(false);
+		$qrCode->setRoundBlockSize(true);
+		$qrCode->setWriterOptions(['exclude_xml_declaration' => true]);
+		header('Content-Type: '.$qrCode->getContentType());
+		$qrCode->writeFile(public_path('/img/qrcode.png'));
+
+        $pdf = PDF::loadView('guias.pdf', $data);
+
+        //File::delete(public_path('/img/qrcode.png')); //limpiar el archivo luego
+
         return $pdf->stream('GUIA-'.$guia->codigo);
     }
 
@@ -368,4 +460,25 @@ class GuiaController extends Controller
 
         return redirect()->route('guias.index');
     }
+
+    public function traking($codigo){
+        $guia = guia::where('codigo', $codigo)->first();
+        if($guia != null){
+            $guias = guias_x_remesa::where('guia_id', $guia->id)->orderBy('created_at', 'desc')->with('guia')->with('remesa')->get();
+            return view('guias.traking', ['guias' => $guias, 'guia' =>$guia]);
+        }
+        else{
+            return abort(404);
+        }
+    }
+
+    /*
+    public function regresar(request $request){
+        $guia = guia::where('id' ,$request->id)->first();
+
+        $guia->status = "Regresada";
+        $guia->update();
+
+        return redirect()->route('guias.index');
+    }*/
 }

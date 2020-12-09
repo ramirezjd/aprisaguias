@@ -44,7 +44,15 @@ class RemesaController extends Controller
     public function create()
     {
         $user = User::findOrFail(Auth::id());
-        $instalaciones = instalacion::all()->except(['1', $user->instalacion_id]);
+
+        if($user->instalacion_id == 2){
+            $instalaciones = instalacion::where('id', 3)->with(['estado', 'ciudad', 'municipio', 'parroquia', 'zip_code'])->get();
+        }
+        else{
+            $instalaciones = instalacion::all()->except(['1','2', $user->instalacion_id]);
+        }
+
+
         $guias = guia::where([['instalacion_actual_id', '=', $user->instalacion->id],
                             ['status', '=', 'Pendiente']
                             ])->with(['user' , 'paquetes'])->get();
@@ -238,6 +246,10 @@ class RemesaController extends Controller
                 $guia->status = 'En destino';
             }
             else{
+                if($guia->instalacion_origen_id == 2){
+                    $guia->cod_origen = $instalacion->codigo;
+                    $guia->instalacion_origen_id = $instalacion->id;
+                }
                 $guia->status = 'Pendiente';
             }
 

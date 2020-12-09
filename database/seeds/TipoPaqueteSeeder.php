@@ -19,6 +19,7 @@ class TipoPaqueteSeeder extends Seeder
         Tipo_Paquete::create([
             'nombre' => 'Sobre',
             'descripcion' => 'Paquete ligero tipo sobre',
+            'precio' => 1000,
         ]);
     }
 }

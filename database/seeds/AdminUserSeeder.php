@@ -31,11 +31,11 @@ class AdminUserSeeder extends Seeder
         $user->assignRole('super-admin');
 
         $user2 = User::create([
-            'username' => 'regular-user',
-            'nombres' => 'What',
-            'apellidos' => 'Ever',
-            'email' => 'regular@user.com',
-            'rol' => 5,
+            'username' => 'cucuta-01',
+            'nombres' => 'Tito',
+            'apellidos' => 'Merchan',
+            'email' => 'tito@merchan.com',
+            'rol' => 2,
             'password' => bcrypt('1234'),
             'instalacion_id' => 2,
         ]);
@@ -47,11 +47,11 @@ class AdminUserSeeder extends Seeder
 
         $user2->givePermissionTo(['crear guia', 'ver guia', 'editar guia', 'borrar guia', 'crear remesa', 'ver remesa', 'editar remesa', 'borrar remesa']);
 
-        $user3 = User::create([
-            'username' => 'regular-user2',
-            'nombres' => 'What2',
-            'apellidos' => 'Ever2',
-            'email' => 'regular2@user.com',
+        $user4 = User::create([
+            'username' => 'regular-user',
+            'nombres' => 'What',
+            'apellidos' => 'Ever',
+            'email' => 'regular@user.com',
             'rol' => 5,
             'password' => bcrypt('1234'),
             'instalacion_id' => 3,
@@ -59,6 +59,23 @@ class AdminUserSeeder extends Seeder
 
         usuarios_x_instalacion::create([
             'instalacion_id' => 3,
+            'user_id' => $user4->id,
+        ]);
+
+        $user4->givePermissionTo(['crear guia', 'ver guia', 'editar guia', 'borrar guia', 'crear remesa', 'ver remesa', 'editar remesa', 'borrar remesa']);
+
+        $user3 = User::create([
+            'username' => 'regular-user2',
+            'nombres' => 'What2',
+            'apellidos' => 'Ever2',
+            'email' => 'regular2@user.com',
+            'rol' => 5,
+            'password' => bcrypt('1234'),
+            'instalacion_id' => 4,
+        ]);
+
+        usuarios_x_instalacion::create([
+            'instalacion_id' => 4,
             'user_id' => $user3->id,
         ]);
 
