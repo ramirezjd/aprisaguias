@@ -150,8 +150,6 @@
                     <td class="text-center">{{ $guia->status }}</td>
                     <td class="text-center">
                         <div class="d-flex">
-
-
                             <a class="btn btn-info" href="{{ route('guias.show',$guia->id) }}">Ver</a>
 
                             <form action="{{route('entregarguia')}}" method="GET">
@@ -162,13 +160,14 @@
                             <a class="btn btn-primary d-none" href="{{ route('guias.edit',$guia->id) }}">Editar</a>
 
                             <a class="btn btn-success" href="{{ route('pdftest',$guia->id) }}">Imprimir </a>
-                            @can('borrar guia')
+                        @can('borrar guia')
                         <form action="{{ route('guias.destroy',$guia->id) }}" method="POST">
                             @csrf
                             @method('DELETE')
                             <button type="submit" class="btn btn-danger d-none">Borrar</button>
-                            @endcan
+
                         </form>
+                        @endcan
                         </div>
                     </td>
                 </tr>

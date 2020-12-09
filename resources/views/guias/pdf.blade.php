@@ -1,110 +1,106 @@
 <!doctype html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
-
-    <!-- Styles -->
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-</head>
+<html lang="en">
+    <head>
+        <style>
+            body {
+                font-family: 'arial';
+                font-size:11px;
+            }
+        </style>
+    </head>
 <body>
-    <div class="container">
+    @foreach ($paquetes as $paquete)
+    <table style="width: 100%;">
+        <tr>
+            <td colspan="2" style="border: solid;">
+                <p>codigo {{$codigo}} - {{$loop->index+1}} / {{$n_paquetes}}</p>
+                <p>peso_total {{$peso_total}}</p>
+                <p>peso_volumetrico {{$peso_volumetrico}}</p>
+                <p>fecha_creacion {{$fecha_creacion}}</p>
+            </td>
+        </tr>
+        <tr>
+            <td style="border: solid;">
+                <p>origen {{$origen}}</p>
+                <p>remitente_documento {{$remitente_tipo_documento}} {{$remitente_documento}}</p>
+                <p>remitente_nombre_razonsocial {{$remitente_nombre_razonsocial}}</p>
+                <p>remitente_email {{$remitente_email}}</p>
+                <p>remitente_telefono {{$remitente_telefono}}</p>
+                <p>remitente_direccion {{$remitente_direccion}}</p>
+            </td>
+            <td style="border: solid;">
+                <p>destino {{$destino}}</p>
+                <p>destinatario_documento {{$destinatario_tipo_documento}} {{$destinatario_documento}}</p>
+                <p>destinatario_nombre_razonsocial {{$destinatario_nombre_razonsocial}}</p>
+                <p>destinatario_email {{$destinatario_email}}</p>
+                <p>destinatario_telefono {{$destinatario_telefono}}</p>
+                <p>destinatario_direccion {{$destinatario_direccion}}</p>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2" style="border: solid;">
+                <p>codigo {{$codigo}} - {{$loop->index+1}} / {{$n_paquetes}}</p>
+                <p>peso_total {{$peso_total}}</p>
+                <p>peso_volumetrico {{$peso_volumetrico}}</p>
+                <p>fecha_creacion {{$fecha_creacion}}</p>
+            </td>
+        </tr>
+        <tr>
+            <td style="border: solid;">
+                <p>origen {{$origen}}</p>
+                <p>remitente_documento {{$remitente_tipo_documento}} {{$remitente_documento}}</p>
+                <p>remitente_nombre_razonsocial {{$remitente_nombre_razonsocial}}</p>
+                <p>remitente_email {{$remitente_email}}</p>
+                <p>remitente_telefono {{$remitente_telefono}}</p>
+                <p>remitente_direccion {{$remitente_direccion}}</p>
+            </td>
+            <td style="border: solid;">
+                <p>destino {{$destino}}</p>
+                <p>destinatario_documento {{$destinatario_tipo_documento}} {{$destinatario_documento}}</p>
+                <p>destinatario_nombre_razonsocial {{$destinatario_nombre_razonsocial}}</p>
+                <p>destinatario_email {{$destinatario_email}}</p>
+                <p>destinatario_telefono {{$destinatario_telefono}}</p>
+                <p>destinatario_direccion {{$destinatario_direccion}}</p>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2" style="border: solid;">
+                <p>codigo {{$codigo}} - {{$loop->index+1}} / {{$n_paquetes}}</p>
+                <p>peso_total {{$peso_total}}</p>
+                <p>peso_volumetrico {{$peso_volumetrico}}</p>
+                <p>fecha_creacion {{$fecha_creacion}}</p>
+            </td>
+        </tr>
+        <tr>
+            <td style="border: solid;">
+                <p>origen {{$origen}}</p>
+                <p>remitente_documento {{$remitente_tipo_documento}} {{$remitente_documento}}</p>
+                <p>remitente_nombre_razonsocial {{$remitente_nombre_razonsocial}}</p>
+                <p>remitente_email {{$remitente_email}}</p>
+                <p>remitente_telefono {{$remitente_telefono}}</p>
+                <p>remitente_direccion {{$remitente_direccion}}</p>
+            </td>
+            <td style="border: solid;">
+                <p>destino {{$destino}}</p>
+                <p>destinatario_documento {{$destinatario_tipo_documento}} {{$destinatario_documento}}</p>
+                <p>destinatario_nombre_razonsocial {{$destinatario_nombre_razonsocial}}</p>
+                <p>destinatario_email {{$destinatario_email}}</p>
+                <p>destinatario_telefono {{$destinatario_telefono}}</p>
+                <p>destinatario_direccion {{$destinatario_direccion}}</p>
+            </td>
+        </tr>
 
-        <div class="row">
-            <div class="col-12">
-                <table class="table table-bordered">
-                    <tr>
-                        <td>Guia: {{$guia->id}}</td>
-                        <td>Codigo: {{$guia->codigo}}</td>
-                    </tr>
+        <tr style="border: solid;">
+            <p>Aqui van las politicas y toda esa vaina que la gente nunca lee.. Jajajaja
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Quo iure perferendis
+            laudantium rerum eum laboriosam eaque, ipsam sapiente, adipisci maiores quia,
+            quasi qui illum fugit fuga delectus tenetur natus nisi.</p>
 
-                    <tr>
-                        <td>Origen</td>
-                        <td>Destino</td>
-                    </tr>
+        </tr>
+    </table>
+    <div style="page-break-after: always;"></div>
+    @endforeach
+    <img src="{{ public_path('/img/qrcode.png') }}" style="width: 200px; height: 200px">
 
-                    <tr>
-                        <td>{{$guia->cod_origen}}</td>
-                        <td>{{$guia->cod_destino}}</td>
-                    </tr>
-
-                    <tr>
-                        <td class="p-0 m-0">
-                            <table class="table table-bordered m-0 p-0">
-                                <tr>
-                                    <td> Detalles de envio</td>
-                                    <td>Peso Vol: {{$guia->peso_volumetrico}}</td>
-                                    <td>Peso: {{$guia->peso_total}}</td>
-                                    <td>Precio: {{$guia->precio}}</td>
-                                </tr>
-                            </table>
-                        </td>
-                        <td><span>Destinatario: {{$destinatario->tipo_documento}} {{$destinatario->documento}},</span>
-                            <span>{{$destinatario->nombre_razonsocial}},</span>
-                            <span>{{$destinatario->telefono}}</span>
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td>
-                            <span>Remitente {{$remitente->tipo_documento}} {{$remitente->documento}},</span>
-                            <span>{{$remitente->nombre_razonsocial}},</span>
-                            <span>{{$remitente->telefono}}</span>
-                        </td>
-
-                        <td >
-                            <span>Direccion Destinatario</span>
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td >
-                            <span>Direccion Remitente</span>
-                        </td>
-                        <td>
-                            <span>Prueba de entrega</span><br><br><br><br>
-                            <span>Nombre</span>
-                            <span>Firma</span>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="p-0 m-0">
-                            <table class="table table-bordered m-0 p-0">
-                                <tr>
-                                    <td> Nombre</td>
-                                    <td> Firma</td>
-                                </tr>
-                                <tr>
-                                    <td> </td>
-                                    <td> </td>
-                                </tr>
-                            </table>
-                        </td>
-                        <td class="p-0 m-0">
-                            <table class="table table-bordered m-0 p-0">
-                                <tr>
-                                    <td> Nombre</td>
-                                    <td> Firma</td>
-                                </tr>
-                                <tr>
-                                    <td> </td>
-                                    <td> </td>
-                                </tr>
-                            </table>
-                        </td>
-                    </tr>
-
-
-                </table>
-            </div>
-
-        </div>
-    </div>
-
-
-</body>
+    </body>
 </html>
-
-
-

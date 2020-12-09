@@ -46,7 +46,7 @@
 			max: 0,
 			locale: 'default'
 		},
-		
+
 
 		init: function() {
 			var $this = this; //Plugin object

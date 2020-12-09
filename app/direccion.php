@@ -10,9 +10,9 @@ class direccion extends Model
 
     protected $fillable = [
         'urbanizacion',
-        'via-principal',
-        'edificio-casa',
-        'punto-referencia',
+        'via_principal',
+        'edificio_casa',
+        'punto_referencia',
         'estado_id',
         'ciudad_id',
         'municipio_id',
@@ -22,7 +22,7 @@ class direccion extends Model
 
     public function cliente()
     {
-        return $this->belongsTo('App\cliente');
+        return $this->hasOne('App\cliente');
     }
 
     public function estado()

@@ -17,9 +17,9 @@ class CreateDireccionesTable extends Migration
             $table->id();
             $table->string('urbanizacion', 256);
 
-            $table->string('via-principal', 256);
-            $table->string('edificio-casa', 256);
-            $table->string('punto-referencia', 256);
+            $table->string('via_principal', 256);
+            $table->string('edificio_casa', 256);
+            $table->string('punto_referencia', 256);
 
 
             $table->unsignedBigInteger('estado_id');

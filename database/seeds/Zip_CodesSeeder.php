@@ -5941,5 +5941,10 @@ class Zip_CodesSeeder extends Seeder
             'parroquia_id'=>1132,
             'zip_code'=>1168
             ] );
+
+            zip_code::create( [
+            'parroquia_id'=>1133,
+            'zip_code'=>0000
+            ] );
     }
 }

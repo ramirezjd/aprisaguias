@@ -28,6 +28,21 @@ class InstalacionSeeder extends Seeder
         ]);
 
         Instalacion::create([
+            'codigo' => '57-032200',
+            'tipo_instalacion_id' => 2,
+            'descripcion' => 'Oficina Cucuta',
+            'urbanizacion' => 'Cucuta',
+            'via_principal' => 'SI',
+            'edificio_casa' => 'Cucuta',
+            'punto_referencia' => 'Cucuta',
+            'estado_id' => 25,
+            'ciudad_id' => 1133,
+            'municipio_id' => 336,
+            'parroquia_id' => 1133,
+            'zip_code_id' => 1187
+        ]);
+
+        Instalacion::create([
             'codigo' => '58-060340',
             'tipo_instalacion_id' => 2,
             'descripcion' => 'Sucursal Ureña 01',

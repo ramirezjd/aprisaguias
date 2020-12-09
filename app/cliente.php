@@ -20,7 +20,7 @@ class cliente extends Model
 
     public function direccion()
     {
-        return $this->hasOne('App\direccion');
+        return $this->belongsTo('App\direccion');
     }
 
     public function guias()

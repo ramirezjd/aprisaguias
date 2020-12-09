@@ -9066,5 +9066,11 @@ class ParroquiasSeeder extends Seeder
             'parroquia'=>'Caruao'
             ] );
 
+            Parroquia::create( [
+            'id'=>1133,
+            'municipio_id'=>336,
+            'parroquia'=>'CUCUTA'
+            ] );
+
     }
 }

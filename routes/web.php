@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
+use Illuminate\Support\Facades\Storage;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,6 +15,12 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::get('/traking/{codigo}','GuiaController@traking')->name('traking');
+Route::get('/getMunicipios', 'DireccionController@EstadoGetMunicipios')->name('getMunicipios');
+Route::get('/getCiudades', 'DireccionController@MunicipioGetCiudades')->name('getCiudades');
+Route::get('/getParroquias', 'DireccionController@MunicipioGetParroquias')->name('getParroquias');
+Route::get('/getZipCodes', 'DireccionController@ParroquiaGetZipCodes')->name('getZipCodes');
+Route::get('/getAddress', 'DireccionController@getAddress')->name('getAddress');
 
 Route::middleware('auth')->group(function(){
     Route::get('/getpermissions', 'RolesController@getpermissions')->name('getpermissions');
@@ -33,11 +41,15 @@ Route::middleware('auth')->group(function(){
     Route::resource('/vehiculos', 'VehiculoController');
 });
 
-Route::get('/getMunicipios', 'DireccionController@EstadoGetMunicipios')->name('getMunicipios');
-Route::get('/getCiudades', 'DireccionController@MunicipioGetCiudades')->name('getCiudades');
-Route::get('/getParroquias', 'DireccionController@MunicipioGetParroquias')->name('getParroquias');
-Route::get('/getZipCodes', 'DireccionController@ParroquiaGetZipCodes')->name('getZipCodes');
+Route::get('qrcode', function () {
 
+    /*$image = \QrCode::format('png')->size(200)->generate('This was just a test');
+    $output_file = '/img/qr-code/img-' . time() . '.png';
+    Storage::disk('local')->put($output_file, $image);*/
+    //return QrCode::size(300)->format('png')->generate('A basic example of QR code! Nicesnippets.com');
+    return view('qrcode');
+
+});
 
 Route::get('/', function () {
     return view('welcome');

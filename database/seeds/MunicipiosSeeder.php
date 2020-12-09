@@ -2690,6 +2690,12 @@ class MunicipiosSeeder extends Seeder
             'municipio'=>'Vargas'
             ] );
 
+            Municipio::create( [
+                'id'=>336,
+                'estado_id'=>25,
+                'municipio'=>'CUCUTA'
+            ] );
+
 
     }
 }
