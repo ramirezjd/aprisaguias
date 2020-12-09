@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Storage;
 |
 */
 
-Route::get('/traking/{codigo}','GuiaController@traking')->name('traking');
+Route::get('/tracking/{codigo}','GuiaController@tracking')->name('tracking');
 Route::get('/getMunicipios', 'DireccionController@EstadoGetMunicipios')->name('getMunicipios');
 Route::get('/getCiudades', 'DireccionController@MunicipioGetCiudades')->name('getCiudades');
 Route::get('/getParroquias', 'DireccionController@MunicipioGetParroquias')->name('getParroquias');

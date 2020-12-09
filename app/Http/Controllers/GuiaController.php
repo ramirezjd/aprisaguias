@@ -461,11 +461,11 @@ class GuiaController extends Controller
         return redirect()->route('guias.index');
     }
 
-    public function traking($codigo){
+    public function tracking($codigo){
         $guia = guia::where('codigo', $codigo)->first();
         if($guia != null){
             $guias = guias_x_remesa::where('guia_id', $guia->id)->orderBy('created_at', 'desc')->with('guia')->with('remesa')->get();
-            return view('guias.traking', ['guias' => $guias, 'guia' =>$guia]);
+            return view('guias.tracking', ['guias' => $guias, 'guia' =>$guia]);
         }
         else{
             return abort(404);

@@ -4,12 +4,12 @@
 @section('content')
 <div class="container">
     <div class="row mb-3">
-        <div class="col-6 margin-tb">
+        <div class="col-md-6 margin-tb">
             <div class="pull-left">
                 <h1>Crear Nueva Guía</h2>
             </div>
         </div>
-        <div class="col-6 text-right my-auto">
+        <div class="col-md-6 text-right my-auto">
                 <a class="btn btn-primary" href="{{ route('guias.index') }}"> Volver</a>
         </div>
     </div>
@@ -29,7 +29,7 @@
         <hr>
 
         <div class="row">
-            <div class="col-4 my-3">
+            <div class="col-md-4 my-3">
                 <h3 class="h3 my-3">Datos Basicos de la Guia</h3>
                 <input name="codigo" type="hidden" value="{{ $rand = substr(md5(microtime()),rand(0,26),7) }}">
 
@@ -65,41 +65,41 @@
 
             </div>
 
-            <div class="col-4 my-3">
+            <div class="col-md-4 my-3 px-md-5">
                 <h3 class="h3 my-3">Sucursal origen</h3>
 
-                <div class="form-group">
+                <div class="form-group d-flex justify-content-between">
                     <strong class="mr-3">Instalacion:</strong>
                     <input class="my-1" type="text" class="form-control" value="{{ $instalacion_origen->codigo }}" disabled>
                     <input type="hidden" name="cod_origen" value="{{ $instalacion_origen->codigo }}">
                     <input type="hidden" name="instalacion_origen" value="{{ $instalacion_origen->id }}">
 
                 </div>
-                <div class="form-group">
+                <div class="form-group d-flex justify-content-between">
                     <strong class="mr-3">Estado:</strong>
                     <input class="my-1" type="text" class="form-control" value="{{ $instalacion_origen->estado->estado }}" disabled>
                 </div>
-                <div class="form-group ">
+                <div class="form-group d-flex justify-content-between">
                     <strong  class="mr-3">Municipio:</strong>
                     <input class="my-1" type="text" class="form-control" value="{{ $instalacion_origen->municipio->municipio }}" disabled>
                 </div>
-                <div class="form-group ">
+                <div class="form-group d-flex justify-content-between">
                     <strong  class="mr-3">Ciudad:</strong>
                     <input class="my-1" type="text" class="form-control" value="{{ $instalacion_origen->ciudad->ciudad }}" disabled>
                 </div>
-                <div class="form-group ">
+                <div class="form-group d-flex justify-content-between">
                     <strong  class="mr-3">Parroquia:</strong>
                     <input class="my-1" type="text" class="form-control" value="{{ $instalacion_origen->parroquia->parroquia }}" disabled>
                 </div>
-                <div class="form-group ">
+                <div class="form-group d-flex justify-content-between">
                     <strong  class="mr-3">Zona Postal:</strong>
                     <input class="my-1" type="text" class="form-control" value="{{ $instalacion_origen->zip_code->zip_code }}" disabled>
                 </div>
             </div>
-            <div class="col-4 my-3">
+            <div class="col-md-4 my-3 px-md-5">
                 <h3 class="h3 my-3">Sucursal destino</h3>
 
-                <div class="form-group d-flex">
+                <div class="form-group  d-flex justify-content-between">
                 <strong class="mr-3">Instalacion:</strong>
                 <select name="instalacion_destino" id="instalacion_destino" class="form-control" required>
                 <option value="">Seleccione una instalacion</option>
@@ -109,23 +109,23 @@
                 </select>
                 </div>
 
-                <div class="form-group">
+                <div class="form-group d-flex justify-content-between">
                     <strong class="mr-3">Estado:</strong>
                     <input class="my-1" type="text" class="form-control" id="destino_estado" name="destino_estado" disabled>
                 </div>
-                <div class="form-group ">
+                <div class="form-group d-flex justify-content-between ">
                     <strong  class="mr-3">Municipio:</strong>
                     <input class="my-1" type="text" class="form-control" id="destino_municipio" name="destino_municipio" disabled>
                 </div>
-                <div class="form-group ">
+                <div class="form-group d-flex justify-content-between ">
                     <strong  class="mr-3">Ciudad:</strong>
                     <input class="my-1" type="text" class="form-control" id="destino_ciudad" name="destino_ciudad" disabled>
                 </div>
-                <div class="form-group ">
+                <div class="form-group d-flex justify-content-between ">
                     <strong  class="mr-3">Parroquia:</strong>
                     <input class="my-1" type="text" class="form-control" id="destino_parroquia" name="destino_parroquia" disabled>
                 </div>
-                <div class="form-group ">
+                <div class="form-group d-flex justify-content-between ">
                     <strong  class="mr-3">Zona Postal:</strong>
                     <input class="my-1" type="text" class="form-control" id="destino_zip_code" name="destino_zip_code" disabled>
                 </div>
@@ -322,41 +322,7 @@
                     <textarea class="form-control" rows="1" name="reference_sender" id="reference_sender" placeholder="Punto de Referencia" disabled></textarea>
                 </div>
             </div>
-            <div class="col-xs-4 col-sm-12 col-md-3">
-                <div class="form-group">
-                    <!-- <strong>Estado:</strong> -->
-                    <!-- <input type="text" class="form-control" name="state_sender" disabled> -->
-                    <input type="hidden" name="state_sender_id" >
-                </div>
-            </div>
-            <div class="col-xs-4 col-sm-12 col-md-3">
-                <div class="form-group">
-                    <!-- <strong>Municipio:</strong> -->
-                    <!-- <input type="text" class="form-control" name="province_sender" disabled> -->
-                    <input type="hidden" name="province_sender_id" disabled>
-                </div>
-            </div>
-            <div class="col-xs-4 col-sm-12 col-md-3">
-                <div class="form-group">
-                    <!-- <strong>Ciudad:</strong> -->
-                    <!-- <input type="text" class="form-control" name="city_sender" disabled> -->
-                    <input type="hidden" name="city_sender_id" disabled>
-                </div>
-            </div>
-            <div class="col-xs-4 col-sm-12 col-md-3">
-                <div class="form-group">
-                    <!-- <strong>Parroquia:</strong> -->
-                    <!-- <input type="text" class="form-control" name="parroq_sender" disabled> -->
-                    <input type="hidden" name="parroq_sender_id" disabled>
-                </div>
-            </div>
-            <div class="col-xs-4 col-sm-12 col-md-3">
-                <div class="form-group">
-                    <!-- <strong>Zona Postal:</strong> -->
-                    <!-- <input type="text" class="form-control" name="zip_sender" disabled> -->
-                    <input type="hidden" name="zip_sender_id" disabled>
-                </div>
-            </div>
+
         </div>
 
         <hr>
@@ -472,8 +438,8 @@
             </div>
         </div>
 
-
-        <div class="col-md-12 text-center">
+        <hr>
+        <div class="col-md-12 my-5 text-center">
             <button type="submit" id="submit" class="btn btn-primary">Submit</button>
         </div>
     </form>
@@ -727,9 +693,29 @@
             $("#reference_receiver").val("");
         }
 
+        function calcular_precio(){
+            var precioTotal = 0;
+            $(".package_data").children(".group").each(function( index ) {
+                @foreach ($tipo_paquetes as $tipo)
+                    var tipo = {{$tipo->id}};
+                    if($(this).find(".type_package option:selected").val() == tipo && tipo!=1){
+                        var precio = {{$tipo->precio}}
+                        precioTotal = precioTotal + precio;
+                    }
+                    else{
+                        var precio = 0;
+                        precioTotal = precioTotal + precio;
+                        //aqui va la formula del peso y toda esa verga
+                    }
+                @endforeach
+            });
+            $("#price_package").val(precioTotal);
+        }
+
         $("#submit").click(function () {
             activateSender();
             activateReceiver();
+            calcular_precio();
             $("#price_package").prop( "disabled", false );
         });
 
@@ -836,24 +822,7 @@
             activateReceiver();
         });
 
-        function calcular_precio(){
-            var precioTotal = 0;
-            $(".package_data").children(".group").each(function( index ) {
-                @foreach ($tipo_paquetes as $tipo)
-                    var tipo = {{$tipo->id}};
-                    if($(this).find(".type_package option:selected").val() == tipo && tipo!=1){
-                        var precio = {{$tipo->precio}}
-                        precioTotal = precioTotal + precio;
-                    }
-                    else{
-                        var precio = 0;
-                        precioTotal = precioTotal + precio;
-                        //aqui va la formula del peso y toda esa verga
-                    }
-                @endforeach
-            });
-            $("#price_package").val(precioTotal);
-        }
+
 
         $("#calcular_precio").click(function () {
             calcular_precio();
@@ -906,48 +875,17 @@
             }
         });
 
-        $('select#dropdownEstados').on('change', function(e) {
-            var valueEstados = $('#dropdownEstados').find(":selected").data('name');
-            var idEstados = $('#dropdownEstados').val();
-            $('[name="state_sender"]').val(valueEstados)
-            $('[name="state_sender_id"]').val(idEstados)
-        });
-        $('select#dropdownMunicipios').on('change', function(e) {
-            var valueMunicipios = $('#dropdownMunicipios').find(":selected").data('name');
-            var idMunicipios = $('#dropdownMunicipios').val();
-            $('[name="province_sender"]').val(valueMunicipios)
-            $('[name="province_sender_id"]').val(idMunicipios)
-        });
-        $('select#dropdownCiudades').on('change', function(e) {
-            var valueCiudades = $('#dropdownCiudades').find(":selected").data('name');
-            var idCiudades = $('#dropdownCiudades').val();
-            $('[name="city_sender"]').val(valueCiudades)
-            $('[name="city_sender_id"]').val(idCiudades)
-        });
-        $('select#dropdownParroquias').on('change', function(e) {
-            var valueParroquias = $('#dropdownParroquias').find(":selected").data('name');
-            var idParroquias = $('#dropdownParroquias').val();
-            $('[name="parroq_sender"]').val(valueParroquias)
-            $('[name="parroq_sender_id"]').val(idParroquias)
-        });
-        $('select#dropdownZip_codes').on('change', function(e) {
-            var ValueZip = $('#dropdownZip_codes').find(":selected").data('name');
-            var idZip = $('#dropdownZip_codes').val();
-            $('[name="zip_sender"]').val(ValueZip)
-            $('[name="zip_sender_id"]').val(idZip)
-        });
 
         $( '#dropdownParroquias' ).change(function(e) {
+            $('#dropdownZip_codes').empty();
+            $('#dropdownZip_codes').append('<option value="">Seleccione una zona postal</option>');
             var parroquia_id = e.target.value;
-
             $.ajax({
             url:"{{ route('getZipCodes') }}",
             method:"GET",
             data:{"parroquia_id":parroquia_id},
             dataType:"json",
             success:function(data){
-                $('#dropdownZip_codes').empty();
-                $('#dropdownZip_codes').append('<option value="">Seleccione una zona postal</option>');
                 $('#dropdownZip_codes').append('<option value="'+data.id+'" data-name="'+data.zip_code+'">'+data.zip_code+'</option>');
             },
             error: function (data) {
@@ -958,7 +896,13 @@
         });
 
 
-        $( '#dropdownMunicipios' ).change(function(e) {
+        $('#dropdownMunicipios' ).change(function(e) {
+        $('#dropdownZip_codes').empty();
+        $('#dropdownZip_codes').append('<option value="">Seleccione una zona postal</option>');
+        $('#dropdownCiudades').empty();
+        $('#dropdownCiudades').append('<option value="">Seleccione una ciudad</option>');
+        $('#dropdownParroquias').empty();
+        $('#dropdownParroquias').append('<option value="">Seleccione una parroquia</option>');
 
         var municipio_id = e.target.value;
         console.log('municipio_id', municipio_id);
@@ -969,10 +913,6 @@
             data:{"municipio_id":municipio_id},
             dataType:"json",
             success:function(data){
-
-                $('#dropdownCiudades').empty();
-                $('#dropdownCiudades').append('<option value="">Seleccione una ciudad</option>');
-
                 $.each(data, function(i, id, ciudad) {
                     $('#dropdownCiudades').append('<option value="'+data[i].id+'" data-name="'+data[i].ciudad+'">'+data[i].ciudad+'</option>');
                 });
@@ -988,10 +928,6 @@
             data:{"municipio_id":municipio_id},
             dataType:"json",
             success:function(data){
-
-                $('#dropdownParroquias').empty();
-                $('#dropdownParroquias').append('<option value="">Seleccione una parroquia</option>');
-
                 $.each(data, function(i, id, parroquia) {
                     $('#dropdownParroquias').append('<option value="'+data[i].id+'" data-name="'+data[i].parroquia+'">'+data[i].parroquia+'</option>');
                 });
@@ -1004,6 +940,15 @@
         });
 
         $( '#dropdownEstados' ).change(function(e) {
+            $('#dropdownZip_codes').empty();
+            $('#dropdownZip_codes').append('<option value="">Seleccione una zona postal</option>');
+            $('#dropdownCiudades').empty();
+            $('#dropdownCiudades').append('<option value="">Seleccione una ciudad</option>');
+            $('#dropdownParroquias').empty();
+            $('#dropdownParroquias').append('<option value="">Seleccione una parroquia</option>');
+            $('#dropdownMunicipios').empty();
+            $('#dropdownMunicipios').append('<option value="">Seleccione un municipio</option>');
+
             var estado_id = e.target.value;
             $.ajax({
             url:"{{ route('getMunicipios') }}",
@@ -1011,10 +956,6 @@
             data:{"estado_id":estado_id},
             dataType:"json",
             success:function(data){
-
-                $('#dropdownMunicipios').empty();
-                $('#dropdownMunicipios').append('<option value="">Seleccione un municipio</option>');
-
                 $.each(data, function(i, id, municipio) {
                     $('#dropdownMunicipios').append('<option value="'+data[i].id+'" data-name="'+data[i].municipio+'">'+data[i].municipio+'</option>');
                 });
@@ -1028,6 +969,14 @@
 
 
         $( '#selectEdo' ).change(function(e) {
+            $('#selectProv').empty();
+            $('#selectProv').append('<option value="">Seleccione un municipio</option>');
+            $('#selecCity').empty();
+            $('#selecCity').append('<option value="">Seleccione una ciudad</option>');
+            $('#selectParroq').empty();
+            $('#selectParroq').append('<option value="">Seleccione una parroquia</option>');
+            $('#selectZip').empty();
+            $('#selectZip').append('<option value="">Seleccione una zona postal</option>');
 
             var estado_id = e.target.value;
 
@@ -1047,6 +996,12 @@
         });
 
         $( '#selectProv' ).change(function(e) {
+            $('#selecCity').empty();
+            $('#selecCity').append('<option value="">Seleccione una ciudad</option>');
+            $('#selectParroq').empty();
+            $('#selectParroq').append('<option value="">Seleccione una parroquia</option>');
+            $('#selectZip').empty();
+            $('#selectZip').append('<option value="">Seleccione una zona postal</option>');
 
             var municipio_id = e.target.value;
 
@@ -1056,8 +1011,6 @@
                 data:{"municipio_id":municipio_id},
                 dataType:"json",
                 success:function(data){
-                    $('#selecCity').empty();
-                    $('#selecCity').append('<option value="">Seleccione una ciudad</option>');
                     $.each(data, function(i, id, ciudad) {
                         $('#selecCity').append('<option value="'+data[i].id+'" data-name="'+data[i].ciudad+'">'+data[i].ciudad+'</option>');
                     });
@@ -1070,8 +1023,6 @@
                 data:{"municipio_id":municipio_id},
                 dataType:"json",
                 success:function(data){
-                    $('#selectParroq').empty();
-                    $('#selectParroq').append('<option value="">Seleccione una parroquia</option>');
                     $.each(data, function(i, id, parroquia) {
                         $('#selectParroq').append('<option value="'+data[i].id+'" data-name="'+data[i].parroquia+'">'+data[i].parroquia+'</option>');
                     });
@@ -1080,6 +1031,8 @@
         });
 
         $( '#selectParroq' ).change(function(e) {
+            $('#selectZip').empty();
+            $('#selectZip').append('<option value="">Seleccione una zona postal</option>');
             var parroquia_id = e.target.value;
             $.ajax({
                 url:"{{ route('getZipCodes') }}",
@@ -1087,8 +1040,6 @@
                 data:{"parroquia_id":parroquia_id},
                 dataType:"json",
                 success:function(data){
-                    $('#selectZip').empty();
-                    $('#selectZip').append('<option value="">Seleccione una zona postal</option>');
                     $('#selectZip').append('<option value="'+data.id+'" data-name="'+data.zip_code+'">'+data.zip_code+'</option>');
                 }
             });
