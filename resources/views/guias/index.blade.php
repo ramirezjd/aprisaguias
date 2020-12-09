@@ -18,6 +18,7 @@
         </div>
     @endif
 @hasrole('super-admin')
+
     <div class="row">
         <div class="col-12">
             <h2>Guias Admin</h2><br>
@@ -46,6 +47,7 @@
                     <td class="text-center">{{ $guia->n_paquetes }}</td>
                     <td class="text-center">{{ $guia->status }}</td>
                     <td class="text-center">
+
                         @if(auth()->user()->can('ver guia') && ($guia->instalacion_origen_id == $user->instalacion_id || $guia->instalacion_actual_id == $user->instalacion_id || $user->hasRole ('super-admin')))
                         <form action="{{ route('guias.destroy',$guia->id) }}" method="POST">
 
