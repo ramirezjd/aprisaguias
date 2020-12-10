@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-
+@if((auth()->user()->can('editar usuario') && (auth()->user()->instalacion_id == $remesa->origen || auth()->user()->instalacion_id == $remesa->destino)) || auth()->user()->hasRole('super-admin'))
 @section('content')
 <div class="container">
     <div class="row">
@@ -14,7 +14,7 @@
 
     <div class="row">
         <div class="col">
-            <h2>Remesa: {{$remesa->codigo}}</h2>
+            <h2>Remesa: {{$remesa->codigo}}, Origen: {{$remesa->cod_origen}}, Destino: {{$remesa->cod_destino}}</h2>
         </div>
     </div>
     @foreach ($guias_paquetes as $guia)
@@ -31,14 +31,10 @@
     @endforeach
 </div>
 @endsection
-
-@can('recibir remesa')
-@endcan
-
-@cannot('recibir remesa')
+@else
     @section('content')
         <div class="container">
             <h1>No tiene los permisos necesarios para acceder a esta funcionalidad.</h1>
         </div>
     @endsection
-@endcannot
+@endif

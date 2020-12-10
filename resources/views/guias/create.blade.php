@@ -73,7 +73,6 @@
                     <input class="my-1" type="text" class="form-control" value="{{ $instalacion_origen->codigo }}" disabled>
                     <input type="hidden" name="cod_origen" value="{{ $instalacion_origen->codigo }}">
                     <input type="hidden" name="instalacion_origen" value="{{ $instalacion_origen->id }}">
-
                 </div>
                 <div class="form-group d-flex justify-content-between">
                     <strong class="mr-3">Estado:</strong>
@@ -218,9 +217,9 @@
                     <strong>CI/RIF:</strong>
                     <div class="d-flex">
                         <input type="text" name="id_sender" id="id_sender" class="form-control w-75"  required>
-                        <a class="btn btn-primary" id="user_create_sender">C</a>
-                        <a class="btn btn-primary" id="user_search_sender">B</a>
-                        <a class="btn btn-primary" hidden="true" id="user_edit_sender">E</a>
+                        <a class="btn btn-primary" id="user_create_sender"><i class="fas fa-plus"></i></a>
+                        <a class="btn btn-primary" id="user_search_sender"><i class="fas fa-search"></i></a>
+                        <a class="btn btn-primary" hidden="true" id="user_edit_sender"><i class="fas fa-pencil-alt"></i></a>
                     </div>
                 </div>
             </div>
@@ -335,9 +334,9 @@
                     <strong>CI/RIF:</strong>
                     <div class="d-flex">
                         <input type="text" name="id_receiver" id="id_receiver" class="form-control w-75" required>
-                        <a class="btn btn-primary" id="user_create_receiver">C</a>
-                        <a class="btn btn-primary" id="user_search_receiver">B</a>
-                        <a class="btn btn-primary" hidden="true" id="user_edit_receiver">E</a>
+                        <a class="btn btn-primary" id="user_create_receiver"><i class="fas fa-plus"></i></a>
+                        <a class="btn btn-primary" id="user_search_receiver"><i class="fas fa-search"></i></a>
+                        <a class="btn btn-primary" hidden="true" id="user_edit_receiver"><i class="fas fa-pencil-alt"></i></a>
                     </div>
                 </div>
             </div>

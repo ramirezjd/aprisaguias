@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@if(auth()->user()->can('editar instalacion') && $instalacion->id != 1)
+@if((auth()->user()->can('editar instalacion') && $instalacion->id != 1 && auth()->user()->instalacion_id == $instalacion->id) || auth()->user()->hasRole('super-admin'))
 @section('content')
     <div class="container">
         <div class="row">

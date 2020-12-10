@@ -42,6 +42,7 @@
                     <td class="text-center">
 
                         <div class="d-flex">
+                            @if ($remesa->status != 'Cerrada')
                             <a class="btn btn-info mx-1" href="{{ route('remesas.show',$remesa->id) }}">Ver</a>
 
                             <form action="{{route('imprimirremesa')}}" method="GET">
@@ -57,8 +58,9 @@
 
                             <button type="submit" class="btn btn-danger d-none">Borrar</button>
                             @endcan
-                        </form>
-                    </div>
+                            </form>
+                            @endif
+                        </div>
                     </td>
                 </tr>
                 @endforeach

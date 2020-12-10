@@ -103,25 +103,18 @@ class GuiaController extends Controller
             'height_pack' => 'required',
             'deep_pack' => 'required',
             'description_pack' => 'required',
-            //Guide Location - Direccion
-             'estados' => 'required',
-             'municipios' => 'required',
-             'ciudades' => 'required',
-             'parroquias' => 'required',
-             'zip_codes' => 'required',
             //Guide Sender - Cliente 1
+            'estados' => 'required',
+            'municipios' => 'required',
+            'ciudades' => 'required',
+            'parroquias' => 'required',
+            'zip_codes' => 'required',
             'id_sender' => 'required',
             'mail_sender' => 'required',
             'name_sender' => 'required',
             'phone_sender' => 'required',
             'address_sender' => 'required',
-            //'state_sender_id' => 'required',
-            //'province_sender_id' => 'required',
-            //'city_sender_id' => 'required',
-            //'urban_sender' => 'required',
-            //'parroq_sender_id' => 'required',
             'house_sender' => 'required',
-            //'zip_sender_id' => 'required',
             'reference_sender' => 'required',
             //Guide Receiver - Cliente 2
             'id_receiver' => 'required',
@@ -336,7 +329,9 @@ class GuiaController extends Controller
      */
     public function edit(guia $guia)
     {
+        /*
         return view('guias.edit',compact('guia'));
+        */
     }
 
     /**

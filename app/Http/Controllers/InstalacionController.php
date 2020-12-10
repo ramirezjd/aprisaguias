@@ -8,12 +8,8 @@ use Auth;
 use App\municipio;
 use App\user;
 use App\zip_code;
-
-use App\direccion;
 use App\tipo_instalacion;
 use Illuminate\Http\Request;
-use InstalacionSeeder;
-use Symfony\Component\VarDumper\VarDumper;
 
 class InstalacionController extends Controller
 {
@@ -29,7 +25,7 @@ class InstalacionController extends Controller
             $instalaciones = instalacion::with('tipo_instalacion')->get();
         }
         else{
-            $instalaciones = instalacion::with('tipo_instalacion')->get()->except('1');
+            $instalaciones = instalacion::where('id', $user->instalacion_id)->with('tipo_instalacion')->get();
         }
 
         return view('instalaciones.index', [
@@ -45,7 +41,7 @@ class InstalacionController extends Controller
     public function create()
     {
         return view('instalaciones.create', [
-            'estados' => estado::orderBy('estado')->get(),
+            'estados' => estado::where('id', '!=', '25')->orderBy('estado')->get(),
             'tipos' => tipo_instalacion::orderBy('nombre')->get(),
         ]);
     }
@@ -71,8 +67,6 @@ class InstalacionController extends Controller
             'punto_referencia' => 'required',
             'via_principal' => 'required',
         ]);
-
-
 
         if($request->get('estados')<10){
             $aux = '0';
@@ -141,6 +135,7 @@ class InstalacionController extends Controller
         $ciudades = municipio::findOrFail($instalacion->municipio_id)->ciudades;
         $parroquias = municipio::findOrFail($instalacion->municipio_id)->parroquias;
         $zip_code = zip_code::findOrFail($instalacion->zip_code_id);
+
 
         return view('instalaciones.edit', [
             'instalacion' => $instalacion,

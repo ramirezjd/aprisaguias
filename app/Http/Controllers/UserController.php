@@ -2,15 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use DB;
 use auth;
 use App\User;
 use App\instalacion;
+use Illuminate\Http\Request;
 use App\usuarios_x_instalacion;
-use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades\Hash;
+use Spatie\Permission\Models\Permission;
 
 class UserController extends Controller
 {
@@ -26,9 +26,8 @@ class UserController extends Controller
             $users = User::with('instalacion')->get();
         }
         else{
-            $users = User::with('instalacion')->get()->except('1');
+            $users = User::where('instalacion_id', $user->instalacion_id)->with('instalacion')->get();
         }
-
         return view('users.index', [
             'users' => $users,
         ]);
@@ -41,9 +40,15 @@ class UserController extends Controller
      */
     public function create()
     {
+        $user = User::findOrFail(Auth::id());
         $permissions = Permission::all();
         $roles = Role::all()->except(1);
-        $instalaciones = instalacion::all()->except(1);
+        if($user->hasRole('super-admin')){
+            $instalaciones = instalacion::all()->except(1);
+        }
+        else{
+            $instalaciones = instalacion::where('id', $user->instalacion_id)->get();
+        }
 
         return view('users.create', [
             'permissions' => $permissions,
@@ -122,11 +127,17 @@ class UserController extends Controller
      */
     public function edit($id)
     {
+        $usereditor = User::findOrFail(Auth::id());
         $user = User::findOrFail($id);
         $permissions = Permission::all();
         $roles = Role::all()->except(1);
         $rol = role::findOrFail($user->rol);
-        $instalaciones = instalacion::all()->except(1);
+        if($usereditor->hasRole('super-admin')){
+            $instalaciones = instalacion::all()->except(1);
+        }
+        else{
+            $instalaciones = instalacion::where('id', $user->instalacion_id)->get();
+        }
         $aspermissions = $user->getAllPermissions();
 
 
