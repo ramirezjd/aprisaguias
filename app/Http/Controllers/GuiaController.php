@@ -89,6 +89,7 @@ class GuiaController extends Controller
      */
     public function store(Request $request)
     {
+        //dd($request);
         $request->validate([
             //Guide Code
             'codigo' => 'required',
@@ -332,6 +333,7 @@ class GuiaController extends Controller
         /*
         return view('guias.edit',compact('guia'));
         */
+        return abort(404);
     }
 
     /**
@@ -367,10 +369,13 @@ class GuiaController extends Controller
 
     public function destroy(guia $guia)
     {
+        /*
         $guia->delete();
 
         return redirect()->route('guias.index')
                         ->with('success','Guía Eliminada Exitosamente.');
+        */
+        return abort(404);
     }
 
 
@@ -439,7 +444,7 @@ class GuiaController extends Controller
 		header('Content-Type: '.$qrCode->getContentType());
 		$qrCode->writeFile(public_path('/img/qrcode.png'));
 
-        $pdf = PDF::loadView('guias.pdf', $data);
+        $pdf = PDF::loadView('guias.pdf2', $data);
 
         //File::delete(public_path('/img/qrcode.png')); //limpiar el archivo luego
 

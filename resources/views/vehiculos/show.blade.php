@@ -21,11 +21,11 @@
             <span>{{$vehiculo->id}}</span>
         </div>
         <div class="col-3">
-            <h5 class="font-weight-bold">Nombres</h5>
+            <h5 class="font-weight-bold">Codigo</h5>
             <span>{{$vehiculo->codigo}}</span>
         </div>
         <div class="col-3">
-            <h5 class="font-weight-bold">Apellidos</h5>
+            <h5 class="font-weight-bold">Placa</h5>
             <span>{{$vehiculo->placa}}</span>
         </div>
         <div class="col-3">

@@ -78,8 +78,9 @@
         <div class="row">
             <!--Roles -->
             <div class="col -6">
+                <div class="d-md-flex">
                 <label class="form-check-label" for="roles">Cargo</label>
-                <select class="ml-4" name="roles" id="roles" required>
+                <select class="ml-4 form-control" name="roles" id="roles" required>
                     <option value="">Seleccione un cargo</option>
                     @foreach ($roles as $role)
                     <div class="col-3">
@@ -87,12 +88,14 @@
                     </div>
                     @endforeach
                 </select>
+                </div>
             </div>
 
             <!-- Facilities -->
             <div class="col -6">
+                <div class="d-md-flex">
                 <label class="form-check-label" for="instalacion">Instalacion asociada</label>
-                <select class="ml-4" name="instalacion" id="instalacion" required>
+                <select class="ml-4 form-control" name="instalacion" id="instalacion" required>
                     <option value="">Seleccione una sucursal</option>
                     @foreach ($instalaciones as $instalacion)
                     <div class="col-3">
@@ -100,6 +103,7 @@
                     </div>
                     @endforeach
                 </select>
+                </div>
             </div>
 
         </div>
@@ -111,11 +115,11 @@
 
         <!-- Permissions Goes Here -->
 
-        <div class="row mx-4">
+        <div class="row mx-4 ">
             @foreach ($permissions as $permission)
             <div class="col-3">
-                <input type="checkbox" class="form-check-input" id="{{$permission->id}}" name="permissions[]" value="{{$permission->id}}">
-                <label class="form-check-label" for="{{$permission->id}}">{{$permission->name}}</label>
+                    <input type="checkbox" class="form-check-input " id="{{$permission->id}}" name="permissions[]" value="{{$permission->id}}">
+                    <label class="form-check-label" for="{{$permission->id}}">{{$permission->name}}</label>
             </div>
             @endforeach
         </div>

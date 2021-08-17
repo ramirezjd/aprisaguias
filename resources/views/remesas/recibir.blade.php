@@ -1,11 +1,11 @@
 @extends('layouts.app')
 
-@if((auth()->user()->can('editar usuario') && (auth()->user()->instalacion_id == $remesa->origen || auth()->user()->instalacion_id == $remesa->destino)) || auth()->user()->hasRole('super-admin'))
+@if((auth()->user()->can('editar remesa') && (auth()->user()->instalacion_id == $remesa->origen || auth()->user()->instalacion_id == $remesa->destino)) || auth()->user()->hasRole('super-admin'))
 @section('content')
 <div class="container">
     <div class="row">
         <div class="col-md-6 margin-tb">
-            <h2>Editar Remesa</h2>
+            <h2>Recibir Remesa</h2>
         </div>
         <div class="col-md-6 margin-tb text-right">
             <a class="btn btn-primary" href="{{ route('remesas.index') }}">Volver</a>

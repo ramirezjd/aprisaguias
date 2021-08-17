@@ -10,7 +10,7 @@
             </div>
 
 
-            <form action="{{ route('remesas.store') }}" method="POST">
+            <form id="form" action="{{ route('remesas.store') }}" method="POST">
                 @csrf
                 <!-- User Data Goes Here -->
 
@@ -45,7 +45,7 @@
                 </div>
 
                 @foreach ($guias as $guia)
-                <div class="row my-2">
+                <div class="row my-2 guia">
                     <div class="col-1">
                         <input type="checkbox" class="text-center" id="{{$guia->id}}" name="guiasarray[]" value="{{$guia->id}}">
                         <span>{{$guia->id}}</span>
@@ -80,7 +80,7 @@
                 <div class="row mt-4 pt-4">
                     <div class="col-4 text-center">
                         <label class="form-check-label" for="instalacion">Instalacion destino</label>
-                        <select class="ml-4" name="instalacion_destino" id="instalacion_destino" required>
+                        <select class="form-control w-100" name="instalacion_destino" id="instalacion_destino" required>
                             <option value="">Seleccione una sucursal</option>
                             @foreach ($instalaciones as $instalacion)
                                 <option value="{{$instalacion->id}}">{{$instalacion->id}} / {{$instalacion->codigo}} / {{$instalacion->descripcion}}</option>
@@ -89,7 +89,7 @@
                     </div>
                     <div class="col-4 text-center">
                         <label class="form-check-label" for="vehiculo">Vehiculo</label><br>
-                        <select class="ml-4" name="vehiculo" id="vehiculo" required>
+                        <select class="form-control w-100" name="vehiculo" id="vehiculo" required>
                             <option value="">Seleccione un vehiculo</option>
                             @foreach ($vehiculos as $vehiculo)
                                 <option value="{{$vehiculo->id}}">{{$vehiculo->id}} / {{$vehiculo->codigo}} / {{$vehiculo->placa}}</option>
@@ -98,7 +98,7 @@
                     </div>
                     <div class="col-4 text-center">
                         <label class="form-check-label" for="transportista">Transportista</label><br>
-                        <select class="ml-4" name="transportista" id="transportista" required>
+                        <select class="form-control w-100" name="transportista" id="transportista" required>
                             <option value="">Seleccione un Transportista</option>
                             @foreach ($transportistas as $transportista)
                                 <option value="{{$transportista->id}}">{{$transportista->id}} / {{$transportista->documento}} / {{$transportista->nombres}}</option>
@@ -112,13 +112,23 @@
 
                 <div class="row mt-3">
                     <div class="col text-center">
-                        <button type="submit" class="btn btn-primary">Submit</button>
+                        <button id="submit" type="submit" disabled class="btn btn-primary">Submit</button>
                     </div>
                 </div>
 
-
             </form>
         </div>
+
+        <script>
+            $( document ).ready(function() {
+                if($("#form").children(".guia").length >= 1){
+                    $("#submit").prop( "disabled", false );
+                }
+                else{
+                    $("#submit").prop( "disabled", true );
+                }
+            });
+        </script>
     @endsection
 @endcan
 

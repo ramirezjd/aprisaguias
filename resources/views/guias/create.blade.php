@@ -711,11 +711,15 @@
             $("#price_package").val(precioTotal);
         }
 
-        $("#submit").click(function () {
+        $("#submit").click(function (event) {
             activateSender();
             activateReceiver();
             calcular_precio();
             $("#price_package").prop( "disabled", false );
+            if($("#id_sender").val() == $("#id_receiver").val()){
+                event.preventDefault();
+                alert("No puede enviar y recibir la misma persona");
+            }
         });
 
         $("#user_search_sender").click(function () {
