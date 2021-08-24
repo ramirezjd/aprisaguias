@@ -18,6 +18,6 @@ class tipo_paquete extends Model
 
     public function paquetes()
     {
-        return $this->hasMany('App\paquete');
+        return $this->hasMany('App\paquete')->withTrashed();
     }
 }

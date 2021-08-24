@@ -32,6 +32,6 @@ class paquete extends Model
 
     public function tipo_paquete()
     {
-        return $this->belongsTo('App\tipo_paquete');
+        return $this->belongsTo('App\tipo_paquete')->withTrashed();
     }
 }

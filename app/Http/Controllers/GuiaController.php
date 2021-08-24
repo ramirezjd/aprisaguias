@@ -17,9 +17,14 @@ use App\User;
 use App\instalacion;
 use Auth;
 use PDF;
+use Endroid\QrCode\Color\Color;
+use Endroid\QrCode\Encoding\Encoding;
+use Endroid\QrCode\ErrorCorrectionLevel\ErrorCorrectionLevelLow;
 use Endroid\QrCode\QrCode;
-use Endroid\QrCode\ErrorCorrectionLevel;
-use Endroid\QrCode\LabelAlignment;
+use Endroid\QrCode\Label\Label;
+use Endroid\QrCode\Logo\Logo;
+use Endroid\QrCode\RoundBlockSizeMode\RoundBlockSizeModeMargin;
+use Endroid\QrCode\Writer\PngWriter;
 use File;
 
 use Illuminate\Http\Request;
@@ -428,23 +433,22 @@ class GuiaController extends Controller
             'fontHeightRatio' => 1,
             'isPhpEnabled' => true,
         ]);
+        $writer = new PngWriter();
 
-        $qrCode = new QrCode('hello world on qr');
-		$qrCode->setSize(300);
-		$qrCode->setMargin(10);
-		$qrCode->setEncoding('UTF-8');
-		$qrCode->setWriterByName('png');
-		$qrCode->setErrorCorrectionLevel(ErrorCorrectionLevel::HIGH());
-		$qrCode->setForegroundColor(['r' => 0, 'g' => 0, 'b' => 0, 'a' => 0]);
-		$qrCode->setBackgroundColor(['r' => 255, 'g' => 255, 'b' => 255, 'a' => 0]);
-		$qrCode->setLogoSize(150, 200);
-		$qrCode->setValidateResult(false);
-		$qrCode->setRoundBlockSize(true);
-		$qrCode->setWriterOptions(['exclude_xml_declaration' => true]);
-		header('Content-Type: '.$qrCode->getContentType());
-		$qrCode->writeFile(public_path('/img/qrcode.png'));
+        $qrCode = QrCode::create('hello world on qr')
+        ->setEncoding(new Encoding('UTF-8'))
+        ->setErrorCorrectionLevel(new ErrorCorrectionLevelLow())
+        ->setSize(300)
+        ->setMargin(10)
+        ->setRoundBlockSizeMode(new RoundBlockSizeModeMargin())
+        ->setForegroundColor(new Color(0, 0, 0))
+        ->setBackgroundColor(new Color(255, 255, 255));
 
-        $pdf = PDF::loadView('guias.pdf2', $data);
+        $result = $writer->write($qrCode);
+		header('Content-Type: '.$result->getMimeType());
+        $result->saveToFile(public_path('/img/qrcode.png'));
+
+        $pdf = PDF::loadView('guias.pdf', $data);
 
         //File::delete(public_path('/img/qrcode.png')); //limpiar el archivo luego
 

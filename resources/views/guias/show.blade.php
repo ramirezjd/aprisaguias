@@ -64,7 +64,7 @@
                         <th>Largo (Cm)</th>
                         <th>Peso Vol.(Kg)</th>
                     </tr>
-                    @foreach ($guia->paquetes as $paquete)
+                    @foreach ($guia->paquetes()->withTrashed()->get() as $paquete)
                     <tr>
                         <td class="text-center">{{ $paquete->id }}</td>
                         <td class="text-center">{{ $paquete->tipo_paquete->nombre }}</td>
