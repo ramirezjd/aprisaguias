@@ -15,14 +15,14 @@ use Illuminate\Support\Facades\Storage;
 |
 */
 
-Route::get('/tracking/{codigo}','GuiaController@tracking')->name('tracking');
+Route::get('/tracking/{codigo}', 'GuiaController@tracking')->name('tracking');
 Route::get('/getMunicipios', 'DireccionController@EstadoGetMunicipios')->name('getMunicipios');
 Route::get('/getCiudades', 'DireccionController@MunicipioGetCiudades')->name('getCiudades');
 Route::get('/getParroquias', 'DireccionController@MunicipioGetParroquias')->name('getParroquias');
 Route::get('/getZipCodes', 'DireccionController@ParroquiaGetZipCodes')->name('getZipCodes');
 Route::get('/getAddress', 'DireccionController@getAddress')->name('getAddress');
 
-Route::middleware('auth')->group(function(){
+Route::middleware('auth')->group(function () {
     Route::get('/getpermissions', 'RolesController@getpermissions')->name('getpermissions');
     Route::resource('/permissions', 'PermissionsController');
     Route::resource('/roles', 'RolesController');
@@ -34,7 +34,7 @@ Route::middleware('auth')->group(function(){
     Route::resource('/instalaciones', 'InstalacionController');
     Route::resource('/users', 'UserController');
     Route::get('/guias/entregar', 'GuiaController@entregar')->name('entregarguia');
-    Route::get('/guias/{id}/pdf','GuiaController@pdftest')->name('pdftest');
+    Route::get('/guias/{id}/pdf', 'GuiaController@pdftest')->name('pdftest');
     Route::resource('/guias', 'GuiaController');
     Route::resource('/tipo-paquetes', 'TipoPaqueteController');
     Route::resource('/transportistas', 'TransportistaController');
@@ -48,7 +48,6 @@ Route::get('qrcode', function () {
     Storage::disk('local')->put($output_file, $image);*/
     //return QrCode::size(300)->format('png')->generate('A basic example of QR code! Nicesnippets.com');
     return view('qrcode');
-
 });
 
 Route::get('/', function () {

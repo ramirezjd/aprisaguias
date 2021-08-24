@@ -11,13 +11,10 @@
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
-    <script src="{{ asset('js/jquery.multifield.min.js') }}" defer></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
-    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
@@ -26,163 +23,18 @@
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">
-                <a class="navbar-brand" href="{{ url('/home') }}">
-                    Aprisa
+                <a class="navbar-brand" href="{{ url('/') }}">
+                    {{ config('app.name', 'Laravel') }}
                 </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                     <span class="navbar-toggler-icon"></span>
                 </button>
 
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                @guest
-                @else
                     <!-- Left Side Of Navbar -->
-                    <ul class="navbar-nav ml-auto">
-                        @hasrole('super-admin')
-                            <li>
-                                <a class="navbar-brand" href="{{ url('/guias') }}">
-                                    Guias
-                                </a>
-                            </li>
-                        @else
-                            @can('ver guia')
-                            <li>
-                                <a class="navbar-brand" href="{{ url('/guias') }}">
-                                    Guias
-                                </a>
-                            </li>
-                            @endcan
-                        @endhasrole
+                    <ul class="navbar-nav mr-auto">
 
-                        @hasrole('super-admin')
-                            <li>
-                                <a class="navbar-brand" href="{{ url('/remesas') }}">
-                                    Remesas
-                                </a>
-                            </li>
-                        @else
-                            @can('ver remesa')
-                            <li>
-                                <a class="navbar-brand" href="{{ url('/remesas') }}">
-                                    Remesas
-                                </a>
-                            </li>
-                            @endcan
-                        @endhasrole
-
-                        @hasrole('super-admin')
-                            <li>
-                                <a class="navbar-brand" href="{{ url('/users') }}">
-                                    Usuarios
-                                </a>
-                            </li>
-                        @else
-                            @can('ver usuario')
-                            <li>
-                                <a class="navbar-brand" href="{{ url('/users') }}">
-                                    Usuarios
-                                </a>
-                            </li>
-                            @endcan
-                        @endhasrole
-
-                        @hasrole('super-admin')
-                            <li>
-                                <a class="navbar-brand" href="{{ url('/instalaciones') }}">
-                                    Instalaciones
-                                </a>
-                            </li>
-                        @else
-                            @can('ver instalacion')
-                            <li>
-                                <a class="navbar-brand" href="{{ url('/instalaciones') }}">
-                                    Instalaciones
-                                </a>
-                            </li>
-                            @endcan
-                        @endhasrole
-
-                        @hasrole('super-admin')
-                            <li>
-                                <a class="navbar-brand" href="{{ url('/vehiculos') }}">
-                                    Vehiculos
-                                </a>
-                            </li>
-                        @else
-                            @can('ver vehiculo')
-                            <li>
-                                <a class="navbar-brand" href="{{ url('/vehiculos') }}">
-                                    Vehiculos
-                                </a>
-                            </li>
-                            @endcan
-                        @endhasrole
-
-                        @hasrole('super-admin')
-                            <li>
-                                <a class="navbar-brand" href="{{ url('/transportistas') }}">
-                                    Transportistas
-                                </a>
-                            </li>
-                        @else
-                            @can('ver transportista')
-                            <li>
-                                <a class="navbar-brand" href="{{ url('/transportistas') }}">
-                                    Transportistas
-                                </a>
-                            </li>
-                            @endcan
-                        @endhasrole
-
-                        @hasrole('super-admin')
-                            <li>
-                                <a class="navbar-brand" href="{{ url('/permissions') }}">
-                                    Permisos
-                                </a>
-                            </li>
-                        @else
-                            @can('ver permisos')
-                            <li>
-                                <a class="navbar-brand" href="{{ url('/permissions') }}">
-                                    Permisos
-                                </a>
-                            </li>
-                            @endcan
-                        @endhasrole
-
-                        @hasrole('super-admin')
-                            <li>
-                                <a class="navbar-brand" href="{{ url('/roles') }}">
-                                    Roles
-                                </a>
-                            </li>
-                        @else
-                            @can('ver transportista')
-                            <li>
-                                <a class="navbar-brand" href="{{ url('/roles') }}">
-                                    Roles
-                                </a>
-                            </li>
-                            @endcan
-                        @endhasrole
-
-                        @hasrole('super-admin')
-                            <li>
-                                <a class="navbar-brand" href="{{ url('/tipopaquetes') }}">
-                                    Paquetes
-                                </a>
-                            </li>
-                        @else
-                            @can('ver transportista')
-                            <li>
-                                <a class="navbar-brand" href="{{ url('/tipopaquetes') }}">
-                                    Paquetes
-                                </a>
-                            </li>
-                            @endcan
-                        @endhasrole
                     </ul>
-                @endguest
 
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ml-auto">
@@ -197,7 +49,6 @@
                                 </li>
                             @endif
                         @else
-
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     {{ Auth::user()->name }}
